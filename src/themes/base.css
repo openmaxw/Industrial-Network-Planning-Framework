@@ -1,0 +1,16 @@
+:root {
+  --bg: #f5f7fb;
+  --panel: #ffffff;
+  --line: #dfe6ef;
+  --text: #243447;
+  --muted: #607286;
+  --brand: #2457c5;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; background: var(--bg); color: var(--text); }
+.app-shell { min-height: 100vh; }
+.app-header { padding: 20px 20px 0; }
+.header-card, .app-card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+.header-card h1, .app-card h2 { margin: 0 0 8px; }
+.header-card p, .app-card p { margin: 0; color: var(--muted); }
+.app-main { padding: 20px; }
