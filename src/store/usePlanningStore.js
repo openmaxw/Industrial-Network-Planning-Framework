@@ -1,25 +1,46 @@
 import { useMemo, useState } from 'react';
 import { buildEmptyDraft, buildInitialFormData, buildRecordFromDraft } from '../engine/methodologyHelpers.js';
 
-export function usePlanningStore(methodology) {
-  const [activePageKey, setActivePageKey] = useState('home');
-  const [expandedGroups, setExpandedGroups] = useState({
+function createInitialCollections() {
+  return {
+    'business-description': [],
+  };
+}
+
+function createInitialDrafts() {
+  return {
+    'business-description': buildEmptyDraft(['business.name', 'business.zone']),
+  };
+}
+
+function createInitialExpandedGroups() {
+  return {
     'raw-information': true,
     'design-derivation': true,
     'deliverables': true,
     'security-analysis': true,
-  });
-  const [formData, setFormData] = useState(() => buildInitialFormData(methodology.fields));
-  const [recordCollections, setRecordCollections] = useState({
-    'business-description': [],
-  });
-  const [recordDrafts, setRecordDrafts] = useState({
-    'business-description': buildEmptyDraft(['business.name', 'business.zone']),
-  });
+  };
+}
+
+export function usePlanningStore(initialMethodology = null) {
+  const [currentMethodology, setCurrentMethodology] = useState(initialMethodology);
+  const [activePageKey, setActivePageKey] = useState('home');
+  const [expandedGroups, setExpandedGroups] = useState(createInitialExpandedGroups);
+  const [formData, setFormData] = useState(() => buildInitialFormData(initialMethodology?.fields ?? {}));
+  const [recordCollections, setRecordCollections] = useState(createInitialCollections);
+  const [recordDrafts, setRecordDrafts] = useState(createInitialDrafts);
 
   const actions = useMemo(
     () => ({
       setActivePageKey,
+      selectMethodology(methodology) {
+        setCurrentMethodology(methodology);
+        setExpandedGroups(createInitialExpandedGroups());
+        setFormData(buildInitialFormData(methodology.fields ?? {}));
+        setRecordCollections(createInitialCollections());
+        setRecordDrafts(createInitialDrafts());
+        setActivePageKey('home');
+      },
       toggleExpanded(key) {
         setExpandedGroups((current) => ({
           ...current,
@@ -57,12 +78,26 @@ export function usePlanningStore(methodology) {
           [pageKey]: buildEmptyDraft(fieldKeys),
         }));
       },
+      loadCase(caseData) {
+        setFormData((current) => ({
+          ...current,
+          ...(caseData.formData ?? {}),
+        }));
+
+        setRecordCollections((current) => ({
+          ...current,
+          ...(caseData.recordCollections ?? {}),
+        }));
+
+        setActivePageKey('project-basic');
+      },
     }),
     [recordDrafts],
   );
 
   return {
     state: {
+      currentMethodology,
       activePageKey,
       expandedGroups,
       formData,
