@@ -88,6 +88,7 @@ button { font: inherit; }
   cursor: pointer;
 }
 .primary-button--secondary { background: #fff; color: var(--brand); }
+.file-button { display: inline-flex; align-items: center; justify-content: center; }
 .record-list { display: grid; gap: 12px; }
 .record-card { border: 1px solid var(--line); border-radius: 12px; padding: 14px; background: #fbfcff; }
 .record-card p { margin: 8px 0 0; color: var(--muted); }

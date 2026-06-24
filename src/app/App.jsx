@@ -4,6 +4,7 @@ import { OutputPage } from '../components/OutputPage.jsx';
 import { RecordCollectionPage } from '../components/RecordCollectionPage.jsx';
 import { StandardPage } from '../components/StandardPage.jsx';
 import { getActiveFieldEntries, getPage } from '../engine/methodologyHelpers.js';
+import { validateMethodologyConfig } from '../engine/validateMethodologyConfig.js';
 import { methodologyCatalog } from '../methodologies/methodologyCatalog.js';
 import { usePlanningStore } from '../store/usePlanningStore.js';
 
@@ -42,6 +43,49 @@ export function App() {
     URL.revokeObjectURL(objectUrl);
   };
 
+  const handleExportMethodology = () => {
+    if (!currentMethodology) {
+      return;
+    }
+
+    const payload = JSON.stringify(currentMethodology, null, 2);
+    const blob = new Blob([payload], { type: 'application/json' });
+    const objectUrl = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+
+    anchor.href = objectUrl;
+    anchor.download = `${currentMethodology.meta.key}.methodology.json`;
+    anchor.click();
+
+    URL.revokeObjectURL(objectUrl);
+  };
+
+  const handleImportMethodology = async (event) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    try {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+
+      const validationErrors = validateMethodologyConfig(parsed);
+
+      if (validationErrors.length > 0) {
+        window.alert(`方法论配置校验失败：\n- ${validationErrors.join('\n- ')}`);
+        return;
+      }
+
+      selectMethodology(parsed);
+    } catch (error) {
+      window.alert('方法论配置加载失败，请检查 JSON 格式。');
+    } finally {
+      event.target.value = '';
+    }
+  };
+
   const renderMenuNode = (node, level = 0) => {
     const isActive = activePageKey === node.key;
     const itemClassName = [level === 0 ? 'menu-item' : 'menu-subitem', isActive ? 'is-active' : '']
@@ -71,6 +115,8 @@ export function App() {
           onSelectMethodology={selectMethodology}
           onLoadCase={loadCase}
           onExportRuntime={handleExportRuntime}
+          onExportMethodology={handleExportMethodology}
+          onImportMethodology={handleImportMethodology}
         />
       );
     }
