@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { HomePage } from '../components/HomePage.jsx';
 import { OutputPage } from '../components/OutputPage.jsx';
 import { RecordCollectionPage } from '../components/RecordCollectionPage.jsx';
@@ -10,8 +10,9 @@ import { usePlanningStore } from '../store/usePlanningStore.js';
 
 export function App() {
   const { state, actions } = usePlanningStore();
-  const { currentMethodology, activePageKey, expandedGroups, formData, recordCollections, recordDrafts } = state;
-  const { selectMethodology, setActivePageKey, toggleExpanded, setFieldValue, setDraftValue, addRecord, loadCase } = actions;
+  const { currentMethodology, activePageKey, expandedGroups, formData, recordCollections, recordDrafts, selectedRecordIndexMap } = state;
+  const { selectMethodology, setActivePageKey, toggleExpanded, setFieldValue, setDraftValue, setSelectedRecord, updateSelectedRecord, addRecord, loadCase } = actions;
+  const [activeHomeAngle, setActiveHomeAngle] = useState('intro');
 
   const menuGroups = currentMethodology?.navigation ?? [];
   const activePage = useMemo(
@@ -86,6 +87,11 @@ export function App() {
     }
   };
 
+  const jumpToHomeSection = (sectionId) => {
+    setActivePageKey('home');
+    setActiveHomeAngle(sectionId);
+  };
+
   const renderMenuNode = (node, level = 0) => {
     const isActive = activePageKey === node.key;
     const itemClassName = [level === 0 ? 'menu-item' : 'menu-subitem', isActive ? 'is-active' : '']
@@ -112,6 +118,7 @@ export function App() {
         <HomePage
           methodology={currentMethodology}
           methodologyCatalog={methodologyCatalog}
+          activeAngle={activeHomeAngle}
           onSelectMethodology={selectMethodology}
           onLoadCase={loadCase}
           onExportRuntime={handleExportRuntime}
@@ -140,6 +147,9 @@ export function App() {
           fieldMap={currentMethodology.fields}
           records={recordCollections[activePageKey] ?? []}
           draftRecord={recordDrafts[activePageKey] ?? {}}
+          selectedIndex={selectedRecordIndexMap[activePageKey] ?? 0}
+          onSelectRecord={(index) => setSelectedRecord(activePageKey, index)}
+          onRecordFieldChange={(fieldKey, value) => updateSelectedRecord(activePageKey, fieldKey, value)}
           onDraftChange={(fieldKey, value) => setDraftValue(activePageKey, fieldKey, value)}
           onAddRecord={() => addRecord(activePageKey, activePage.fields ?? [])}
         />
@@ -172,11 +182,24 @@ export function App() {
     <div className="app-shell">
       <header className="system-bar">
         <div className="system-bar__title">
-          <h1>{currentMethodology?.meta.title ?? '工业网络规划方法论驱动框架'}</h1>
-          {currentMethodology?.meta.subtitle ? <p>{currentMethodology.meta.subtitle}</p> : null}
+          <button
+            type="button"
+            className="platform-title-button"
+            onClick={() => {
+              setActivePageKey('home');
+              setActiveHomeAngle('intro');
+            }}
+          >
+            <h1>工业网络规划方法论沉淀与协作平台</h1>
+          </button>
         </div>
         <div className="system-bar__meta">
-          <span className="header-badge">Framework</span>
+          <div className="system-angle-nav">
+            <button type="button" className="angle-link" onClick={() => jumpToHomeSection('angle-standards')}>标准理论角度</button>
+            <button type="button" className="angle-link" onClick={() => jumpToHomeSection('angle-scenarios')}>应用场景角度</button>
+            <button type="button" className="angle-link" onClick={() => jumpToHomeSection('angle-systems')}>系统对象角度</button>
+            <button type="button" className="angle-link" onClick={() => jumpToHomeSection('angle-tech')}>技术方向角度</button>
+          </div>
         </div>
       </header>
 
@@ -186,7 +209,10 @@ export function App() {
             <button
               type="button"
               className={activePageKey === 'home' ? 'menu-item is-active' : 'menu-item'}
-              onClick={() => setActivePageKey('home')}
+              onClick={() => {
+                setActivePageKey('home');
+                setActiveHomeAngle('intro');
+              }}
             >
               首页
             </button>

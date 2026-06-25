@@ -3,13 +3,42 @@ import { buildEmptyDraft, buildInitialFormData, buildRecordFromDraft } from '../
 
 function createInitialCollections() {
   return {
+    'project-goal': [
+      {
+        'project.name': '工业网络规划项目',
+        'project.customer': '',
+        'project.industry': '离散制造',
+        'project.scope': '整厂',
+        'project.goal': '新建',
+        'project.delivery': '',
+        'project.owner': '',
+        'project.confirmStatus': '待确认',
+      },
+    ],
     'business-description': [],
   };
 }
 
 function createInitialDrafts() {
   return {
+    'project-goal': buildEmptyDraft([
+      'project.name',
+      'project.customer',
+      'project.industry',
+      'project.scope',
+      'project.goal',
+      'project.delivery',
+      'project.owner',
+      'project.confirmStatus',
+    ]),
     'business-description': buildEmptyDraft(['business.name', 'business.zone']),
+  };
+}
+
+function createInitialSelections() {
+  return {
+    'project-goal': 0,
+    'business-description': 0,
   };
 }
 
@@ -29,6 +58,7 @@ export function usePlanningStore(initialMethodology = null) {
   const [formData, setFormData] = useState(() => buildInitialFormData(initialMethodology?.fields ?? {}));
   const [recordCollections, setRecordCollections] = useState(createInitialCollections);
   const [recordDrafts, setRecordDrafts] = useState(createInitialDrafts);
+  const [selectedRecordIndexMap, setSelectedRecordIndexMap] = useState(createInitialSelections);
 
   const actions = useMemo(
     () => ({
@@ -39,6 +69,7 @@ export function usePlanningStore(initialMethodology = null) {
         setFormData(buildInitialFormData(methodology.fields ?? {}));
         setRecordCollections(createInitialCollections());
         setRecordDrafts(createInitialDrafts());
+        setSelectedRecordIndexMap(createInitialSelections());
         setActivePageKey('home');
       },
       toggleExpanded(key) {
@@ -62,14 +93,41 @@ export function usePlanningStore(initialMethodology = null) {
           },
         }));
       },
+      setSelectedRecord(pageKey, index) {
+        setSelectedRecordIndexMap((current) => ({
+          ...current,
+          [pageKey]: index,
+        }));
+      },
+      updateSelectedRecord(pageKey, fieldKey, value) {
+        setRecordCollections((current) => {
+          const nextRecords = [...(current[pageKey] ?? [])];
+          const selectedIndex = selectedRecordIndexMap[pageKey] ?? 0;
+          const currentRecord = nextRecords[selectedIndex] ?? {};
+          nextRecords[selectedIndex] = {
+            ...currentRecord,
+            [fieldKey]: value,
+          };
+          return {
+            ...current,
+            [pageKey]: nextRecords,
+          };
+        });
+      },
       addRecord(pageKey, fieldKeys) {
         setRecordCollections((currentCollections) => {
           const draft = recordDrafts[pageKey] ?? {};
           const nextRecord = buildRecordFromDraft(fieldKeys, draft);
+          const nextRecords = [...(currentCollections[pageKey] ?? []), nextRecord];
+
+          setSelectedRecordIndexMap((currentSelected) => ({
+            ...currentSelected,
+            [pageKey]: nextRecords.length - 1,
+          }));
 
           return {
             ...currentCollections,
-            [pageKey]: [...(currentCollections[pageKey] ?? []), nextRecord],
+            [pageKey]: nextRecords,
           };
         });
 
@@ -89,10 +147,11 @@ export function usePlanningStore(initialMethodology = null) {
           ...(caseData.recordCollections ?? {}),
         }));
 
-        setActivePageKey('project-basic');
+        setSelectedRecordIndexMap(createInitialSelections());
+        setActivePageKey('project-goal');
       },
     }),
-    [recordDrafts],
+    [recordDrafts, selectedRecordIndexMap],
   );
 
   return {
@@ -103,6 +162,7 @@ export function usePlanningStore(initialMethodology = null) {
       formData,
       recordCollections,
       recordDrafts,
+      selectedRecordIndexMap,
     },
     actions,
   };

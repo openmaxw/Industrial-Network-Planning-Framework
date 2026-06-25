@@ -1,33 +1,60 @@
 import React from 'react';
 
-export function RecordCollectionPage({ page, fieldMap, records, draftRecord, onDraftChange, onAddRecord }) {
+export function RecordCollectionPage({
+  page,
+  fieldMap,
+  records,
+  draftRecord,
+  selectedIndex,
+  onSelectRecord,
+  onRecordFieldChange,
+  onDraftChange,
+  onAddRecord,
+}) {
+  const currentRecord = records[selectedIndex] ?? {};
+
   return (
     <section className="standard-page">
       <div className="standard-page__header">
         <h3>{page.title}</h3>
-        <p>{page.description}</p>
+        {page.description ? <p>{page.description}</p> : null}
       </div>
 
       {page.sections?.map((section) => {
         if (section.kind === 'record-list') {
           return (
             <section key={section.key} className="section-card">
-              <h4>{section.title}</h4>
-              <div className="record-list">
-                {records.length === 0 ? (
-                  <p className="empty-tip">暂无记录</p>
-                ) : (
-                  records.map((record, index) => (
-                    <div key={`${page.title}-${index}`} className="record-card">
-                      <strong>记录 {index + 1}</strong>
-                      {page.fields.map((fieldKey) => (
-                        <p key={fieldKey}>
-                          {fieldMap[fieldKey]?.label}：{record[fieldKey] || '（空）'}
-                        </p>
+              <div className="table-toolbar">
+                <div>
+                  <h4>{section.title}</h4>
+                </div>
+                <button type="button" className="primary-button" onClick={onAddRecord}>
+                  + 新增记录
+                </button>
+              </div>
+              <div className="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      {page.summaryColumns?.map((fieldKey) => (
+                        <th key={fieldKey}>{fieldMap[fieldKey]?.label ?? fieldKey}</th>
                       ))}
-                    </div>
-                  ))
-                )}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {records.map((record, index) => (
+                      <tr
+                        key={`${page.title}-${index}`}
+                        className={selectedIndex === index ? 'selectable-row active' : 'selectable-row'}
+                        onClick={() => onSelectRecord(index)}
+                      >
+                        {page.summaryColumns?.map((fieldKey) => (
+                          <td key={fieldKey}>{record[fieldKey] || ''}</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </section>
           );
@@ -36,33 +63,31 @@ export function RecordCollectionPage({ page, fieldMap, records, draftRecord, onD
         if (section.kind === 'record-editor') {
           return (
             <section key={section.key} className="section-card">
-              <h4>{section.title}</h4>
-              <div className="standard-page__fields">
-                {page.fields?.map((fieldKey) => {
-                  const field = fieldMap[fieldKey];
-
-                  if (!field) {
-                    return null;
-                  }
-
-                  return (
-                    <label key={fieldKey} className="field-card">
-                      <span className="field-card__label">{field.label}</span>
-                      <input
-                        className="field-card__control"
-                        type="text"
-                        value={draftRecord[fieldKey] ?? ''}
-                        onChange={(event) => onDraftChange(fieldKey, event.target.value)}
-                      />
-                    </label>
-                  );
-                })}
+              <div className="table-toolbar">
+                <div>
+                  <h4>{section.title}</h4>
+                </div>
               </div>
+              <div className="table-wrap">
+                <table className="form-table">
+                  <tbody>
+                    {Array.from({ length: Math.ceil((page.fields?.length ?? 0) / 2) }).map((_, rowIndex) => {
+                      const leftFieldKey = page.fields[rowIndex * 2];
+                      const rightFieldKey = page.fields[rowIndex * 2 + 1];
+                      const leftField = fieldMap[leftFieldKey];
+                      const rightField = rightFieldKey ? fieldMap[rightFieldKey] : null;
 
-              <div className="record-actions">
-                <button type="button" className="primary-button" onClick={onAddRecord}>
-                  添加记录
-                </button>
+                      return (
+                        <tr key={`${section.key}-${rowIndex}`}>
+                          <th>{leftField?.label}</th>
+                          <td>{renderEditorControl(leftFieldKey, leftField, currentRecord, onRecordFieldChange)}</td>
+                          {rightField ? <th>{rightField.label}</th> : <th />}
+                          <td>{rightField ? renderEditorControl(rightFieldKey, rightField, currentRecord, onRecordFieldChange) : null}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
               </div>
             </section>
           );
@@ -71,5 +96,46 @@ export function RecordCollectionPage({ page, fieldMap, records, draftRecord, onD
         return null;
       })}
     </section>
+  );
+}
+
+function renderEditorControl(fieldKey, field, record, onRecordFieldChange) {
+  if (!field) {
+    return null;
+  }
+
+  if (field.type === 'textarea') {
+    return (
+      <textarea
+        className="field-card__control field-card__control--textarea"
+        value={record[fieldKey] ?? ''}
+        onChange={(event) => onRecordFieldChange(fieldKey, event.target.value)}
+      />
+    );
+  }
+
+  if (field.type === 'select') {
+    return (
+      <select
+        className="field-card__control"
+        value={record[fieldKey] ?? ''}
+        onChange={(event) => onRecordFieldChange(fieldKey, event.target.value)}
+      >
+        {field.options?.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    );
+  }
+
+  return (
+    <input
+      className="field-card__control"
+      type="text"
+      value={record[fieldKey] ?? ''}
+      onChange={(event) => onRecordFieldChange(fieldKey, event.target.value)}
+    />
   );
 }

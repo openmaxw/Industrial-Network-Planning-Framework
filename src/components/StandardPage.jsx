@@ -34,7 +34,7 @@ export function StandardPage({ page, fieldMap, formData, recordCollections, onFi
     <section className="standard-page">
       <div className="standard-page__header">
         <h3>{page.title}</h3>
-        <p>{page.description}</p>
+        {page.description ? <p>{page.description}</p> : null}
       </div>
 
       <div className="standard-page__fields">
