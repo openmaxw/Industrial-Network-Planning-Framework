@@ -22,6 +22,8 @@ export const demoMethodology = {
         { key: 'scope-definition', title: '范围界定' },
         { key: 'business-description', title: '业务描述' },
         { key: 'asset-allocation', title: '设备归属' },
+        { key: 'environment-conditions', title: '环境条件' },
+        { key: 'implementation-constraints', title: '实施约束' },
         { key: 'field-input', title: '现场输入' },
       ],
     },
@@ -34,6 +36,7 @@ export const demoMethodology = {
           key: 'security-analysis',
           title: '安全分析',
           children: [
+            { key: 'security-scenario', title: '安全场景' },
             { key: 'threat-identification', title: '威胁识别' },
             { key: 'risk-assessment', title: '风险评估' },
           ],
@@ -114,24 +117,60 @@ export const demoMethodology = {
       summaryColumns: ['asset.name', 'asset.type', 'asset.system', 'asset.location', 'asset.level'],
       fields: ['asset.name', 'asset.type', 'asset.system', 'asset.location', 'asset.level', 'asset.status', 'asset.access', 'asset.criticality', 'asset.note'],
     },
+    'environment-conditions': {
+      title: '环境条件',
+      type: 'record-collection',
+      layout: 'table-form',
+      description: '用于记录干扰、安装、距离、介质、供电和无线等环境因素。',
+      sections: [
+        { key: 'record-list', kind: 'record-list', title: '环境条件记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
+      ],
+      summaryColumns: ['env.topic', 'env.interference', 'env.install', 'env.distance', 'env.medium'],
+      fields: ['env.topic', 'env.interference', 'env.install', 'env.distance', 'env.medium', 'env.power', 'env.wireless', 'env.note'],
+    },
+    'implementation-constraints': {
+      title: '实施约束',
+      type: 'record-collection',
+      layout: 'table-form',
+      description: '用于记录预算、停机窗口、现网继承和实施约束。',
+      sections: [
+        { key: 'record-list', kind: 'record-list', title: '实施约束记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
+      ],
+      summaryColumns: ['constraint.name', 'constraint.type', 'constraint.required', 'constraint.scope', 'constraint.existing'],
+      fields: ['constraint.name', 'constraint.type', 'constraint.required', 'constraint.scope', 'constraint.existing', 'constraint.note'],
+    },
     'zone-planning': {
       title: '区域划分',
       type: 'standard-record',
       layout: 'single-form',
       description: '用于定义区域边界、对象归属和基础隔离策略。',
-      fields: ['zone.scope', 'zone.businessZone', 'zone.relatedAsset', 'zone.strategy', 'zone.boundary', 'zone.isolationNotes'],
+      fields: ['zone.scope', 'zone.businessZone', 'zone.relatedAsset', 'zone.relatedScene', 'zone.strategy', 'zone.boundary', 'zone.isolationNotes'],
     },
     'security-analysis': {
       title: '安全分析',
       type: 'group',
       description: '用于承载威胁识别和风险评估等分析子页面。',
     },
+    'security-scenario': {
+      title: '安全场景',
+      type: 'record-collection',
+      layout: 'table-form',
+      description: '用于记录场景类型、覆盖范围、远程访问与外部互联。',
+      sections: [
+        { key: 'record-list', kind: 'record-list', title: '安全场景记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
+      ],
+      summaryColumns: ['secScenario.name', 'secScenario.type', 'secScenario.scope', 'secScenario.remote', 'secScenario.external'],
+      fields: ['secScenario.name', 'secScenario.type', 'secScenario.scope', 'secScenario.remote', 'secScenario.external', 'secScenario.note'],
+    },
     'threat-identification': {
       title: '威胁识别',
       type: 'standard-record',
       layout: 'single-form',
       description: '用于梳理潜在威胁来源、攻击面和关键影响对象。',
-      fields: ['threat.source', 'threat.surface', 'threat.asset'],
+      fields: ['threat.relatedScenario', 'threat.source', 'threat.surface', 'threat.asset', 'threat.relatedConstraint', 'threat.relatedEnvironment'],
     },
     'risk-assessment': {
       title: '风险评估',
@@ -147,7 +186,12 @@ export const demoMethodology = {
       description: '用于集中展示设计输出和最终结果摘要。',
       sections: [
         { key: 'project-summary', kind: 'key-value-summary', title: '项目摘要' },
+        { key: 'scope-summary', kind: 'record-summary', title: '范围界定摘要' },
         { key: 'business-summary', kind: 'record-summary', title: '业务记录摘要' },
+        { key: 'asset-summary', kind: 'record-summary', title: '关键对象摘要' },
+        { key: 'environment-summary', kind: 'record-summary', title: '环境条件摘要' },
+        { key: 'constraint-summary', kind: 'record-summary', title: '实施约束摘要' },
+        { key: 'security-scenario-summary', kind: 'record-summary', title: '安全场景摘要' },
         { key: 'zone-summary', kind: 'key-value-summary', title: '区域规划摘要' },
       ],
     },
@@ -242,8 +286,21 @@ export const demoMethodology = {
       type: 'select',
       defaultValue: 'PLC',
       optionsSource: {
-        type: 'lines-from-field',
-        field: 'input.assets',
+        type: 'record-field',
+        recordPage: 'asset-allocation',
+        field: 'asset.name',
+        dedupe: true,
+      },
+    },
+    'zone.relatedScene': {
+      label: '关联业务场景',
+      type: 'select',
+      defaultValue: '',
+      optionsSource: {
+        type: 'record-field',
+        recordPage: 'business-description',
+        field: 'scene.name',
+        dedupe: true,
       },
     },
     'scene.name': {
@@ -362,6 +419,46 @@ export const demoMethodology = {
       type: 'textarea',
       defaultValue: '',
     },
+    'env.topic': {
+      label: '环境主题',
+      type: 'text',
+      defaultValue: '现场环境条件',
+    },
+    'env.interference': {
+      label: '干扰情况',
+      type: 'text',
+      defaultValue: '',
+    },
+    'env.install': {
+      label: '安装条件',
+      type: 'text',
+      defaultValue: '',
+    },
+    'env.distance': {
+      label: '距离要求',
+      type: 'text',
+      defaultValue: '',
+    },
+    'env.medium': {
+      label: '介质条件',
+      type: 'text',
+      defaultValue: '',
+    },
+    'env.power': {
+      label: '供电条件',
+      type: 'text',
+      defaultValue: '',
+    },
+    'env.wireless': {
+      label: '无线条件',
+      type: 'text',
+      defaultValue: '',
+    },
+    'env.note': {
+      label: '补充说明',
+      type: 'textarea',
+      defaultValue: '',
+    },
     'zone.businessZone': {
       label: '引用业务区域',
       type: 'select',
@@ -370,6 +467,47 @@ export const demoMethodology = {
         type: 'record-field',
         recordPage: 'business-description',
         field: 'scene.name',
+        dedupe: true,
+      },
+    },
+    'secScenario.name': {
+      label: '场景名称',
+      type: 'text',
+      defaultValue: '本地生产场景',
+    },
+    'secScenario.type': {
+      label: '场景类型',
+      type: 'text',
+      defaultValue: '本地生产',
+    },
+    'secScenario.scope': {
+      label: '覆盖范围',
+      type: 'text',
+      defaultValue: '',
+    },
+    'secScenario.remote': {
+      label: '远程访问',
+      type: 'text',
+      defaultValue: '无',
+    },
+    'secScenario.external': {
+      label: '外部互联',
+      type: 'text',
+      defaultValue: '无',
+    },
+    'secScenario.note': {
+      label: '补充说明',
+      type: 'textarea',
+      defaultValue: '',
+    },
+    'threat.relatedScenario': {
+      label: '关联安全场景',
+      type: 'select',
+      defaultValue: '',
+      optionsSource: {
+        type: 'record-field',
+        recordPage: 'security-scenario',
+        field: 'secScenario.name',
         dedupe: true,
       },
     },
@@ -394,8 +532,36 @@ export const demoMethodology = {
     },
     'threat.asset': {
       label: '关键影响对象',
-      type: 'text',
-      defaultValue: '控制器与关键生产单元',
+      type: 'select',
+      defaultValue: 'PLC-01',
+      optionsSource: {
+        type: 'record-field',
+        recordPage: 'asset-allocation',
+        field: 'asset.name',
+        dedupe: true,
+      },
+    },
+    'threat.relatedConstraint': {
+      label: '关联实施约束',
+      type: 'select',
+      defaultValue: '',
+      optionsSource: {
+        type: 'record-field',
+        recordPage: 'implementation-constraints',
+        field: 'constraint.name',
+        dedupe: true,
+      },
+    },
+    'threat.relatedEnvironment': {
+      label: '关联环境条件',
+      type: 'select',
+      defaultValue: '',
+      optionsSource: {
+        type: 'record-field',
+        recordPage: 'environment-conditions',
+        field: 'env.topic',
+        dedupe: true,
+      },
     },
     'risk.level': {
       label: '风险等级',
@@ -414,13 +580,64 @@ export const demoMethodology = {
       defaultValue: 'P1',
       options: ['P1', 'P2', 'P3'],
     },
+    'constraint.name': {
+      label: '约束名称',
+      type: 'text',
+      defaultValue: '预算约束',
+    },
+    'constraint.type': {
+      label: '约束类型',
+      type: 'text',
+      defaultValue: '预算',
+    },
+    'constraint.required': {
+      label: '是否必须',
+      type: 'select',
+      defaultValue: '是',
+      options: ['是', '否'],
+    },
+    'constraint.scope': {
+      label: '影响范围',
+      type: 'text',
+      defaultValue: '',
+    },
+    'constraint.existing': {
+      label: '现网继承',
+      type: 'text',
+      defaultValue: '',
+    },
+    'constraint.note': {
+      label: '补充说明',
+      type: 'textarea',
+      defaultValue: '',
+    },
   },
   outputs: {
     'design-result': {
       'project-summary': ['project.name', 'project.customer', 'project.industry'],
       'business-summary': {
         recordPage: 'business-description',
-        fields: ['business.name', 'business.zone'],
+        fields: ['scene.name', 'scene.source', 'scene.target', 'scene.purpose'],
+      },
+      'scope-summary': {
+        recordPage: 'scope-definition',
+        fields: ['overview.name', 'overview.space', 'overview.distribution', 'overview.cross', 'overview.scale'],
+      },
+      'asset-summary': {
+        recordPage: 'asset-allocation',
+        fields: ['asset.name', 'asset.type', 'asset.system', 'asset.location'],
+      },
+      'environment-summary': {
+        recordPage: 'environment-conditions',
+        fields: ['env.topic', 'env.interference', 'env.install', 'env.distance', 'env.medium'],
+      },
+      'constraint-summary': {
+        recordPage: 'implementation-constraints',
+        fields: ['constraint.name', 'constraint.type', 'constraint.required', 'constraint.scope', 'constraint.existing'],
+      },
+      'security-scenario-summary': {
+        recordPage: 'security-scenario',
+        fields: ['secScenario.name', 'secScenario.type', 'secScenario.scope', 'secScenario.remote', 'secScenario.external'],
       },
       'zone-summary': ['zone.scope', 'zone.businessZone', 'zone.relatedAsset', 'zone.strategy'],
     },
@@ -527,6 +744,18 @@ export const demoMethodology = {
             'asset.note': '',
           },
         ],
+        'environment-conditions': [
+          {
+            'env.topic': '总装车间环境',
+            'env.interference': '一般工业干扰',
+            'env.install': '桥架敷设',
+            'env.distance': '车间至信息中心 300m',
+            'env.medium': '工业以太网',
+            'env.power': '双路供电',
+            'env.wireless': '无',
+            'env.note': '',
+          },
+        ],
       },
     },
     {
@@ -606,6 +835,18 @@ export const demoMethodology = {
             'asset.note': '',
           },
         ],
+        'environment-conditions': [
+          {
+            'env.topic': '主控室环境',
+            'env.interference': '低干扰',
+            'env.install': '机柜集中安装',
+            'env.distance': '主控室到现场装置区 500m',
+            'env.medium': '光纤 + 工业以太网',
+            'env.power': 'UPS 保障',
+            'env.wireless': '无',
+            'env.note': '',
+          },
+        ],
       },
     },
     {
@@ -683,6 +924,18 @@ export const demoMethodology = {
             'asset.access': '有线固定接入',
             'asset.criticality': '高',
             'asset.note': '',
+          },
+        ],
+        'environment-conditions': [
+          {
+            'env.topic': '能源站监控环境',
+            'env.interference': '中等电磁干扰',
+            'env.install': '监控室与现场混合部署',
+            'env.distance': '监控室到现场设备区 200m',
+            'env.medium': '工业以太网',
+            'env.power': '稳定交流供电',
+            'env.wireless': '少量无线巡检',
+            'env.note': '',
           },
         ],
       },

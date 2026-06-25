@@ -50,6 +50,49 @@ function createInitialCollections() {
         'asset.note': '',
       },
     ],
+    'environment-conditions': [
+      {
+        'env.topic': '现场环境条件',
+        'env.interference': '',
+        'env.install': '',
+        'env.distance': '',
+        'env.medium': '',
+        'env.power': '',
+        'env.wireless': '',
+        'env.note': '',
+      },
+    ],
+    'implementation-constraints': [
+      {
+        'constraint.name': '预算约束',
+        'constraint.type': '预算',
+        'constraint.required': '是',
+        'constraint.scope': '',
+        'constraint.existing': '',
+        'constraint.note': '',
+      },
+    ],
+    'security-scenario': [
+      {
+        'secScenario.name': '本地生产场景',
+        'secScenario.type': '本地生产',
+        'secScenario.scope': '',
+        'secScenario.remote': '无',
+        'secScenario.external': '无',
+        'secScenario.note': '',
+      },
+    ],
+    'exposure-analysis': [
+      {
+        'secExposure.name': 'PLC-01',
+        'secExposure.relatedScenario': '',
+        'secExposure.type': '远程接入',
+        'secExposure.source': '',
+        'secExposure.control': '',
+        'secExposure.risk': '中',
+        'secExposure.note': '',
+      },
+    ],
   };
 }
 
@@ -94,6 +137,41 @@ function createInitialDrafts() {
       'asset.criticality',
       'asset.note',
     ]),
+    'environment-conditions': buildEmptyDraft([
+      'env.topic',
+      'env.interference',
+      'env.install',
+      'env.distance',
+      'env.medium',
+      'env.power',
+      'env.wireless',
+      'env.note',
+    ]),
+    'implementation-constraints': buildEmptyDraft([
+      'constraint.name',
+      'constraint.type',
+      'constraint.required',
+      'constraint.scope',
+      'constraint.existing',
+      'constraint.note',
+    ]),
+    'security-scenario': buildEmptyDraft([
+      'secScenario.name',
+      'secScenario.type',
+      'secScenario.scope',
+      'secScenario.remote',
+      'secScenario.external',
+      'secScenario.note',
+    ]),
+    'exposure-analysis': buildEmptyDraft([
+      'secExposure.name',
+      'secExposure.relatedScenario',
+      'secExposure.type',
+      'secExposure.source',
+      'secExposure.control',
+      'secExposure.risk',
+      'secExposure.note',
+    ]),
   };
 }
 
@@ -103,6 +181,10 @@ function createInitialSelections() {
     'scope-definition': 0,
     'business-description': 0,
     'asset-allocation': 0,
+    'environment-conditions': 0,
+    'implementation-constraints': 0,
+    'security-scenario': 0,
+    'exposure-analysis': 0,
   };
 }
 
