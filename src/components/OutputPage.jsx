@@ -1,6 +1,110 @@
 import React from 'react';
 
 export function OutputPage({ page, outputConfig, fieldMap, formData, recordCollections }) {
+  const formatValue = (value) => (value === undefined || value === null || value === '' ? '（空）' : value);
+  const joinValues = (parts) => parts.filter(Boolean).join(' / ');
+  const buildRecordJoinText = (line) => {
+    const sourceRecords = recordCollections[line.recordPage] ?? [];
+    return sourceRecords
+      .map((record) =>
+        (line.fields ?? [])
+          .map((fieldKey) => {
+            const value = record[fieldKey];
+            if (!value) {
+              return null;
+            }
+            const prefix = line.labels === false ? '' : `${fieldMap[fieldKey]?.label ?? fieldKey}：`;
+            return `${prefix}${value}`;
+          })
+          .filter(Boolean)
+          .join(' / '),
+      )
+      .filter(Boolean)
+      .join('；');
+  };
+  const buildFieldJoinText = (line) =>
+    (line.fields ?? [])
+      .map((fieldKey) => {
+        const value = formData[fieldKey];
+        if (!value) {
+          return null;
+        }
+        const prefix = line.labels === false ? '' : `${fieldMap[fieldKey]?.label ?? fieldKey}：`;
+        return `${prefix}${value}`;
+      })
+      .filter(Boolean)
+      .join(' / ');
+  const resolveLineText = (line) => {
+    if (line.type === 'record-join') {
+      return `${line.label}：${buildRecordJoinText(line) || '待补充'}`;
+    }
+
+    if (line.type === 'field-join') {
+      return `${line.label}：${buildFieldJoinText(line) || '待补充'}`;
+    }
+
+    if (line.type === 'record-count') {
+      const records = (line.recordPage && recordCollections[line.recordPage]) || [];
+      return `${line.label}：${records.length}`;
+    }
+
+    if (line.type === 'template') {
+      const segments = (line.parts ?? [])
+        .map((part) => {
+          if (part.kind === 'text') {
+            return part.value;
+          }
+          if (part.kind === 'field') {
+            return formData[part.key] || '';
+          }
+          if (part.kind === 'record-join') {
+            return buildRecordJoinText(part);
+          }
+          if (part.kind === 'field-join') {
+            return buildFieldJoinText(part);
+          }
+          return '';
+        })
+        .filter(Boolean);
+      return joinValues(segments) || '待补充';
+    }
+
+    return line.text ?? '';
+  };
+
+  const renderTextSummary = (section) => {
+    const config = outputConfig?.[section.key];
+    const lines = config?.lines?.map(resolveLineText) ?? [];
+    const paragraphs = config?.paragraphs?.map(resolveLineText) ?? [];
+    const bullets = config?.bullets?.map(resolveLineText) ?? [];
+
+    return (
+      <section key={section.key} className="section-card">
+        <h4>{section.title}</h4>
+        <div className="record-card">
+          {lines.map((line, index) => (
+            <p key={`${section.key}-${index}`}>{line}</p>
+          ))}
+          {paragraphs.map((paragraph, index) => (
+            <p key={`${section.key}-p-${index}`}>{paragraph}</p>
+          ))}
+          {bullets.length > 0 ? (
+            <ul>
+              {bullets.map((bullet, index) => (
+                <li key={`${section.key}-b-${index}`}>{bullet}</li>
+              ))}
+            </ul>
+          ) : null}
+          {config?.codeBlocks?.map((block, index) => (
+            <pre key={`${section.key}-code-${index}`} className="record-card">
+              <code>{resolveLineText(block)}</code>
+            </pre>
+          ))}
+        </div>
+      </section>
+    );
+  };
+
   const renderKeyValueSummary = (section) => {
     const fieldKeys = outputConfig?.[section.key] ?? [];
 
@@ -11,7 +115,7 @@ export function OutputPage({ page, outputConfig, fieldMap, formData, recordColle
           {fieldKeys.map((fieldKey) => (
             <div key={fieldKey} className="output-item">
               <span className="output-item__label">{fieldMap[fieldKey]?.label ?? fieldKey}</span>
-              <strong>{formData[fieldKey] || '（空）'}</strong>
+              <strong>{formatValue(formData[fieldKey])}</strong>
             </div>
           ))}
         </div>
@@ -34,8 +138,8 @@ export function OutputPage({ page, outputConfig, fieldMap, formData, recordColle
               <div key={`${section.key}-${index}`} className="record-card">
                 <strong>记录 {index + 1}</strong>
                 {config.fields.map((fieldKey) => (
-                  <p key={fieldKey}>
-                    {fieldMap[fieldKey]?.label ?? fieldKey}：{record[fieldKey] || '（空）'}
+                    <p key={fieldKey}>
+                    {fieldMap[fieldKey]?.label ?? fieldKey}：{formatValue(record[fieldKey])}
                   </p>
                 ))}
               </div>
@@ -60,6 +164,10 @@ export function OutputPage({ page, outputConfig, fieldMap, formData, recordColle
 
         if (section.kind === 'record-summary') {
           return renderRecordSummary(section);
+        }
+
+        if (section.kind === 'text-summary') {
+          return renderTextSummary(section);
         }
 
         return null;
