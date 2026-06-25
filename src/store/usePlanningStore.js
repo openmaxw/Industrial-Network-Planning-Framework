@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { buildEmptyDraft, buildInitialFormData, buildRecordFromDraft } from '../engine/methodologyHelpers.js';
+import { buildEmptyDraft, buildInitialFormData, buildRecordFromDefaults, buildRecordFromDraft } from '../engine/methodologyHelpers.js';
 
 function createInitialCollections() {
   return {
@@ -15,7 +15,41 @@ function createInitialCollections() {
         'project.confirmStatus': '待确认',
       },
     ],
-    'business-description': [],
+    'scope-definition': [
+      {
+        'overview.name': '主项目范围',
+        'overview.space': '',
+        'overview.distribution': '',
+        'overview.cross': '',
+        'overview.scale': '',
+        'overview.note': '',
+      },
+    ],
+    'business-description': [
+      {
+        'scene.name': '核心业务场景',
+        'scene.mode': '周期通信',
+        'scene.source': '',
+        'scene.target': '',
+        'scene.purpose': '生产控制',
+        'scene.medium': '有线',
+        'scene.continuity': '高',
+        'scene.note': '',
+      },
+    ],
+    'asset-allocation': [
+      {
+        'asset.name': 'PLC-01',
+        'asset.type': 'PLC',
+        'asset.system': '',
+        'asset.location': '',
+        'asset.level': 'Level 1',
+        'asset.status': '在用',
+        'asset.access': '有线固定接入',
+        'asset.criticality': '高',
+        'asset.note': '',
+      },
+    ],
   };
 }
 
@@ -31,14 +65,44 @@ function createInitialDrafts() {
       'project.owner',
       'project.confirmStatus',
     ]),
-    'business-description': buildEmptyDraft(['business.name', 'business.zone']),
+    'scope-definition': buildEmptyDraft([
+      'overview.name',
+      'overview.space',
+      'overview.distribution',
+      'overview.cross',
+      'overview.scale',
+      'overview.note',
+    ]),
+    'business-description': buildEmptyDraft([
+      'scene.name',
+      'scene.mode',
+      'scene.source',
+      'scene.target',
+      'scene.purpose',
+      'scene.medium',
+      'scene.continuity',
+      'scene.note',
+    ]),
+    'asset-allocation': buildEmptyDraft([
+      'asset.name',
+      'asset.type',
+      'asset.system',
+      'asset.location',
+      'asset.level',
+      'asset.status',
+      'asset.access',
+      'asset.criticality',
+      'asset.note',
+    ]),
   };
 }
 
 function createInitialSelections() {
   return {
     'project-goal': 0,
+    'scope-definition': 0,
     'business-description': 0,
+    'asset-allocation': 0,
   };
 }
 
@@ -117,7 +181,10 @@ export function usePlanningStore(initialMethodology = null) {
       addRecord(pageKey, fieldKeys) {
         setRecordCollections((currentCollections) => {
           const draft = recordDrafts[pageKey] ?? {};
-          const nextRecord = buildRecordFromDraft(fieldKeys, draft);
+          const hasDraftValue = fieldKeys.some((fieldKey) => Boolean(draft[fieldKey]));
+          const nextRecord = hasDraftValue
+            ? buildRecordFromDraft(fieldKeys, draft)
+            : buildRecordFromDefaults(fieldKeys, currentMethodology?.fields ?? {});
           const nextRecords = [...(currentCollections[pageKey] ?? []), nextRecord];
 
           setSelectedRecordIndexMap((currentSelected) => ({

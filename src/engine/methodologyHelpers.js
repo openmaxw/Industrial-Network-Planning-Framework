@@ -30,3 +30,9 @@ export function buildRecordFromDraft(fieldKeys, draft) {
 export function buildEmptyDraft(fieldKeys) {
   return Object.fromEntries(fieldKeys.map((fieldKey) => [fieldKey, '']));
 }
+
+export function buildRecordFromDefaults(fieldKeys, fields) {
+  return Object.fromEntries(
+    fieldKeys.map((fieldKey) => [fieldKey, fields[fieldKey]?.defaultValue ?? ''])
+  );
+}
