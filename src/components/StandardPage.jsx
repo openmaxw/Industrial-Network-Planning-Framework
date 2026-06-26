@@ -10,6 +10,11 @@ export function StandardPage({ page, fieldMap, formData, recordCollections, onFi
   };
 
   const resolveFieldOptions = (field) => {
+    if (field.optionsByFieldValue) {
+      const controllerValue = formData[field.optionsByFieldValue.field] ?? '';
+      return field.optionsByFieldValue.optionsMap?.[controllerValue] ?? field.optionsByFieldValue.fallback ?? [];
+    }
+
     if (field.optionsSource?.type === 'lines-from-field') {
       return (formData[field.optionsSource.field] ?? '')
         .split('\n')

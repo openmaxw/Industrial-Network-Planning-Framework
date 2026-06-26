@@ -4,6 +4,7 @@ export function RecordCollectionPage({
   page,
   fieldMap,
   records,
+  recordCollections,
   draftRecord,
   selectedIndex,
   onSelectRecord,
@@ -12,6 +13,25 @@ export function RecordCollectionPage({
   onAddRecord,
 }) {
   const currentRecord = records[selectedIndex] ?? {};
+
+  const resolveFieldOptions = (field, record) => {
+    if (field.optionsByFieldValue) {
+      const controllerValue = record[field.optionsByFieldValue.field] ?? '';
+      return field.optionsByFieldValue.optionsMap?.[controllerValue] ?? field.optionsByFieldValue.fallback ?? [];
+    }
+
+    if (field.optionsSource?.type === 'record-field') {
+      const sourceRecords = recordCollections[field.optionsSource.recordPage] ?? [];
+      const values = sourceRecords
+        .map((sourceRecord) => sourceRecord[field.optionsSource.field] ?? '')
+        .map((item) => item.trim())
+        .filter(Boolean);
+
+      return field.optionsSource.dedupe ? [...new Set(values)] : values;
+    }
+
+    return field.options ?? [];
+  };
 
   return (
     <section className="standard-page">
@@ -80,9 +100,9 @@ export function RecordCollectionPage({
                       return (
                         <tr key={`${section.key}-${rowIndex}`}>
                           <th>{leftField?.label}</th>
-                          <td>{renderEditorControl(leftFieldKey, leftField, currentRecord, onRecordFieldChange)}</td>
+                          <td>{renderEditorControl(leftFieldKey, leftField, currentRecord, onRecordFieldChange, resolveFieldOptions)}</td>
                           {rightField ? <th>{rightField.label}</th> : <th />}
-                          <td>{rightField ? renderEditorControl(rightFieldKey, rightField, currentRecord, onRecordFieldChange) : null}</td>
+                          <td>{rightField ? renderEditorControl(rightFieldKey, rightField, currentRecord, onRecordFieldChange, resolveFieldOptions) : null}</td>
                         </tr>
                       );
                     })}
@@ -99,10 +119,12 @@ export function RecordCollectionPage({
   );
 }
 
-function renderEditorControl(fieldKey, field, record, onRecordFieldChange) {
+function renderEditorControl(fieldKey, field, record, onRecordFieldChange, resolveFieldOptions) {
   if (!field) {
     return null;
   }
+
+  const resolvedOptions = resolveFieldOptions ? resolveFieldOptions(field, record) : field.options ?? [];
 
   if (field.type === 'textarea') {
     return (
@@ -121,7 +143,7 @@ function renderEditorControl(fieldKey, field, record, onRecordFieldChange) {
         value={record[fieldKey] ?? ''}
         onChange={(event) => onRecordFieldChange(fieldKey, event.target.value)}
       >
-        {field.options?.map((option) => (
+        {resolvedOptions.map((option) => (
           <option key={option} value={option}>
             {option}
           </option>

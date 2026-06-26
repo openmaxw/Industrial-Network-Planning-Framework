@@ -292,6 +292,23 @@ function createInitialCollections() {
         'secLimit.note': '',
       },
     ],
+    'tech-selection': [
+      {
+        'tech.name': '核心交换技术选择',
+        'tech.category': '网络结构',
+        'tech.technology': '工业以太网',
+        'tech.scopeType': '区域',
+        'tech.scopeTarget': '',
+        'tech.scopeNote': '',
+        'tech.goal': '',
+        'tech.reason': '',
+        'tech.alternative': '',
+        'tech.alternativeReason': '',
+        'tech.constraint': '',
+        'tech.confirmStatus': '待确认',
+        'tech.note': '',
+      },
+    ],
     'delay-analysis': [
       {
         'delay.name': '控制区到监控区主链路',
@@ -573,6 +590,21 @@ function createInitialDrafts() {
       'secLimit.required',
       'secLimit.note',
     ]),
+    'tech-selection': buildEmptyDraft([
+      'tech.name',
+      'tech.category',
+      'tech.technology',
+      'tech.scopeType',
+      'tech.scopeTarget',
+      'tech.scopeNote',
+      'tech.goal',
+      'tech.reason',
+      'tech.alternative',
+      'tech.alternativeReason',
+      'tech.constraint',
+      'tech.confirmStatus',
+      'tech.note',
+    ]),
     'delay-analysis': buildEmptyDraft([
       'delay.name',
       'delay.length',
@@ -637,6 +669,7 @@ function createInitialSelections() {
     'interconnect-design': 0,
     'tech-selection': 0,
     'security-limit': 0,
+    'tech-selection': 0,
     'delay-analysis': 0,
     'perf-evaluation': 0,
     'planning-rules': 0,
@@ -645,10 +678,13 @@ function createInitialSelections() {
 
 function createInitialExpandedGroups() {
   return {
-    'raw-information': true,
-    'design-derivation': true,
-    'deliverables': true,
-    'security-analysis': true,
+    'raw-information': false,
+    'design-derivation': false,
+    'deliverables': false,
+    'security-design': false,
+    'network-design': false,
+    'engineering-design': false,
+    'security-requirements': false,
   };
 }
 
@@ -674,10 +710,28 @@ export function usePlanningStore(initialMethodology = null) {
         setActivePageKey('home');
       },
       toggleExpanded(key) {
-        setExpandedGroups((current) => ({
-          ...current,
-          [key]: !current[key],
-        }));
+        setExpandedGroups((current) => {
+          const nextValue = !current[key];
+          const nextState = Object.keys(current).reduce((accumulator, currentKey) => {
+            accumulator[currentKey] = false;
+            return accumulator;
+          }, {});
+          nextState[key] = nextValue;
+          return nextState;
+        });
+      },
+      setExpandedWithinLevel(levelKeys, targetKey) {
+        setExpandedGroups((current) => {
+          const nextValue = !current[targetKey];
+          const nextState = { ...current };
+
+          levelKeys.forEach((key) => {
+            nextState[key] = false;
+          });
+
+          nextState[targetKey] = nextValue;
+          return nextState;
+        });
       },
       setFieldValue(fieldKey, value) {
         setFormData((current) => ({

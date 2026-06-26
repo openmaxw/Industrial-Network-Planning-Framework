@@ -10,7 +10,7 @@
 * { box-sizing: border-box; }
 body { margin: 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; background: var(--bg); color: var(--text); }
 button { font: inherit; }
-.app-shell { min-height: 100vh; }
+.app-shell { height: 100vh; display: flex; flex-direction: column; }
 .system-bar,
 .app-card,
 .sidebar-panel,
@@ -42,8 +42,10 @@ button { font: inherit; }
 }
 .header-badge { padding: 6px 10px; border-radius: 999px; background: var(--brand-soft); color: var(--brand); font-size: 12px; font-weight: 600; }
 
-.workspace-layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 20px; padding: 20px; }
+.workspace-layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 20px; padding: 20px; min-height: 0; flex: 1; }
 .sidebar-panel, .content-panel { padding: 20px; }
+.sidebar-panel { overflow-y: auto; min-height: 0; }
+.content-panel { overflow-y: auto; min-height: 0; }
 .panel-heading { margin-bottom: 16px; }
 .panel-heading h2 { margin: 0 0 8px; }
 .menu-home-entry { margin-bottom: 12px; }
@@ -129,6 +131,51 @@ thead th { background: #f8fbff; color: #36507a; white-space: nowrap; }
 .selectable-row.active td { background: #eaf2ff; }
 .form-table th { width: 140px; background: #f8fbff; color: #36507a; }
 .home-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.experience-button-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+.experience-chip {
+  border: 1px solid var(--line);
+  background: #fbfcff;
+  color: var(--text);
+  border-radius: 12px;
+  padding: 14px 16px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.experience-chip:hover {
+  border-color: #bfd0ff;
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+.experience-chip.is-active {
+  border-color: #bfd0ff;
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+.experience-chip.is-disabled {
+  cursor: not-allowed;
+  color: var(--muted);
+  background: #f4f6fa;
+  border-style: dashed;
+}
+.experience-chip.is-disabled:hover {
+  border-color: var(--line);
+  background: #f4f6fa;
+  color: var(--muted);
+}
+.experience-chip__tag {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}
 .output-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
 .output-item { border: 1px solid var(--line); border-radius: 12px; padding: 12px; background: #fbfcff; }
 .output-item__label { display: block; margin-bottom: 6px; color: var(--muted); font-size: 13px; }

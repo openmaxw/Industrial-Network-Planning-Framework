@@ -13,6 +13,8 @@ export function App() {
   const { currentMethodology, activePageKey, expandedGroups, formData, recordCollections, recordDrafts, selectedRecordIndexMap } = state;
   const { selectMethodology, setActivePageKey, toggleExpanded, setFieldValue, setDraftValue, setSelectedRecord, updateSelectedRecord, addRecord, loadCase } = actions;
   const [activeHomeAngle, setActiveHomeAngle] = useState('intro');
+  const [homeExperienceMode, setHomeExperienceMode] = useState('internal');
+  const [activeHomeExperienceKey, setActiveHomeExperienceKey] = useState('');
 
   const menuGroups = currentMethodology?.navigation ?? [];
   const activePage = useMemo(
@@ -61,6 +63,33 @@ export function App() {
     URL.revokeObjectURL(objectUrl);
   };
 
+  const handleExportTemplate = () => {
+    const template = {
+      meta: {
+        key: 'experience-template',
+        title: '经验模板示例',
+        version: '1.0.0',
+        description: '用于说明经验文件的基础结构、页面定义、字段定义与输出配置格式。',
+      },
+      notes: {
+        purpose: '供外部团队参考，用于创建自己的经验配置 JSON。',
+        supportedPageTypes: ['home', 'standard-record', 'record-collection', 'output'],
+        supportedOutputSectionKinds: ['key-value-summary', 'record-summary', 'text-summary'],
+      },
+      example: currentMethodology ?? methodologyCatalog[0]?.methodology,
+    };
+
+    const blob = new Blob([JSON.stringify(template, null, 2)], { type: 'application/json' });
+    const objectUrl = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+
+    anchor.href = objectUrl;
+    anchor.download = 'experience-template-example.json';
+    anchor.click();
+
+    URL.revokeObjectURL(objectUrl);
+  };
+
   const handleImportMethodology = async (event) => {
     const file = event.target.files?.[0];
 
@@ -92,15 +121,56 @@ export function App() {
     setActiveHomeAngle(sectionId);
   };
 
+  const findSiblingKeys = (targetKey, items) => {
+    for (const item of items ?? []) {
+      if (item.children?.some((child) => child.key === targetKey)) {
+        return item.children.map((child) => child.key);
+      }
+
+      if (item.key === targetKey) {
+        return [targetKey];
+      }
+
+      const nested = findSiblingKeys(targetKey, item.children);
+      if (nested.length > 0) {
+        return nested;
+      }
+    }
+
+    return [];
+  };
+
+  const toggleMenuNode = (targetKey) => {
+    const siblingKeys = findSiblingKeys(targetKey, menuGroups);
+
+    if (siblingKeys.length === 0) {
+      toggleExpanded(targetKey);
+      return;
+    }
+
+    actions.setExpandedWithinLevel?.(siblingKeys, targetKey);
+  };
+
   const renderMenuNode = (node, level = 0) => {
     const isActive = activePageKey === node.key;
+    const hasChildren = Boolean(node.children?.length);
     const itemClassName = [level === 0 ? 'menu-item' : 'menu-subitem', isActive ? 'is-active' : '']
       .filter(Boolean)
       .join(' ');
 
     return (
       <div key={node.key} className="menu-item-block">
-        <button type="button" className={itemClassName} onClick={() => setActivePageKey(node.key)}>
+        <button
+          type="button"
+          className={itemClassName}
+          onClick={() => {
+            if (hasChildren) {
+              toggleMenuNode(node.key);
+              return;
+            }
+            setActivePageKey(node.key);
+          }}
+        >
           {node.title}
         </button>
         {node.children && expandedGroups[node.key] !== false ? (
@@ -119,10 +189,16 @@ export function App() {
           methodology={currentMethodology}
           methodologyCatalog={methodologyCatalog}
           activeAngle={activeHomeAngle}
-          onSelectMethodology={selectMethodology}
+          experienceMode={homeExperienceMode}
+          activeExperienceKey={activeHomeExperienceKey}
+          onSelectMethodology={(methodology, sourceKey) => {
+            setActiveHomeExperienceKey(sourceKey ?? methodology?.meta?.key ?? '');
+            selectMethodology(methodology);
+          }}
           onLoadCase={loadCase}
           onExportRuntime={handleExportRuntime}
           onExportMethodology={handleExportMethodology}
+          onExportTemplate={handleExportTemplate}
           onImportMethodology={handleImportMethodology}
         />
       );
@@ -146,6 +222,7 @@ export function App() {
           page={activePage}
           fieldMap={currentMethodology.fields}
           records={recordCollections[activePageKey] ?? []}
+          recordCollections={recordCollections}
           draftRecord={recordDrafts[activePageKey] ?? {}}
           selectedIndex={selectedRecordIndexMap[activePageKey] ?? 0}
           onSelectRecord={(index) => setSelectedRecord(activePageKey, index)}
@@ -190,15 +267,35 @@ export function App() {
               setActiveHomeAngle('intro');
             }}
           >
-            <h1>工业网络规划方法论沉淀与协作平台</h1>
+            <h1>工业网络规划经验整合框架</h1>
           </button>
         </div>
         <div className="system-bar__meta">
           <div className="system-angle-nav">
-            <button type="button" className="angle-link" onClick={() => jumpToHomeSection('angle-standards')}>标准理论角度</button>
-            <button type="button" className="angle-link" onClick={() => jumpToHomeSection('angle-scenarios')}>应用场景角度</button>
-            <button type="button" className="angle-link" onClick={() => jumpToHomeSection('angle-systems')}>系统对象角度</button>
-            <button type="button" className="angle-link" onClick={() => jumpToHomeSection('angle-tech')}>技术方向角度</button>
+            <button
+              type="button"
+              className={homeExperienceMode === 'internal' ? 'angle-link is-active' : 'angle-link'}
+              onClick={() => {
+                setActivePageKey('home');
+                setHomeExperienceMode('internal');
+                setActiveHomeAngle('angle-standards');
+                setActiveHomeExperienceKey('');
+              }}
+            >
+              加载内部经验
+            </button>
+            <button
+              type="button"
+              className={homeExperienceMode === 'external' ? 'angle-link is-active' : 'angle-link'}
+              onClick={() => {
+                setActivePageKey('home');
+                setHomeExperienceMode('external');
+                setActiveHomeAngle('external');
+                setActiveHomeExperienceKey('');
+              }}
+            >
+              加载外部经验
+            </button>
           </div>
         </div>
       </header>
@@ -221,7 +318,7 @@ export function App() {
             <nav className="menu-tree">
               {menuGroups.map((group) => (
                 <section key={group.title} className="menu-group">
-                  <button type="button" className="menu-group-button" onClick={() => toggleExpanded(group.key)}>
+                  <button type="button" className="menu-group-button" onClick={() => toggleMenuNode(group.key)}>
                     {group.title}
                   </button>
                   {expandedGroups[group.key] !== false ? (

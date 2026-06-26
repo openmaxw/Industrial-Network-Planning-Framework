@@ -35,8 +35,8 @@
 ```json
 {
   "key": "industrial-network-demo",
-  "title": "工业网络规划系统",
-  "subtitle": "方法论驱动的内容配置框架",
+  "title": "工业网络规划经验整合框架",
+  "subtitle": "用于承载规划经验、流程步骤与输出配置的统一框架。",
   "version": "0.1.0"
 }
 ```
