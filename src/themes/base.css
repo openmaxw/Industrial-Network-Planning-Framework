@@ -31,6 +31,7 @@ button { font: inherit; }
 }
 .platform-title-button:hover { opacity: 0.9; }
 .platform-title-button h1 { margin: 0; font-size: 30px; line-height: 1.2; font-weight: 700; }
+.platform-title-button p { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
 .system-angle-nav { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
 .angle-link {
   border: 1px solid var(--line);

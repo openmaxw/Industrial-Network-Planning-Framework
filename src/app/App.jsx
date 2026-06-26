@@ -16,7 +16,33 @@ export function App() {
   const [homeExperienceMode, setHomeExperienceMode] = useState('internal');
   const [activeHomeExperienceKey, setActiveHomeExperienceKey] = useState('');
 
-  const menuGroups = currentMethodology?.navigation ?? [];
+  const menuGroups = useMemo(() => {
+    const methodologyGroups = currentMethodology?.navigation ?? [];
+    const groupsByTitle = Object.fromEntries(methodologyGroups.map((group) => [group.title, group.children ?? []]));
+
+    return [
+      {
+        key: 'how-to-ask',
+        title: '怎么问（输入）',
+        children: groupsByTitle['怎么问（输入）'] ?? [],
+      },
+      {
+        key: 'how-to-judge',
+        title: '怎么判（规则）',
+        children: groupsByTitle['怎么判（规则）'] ?? [],
+      },
+      {
+        key: 'how-to-derive',
+        title: '怎么推（推演）',
+        children: groupsByTitle['怎么推（推演）'] ?? [],
+      },
+      {
+        key: 'how-to-land',
+        title: '怎么落（输出）',
+        children: groupsByTitle['怎么落（输出）'] ?? [],
+      },
+    ];
+  }, [currentMethodology]);
   const activePage = useMemo(
     () => (currentMethodology ? getPage(currentMethodology, activePageKey) : { type: 'home', title: '首页' }),
     [currentMethodology, activePageKey],
@@ -267,7 +293,8 @@ export function App() {
               setActiveHomeAngle('intro');
             }}
           >
-            <h1>工业网络规划经验整合框架</h1>
+            <h1>老王讲规划</h1>
+            <p>一个工业网络规划经验表达框架</p>
           </button>
         </div>
         <div className="system-bar__meta">
@@ -282,7 +309,7 @@ export function App() {
                 setActiveHomeExperienceKey('');
               }}
             >
-              加载内部经验
+              加载内部规划经验
             </button>
             <button
               type="button"
@@ -294,7 +321,7 @@ export function App() {
                 setActiveHomeExperienceKey('');
               }}
             >
-              加载外部经验
+              加载外部规划经验
             </button>
           </div>
         </div>
@@ -314,20 +341,20 @@ export function App() {
               首页
             </button>
           </div>
-          {currentMethodology ? (
-            <nav className="menu-tree">
-              {menuGroups.map((group) => (
-                <section key={group.title} className="menu-group">
-                  <button type="button" className="menu-group-button" onClick={() => toggleMenuNode(group.key)}>
-                    {group.title}
-                  </button>
-                  {expandedGroups[group.key] !== false ? (
-                    <div className="menu-items">{group.children?.map((item) => renderMenuNode(item))}</div>
-                  ) : null}
-                </section>
-              ))}
-            </nav>
-          ) : null}
+          <nav className="menu-tree">
+            {menuGroups.map((group) => (
+              <section key={group.title} className="menu-group">
+                <button type="button" className="menu-group-button" onClick={() => toggleMenuNode(group.key)}>
+                  {group.title}
+                </button>
+                {expandedGroups[group.key] !== false ? (
+                  <div className="menu-items">
+                    {group.children?.length ? group.children.map((item) => renderMenuNode(item)) : <p className="empty-tip">暂无已加载经验</p>}
+                  </div>
+                ) : null}
+              </section>
+            ))}
+          </nav>
         </aside>
 
         <section className="content-panel">{renderContent()}</section>

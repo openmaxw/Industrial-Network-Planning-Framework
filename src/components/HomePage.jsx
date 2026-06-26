@@ -104,7 +104,7 @@ export function HomePage({ methodology, methodologyCatalog, activeAngle, experie
           <h4>外部经验</h4>
           <div className="home-actions">
             <label className="primary-button primary-button--secondary file-button">
-              加载外部经验文件
+              加载外部规划经验文件
               <input type="file" accept="application/json,.json" hidden onChange={onImportMethodology} />
             </label>
             <button type="button" className="primary-button" onClick={onExportTemplate}>

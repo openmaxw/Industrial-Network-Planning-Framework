@@ -35,7 +35,7 @@
 ```json
 {
   "key": "industrial-network-demo",
-  "title": "工业网络规划经验整合框架",
+  "title": "工业网络规划知识表达框架",
   "subtitle": "用于承载规划经验、流程步骤与输出配置的统一框架。",
   "version": "0.1.0"
 }

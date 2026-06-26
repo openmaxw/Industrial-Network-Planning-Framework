@@ -1,8 +1,8 @@
 export const demoMethodology = {
   meta: {
     key: 'industrial-network-demo',
-    title: '工业网络规划经验整合框架',
-    subtitle: '用于承载规划经验、流程步骤与输出配置的统一框架。',
+    title: '老王讲规划',
+    subtitle: '一个工业网络规划经验表达框架',
     version: '0.1.0',
     description: '用于验证菜单、标准页、记录页和字段依赖的示例方法论。',
   },
@@ -15,8 +15,8 @@ export const demoMethodology = {
   },
   navigation: [
     {
-      key: 'raw-information',
-      title: '原始信息',
+      key: 'how-to-ask',
+      title: '怎么问（输入）',
       children: [
         { key: 'project-goal', title: '01. 项目目标' },
         { key: 'scope-definition', title: '02. 范围界定' },
@@ -39,8 +39,13 @@ export const demoMethodology = {
       ],
     },
     {
-      key: 'design-derivation',
-      title: '设计推导',
+      key: 'how-to-judge',
+      title: '怎么判（规则）',
+      children: [{ key: 'planning-rules', title: '规划规则' }],
+    },
+    {
+      key: 'how-to-derive',
+      title: '怎么推（推演）',
       children: [
         { key: 'design-principles', title: '08. 设计原则' },
         {
@@ -81,8 +86,8 @@ export const demoMethodology = {
       ],
     },
     {
-      key: 'deliverables',
-      title: '成果输出',
+      key: 'how-to-land',
+      title: '怎么落（输出）',
       children: [
         { key: 'delivery-list', title: '13. 应用概要' },
         { key: 'design-result', title: '14. 设计概要' },

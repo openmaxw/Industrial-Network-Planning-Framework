@@ -678,9 +678,10 @@ function createInitialSelections() {
 
 function createInitialExpandedGroups() {
   return {
-    'raw-information': false,
-    'design-derivation': false,
-    'deliverables': false,
+    'how-to-ask': false,
+    'how-to-judge': false,
+    'how-to-derive': false,
+    'how-to-land': false,
     'security-design': false,
     'network-design': false,
     'engineering-design': false,
