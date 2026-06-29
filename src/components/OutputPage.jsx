@@ -2,7 +2,7 @@ import React from 'react';
 
 export function OutputPage({ page, outputConfig, fieldMap, formData, recordCollections }) {
   const formatValue = (value) => (value === undefined || value === null || value === '' ? '（空）' : value);
-  const joinValues = (parts) => parts.filter(Boolean).join(' / ');
+  const joinValues = (parts) => parts.filter(Boolean).join('，');
   const buildRecordJoinText = (line) => {
     const sourceRecords = recordCollections[line.recordPage] ?? [];
     return sourceRecords
@@ -17,7 +17,7 @@ export function OutputPage({ page, outputConfig, fieldMap, formData, recordColle
             return `${prefix}${value}`;
           })
           .filter(Boolean)
-          .join(' / '),
+          .join('，'),
       )
       .filter(Boolean)
       .join('；');
@@ -33,7 +33,7 @@ export function OutputPage({ page, outputConfig, fieldMap, formData, recordColle
         return `${prefix}${value}`;
       })
       .filter(Boolean)
-      .join(' / ');
+      .join('，');
   const buildMultiRecordFieldJoinText = (line) =>
     (line.recordPages ?? [])
       .flatMap((recordPage) =>
@@ -53,8 +53,8 @@ export function OutputPage({ page, outputConfig, fieldMap, formData, recordColle
             return null;
           }
 
-          const pageLabel = line.showPageLabel ? `${recordPage} / ` : '';
-          return `${pageLabel}${segments.join(' / ')}`;
+          const pageLabel = line.showPageLabel ? `${recordPage}：` : '';
+          return `${pageLabel}${segments.join('，')}`;
         }))
       )
       .filter(Boolean)
@@ -84,7 +84,11 @@ export function OutputPage({ page, outputConfig, fieldMap, formData, recordColle
             return part.value;
           }
           if (part.kind === 'field') {
-            return formData[part.key] || '';
+            const value = formData[part.key];
+            if (value === undefined || value === null || value === '') {
+              return null;
+            }
+            return String(value).trim();
           }
           if (part.kind === 'record-join') {
             return buildRecordJoinText(part);
@@ -94,8 +98,9 @@ export function OutputPage({ page, outputConfig, fieldMap, formData, recordColle
           }
           return '';
         })
-        .filter(Boolean);
-      return joinValues(segments) || '待补充';
+        .map((segment) => (typeof segment === 'string' ? segment.trim() : segment))
+        .filter((segment) => segment !== null && segment !== undefined && segment !== '');
+      return segments.join('') || '待补充';
     }
 
     return line.text ?? '';
