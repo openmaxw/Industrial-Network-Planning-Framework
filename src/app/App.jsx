@@ -15,6 +15,7 @@ export function App() {
   const [activeHomeAngle, setActiveHomeAngle] = useState('intro');
   const [homeExperienceMode, setHomeExperienceMode] = useState('internal');
   const [activeHomeExperienceKey, setActiveHomeExperienceKey] = useState('');
+  const [activeHomeCategoryKey, setActiveHomeCategoryKey] = useState('');
 
   const menuGroups = useMemo(() => {
     const methodologyGroups = currentMethodology?.navigation ?? [];
@@ -217,8 +218,10 @@ export function App() {
           activeAngle={activeHomeAngle}
           experienceMode={homeExperienceMode}
           activeExperienceKey={activeHomeExperienceKey}
-          onSelectMethodology={(methodology, sourceKey) => {
+          activeCategoryKey={activeHomeCategoryKey}
+          onSelectMethodology={(methodology, sourceKey, categoryKey) => {
             setActiveHomeExperienceKey(sourceKey ?? methodology?.meta?.key ?? '');
+            setActiveHomeCategoryKey(categoryKey ?? '');
             selectMethodology(methodology);
           }}
           onLoadCase={loadCase}
@@ -317,6 +320,7 @@ export function App() {
                 setHomeExperienceMode('internal');
                 setActiveHomeAngle('angle-standards');
                 setActiveHomeExperienceKey('');
+                setActiveHomeCategoryKey('');
               }}
             >
               经验加载
@@ -329,9 +333,10 @@ export function App() {
                 setHomeExperienceMode('external');
                 setActiveHomeAngle('external');
                 setActiveHomeExperienceKey('');
+                setActiveHomeCategoryKey('');
               }}
             >
-              经验导入
+              经验导入/导出
             </button>
           </div>
         </div>

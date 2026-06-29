@@ -1,21 +1,21 @@
 import React from 'react';
 
-export function HomePage({ methodology, methodologyCatalog, activeAngle, experienceMode, activeExperienceKey, onSelectMethodology, onLoadCase, onExportMethodology, onExportTemplate, onImportMethodology }) {
+export function HomePage({ methodology, methodologyCatalog, activeAngle, experienceMode, activeExperienceKey, activeCategoryKey, onSelectMethodology, onLoadCase, onExportMethodology, onExportTemplate, onImportMethodology }) {
   const internalMethodologies = methodologyCatalog.filter((item) => ['isa95', 'iec62443', 'isa95-iec62443'].includes(item.key));
 
-  const standardItems = internalMethodologies.map((item) => ({ ...item, available: true }));
+  const standardItems = internalMethodologies.map((item) => ({ ...item, available: true, categoryKey: 'angle-standards' }));
   const scenarioItems = [
-    { key: 'scenario-ess', title: '储能项目', available: false },
-    { key: 'scenario-auto', title: '汽车产线项目', available: false },
+    { key: 'scenario-ess', title: '储能项目', available: false, categoryKey: 'angle-scenarios' },
+    { key: 'scenario-auto', title: '汽车产线项目', available: false, categoryKey: 'angle-scenarios' },
   ];
   const systemItems = [
-    { key: 'system-mes', title: 'MES', available: false },
-    { key: 'system-fmcs', title: 'FMCS', available: false },
+    { key: 'system-mes', title: 'MES', available: false, categoryKey: 'angle-systems' },
+    { key: 'system-fmcs', title: 'FMCS', available: false, categoryKey: 'angle-systems' },
   ];
   const techItems = [
-    { key: 'tech-tsn', title: 'TSN', available: false },
-    { key: 'tech-5g', title: '5G', available: false },
-    { key: 'tech-apl', title: 'APL', available: false },
+    { key: 'tech-tsn', title: 'TSN', available: false, categoryKey: 'angle-tech' },
+    { key: 'tech-5g', title: '5G', available: false, categoryKey: 'angle-tech' },
+    { key: 'tech-apl', title: 'APL', available: false, categoryKey: 'angle-tech' },
   ];
 
   const renderExperienceButtons = (items) => (
@@ -35,7 +35,7 @@ export function HomePage({ methodology, methodologyCatalog, activeAngle, experie
             if (item.available === false || !item.methodology) {
               return;
             }
-            onSelectMethodology(item.methodology, item.key);
+            onSelectMethodology(item.methodology, item.key, item.categoryKey);
           }}
           disabled={item.available === false}
         >
@@ -45,6 +45,31 @@ export function HomePage({ methodology, methodologyCatalog, activeAngle, experie
       ))}
     </div>
   );
+
+  const renderCases = () => {
+    if (!methodology?.cases?.length) {
+      return null;
+    }
+
+    return (
+      <section className="section-card">
+        <h4>案例</h4>
+        <div className="case-grid">
+          {methodology.cases.map((item) => (
+            <div key={item.key} className="record-card">
+              <strong>{item.title}</strong>
+              <p>{item.description}</p>
+              <div className="record-actions">
+                <button type="button" className="primary-button" onClick={() => onLoadCase(item)}>
+                  加载案例
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  };
 
   if (activeAngle === 'intro') {
     return (
@@ -81,68 +106,58 @@ export function HomePage({ methodology, methodologyCatalog, activeAngle, experie
             <h4>按标准/理论分类</h4>
             {renderExperienceButtons(standardItems)}
           </section>
+          {activeCategoryKey === 'angle-standards' ? renderCases() : null}
 
           <section id="angle-scenarios" className="section-card">
             <h4>按应用场景分类</h4>
             {renderExperienceButtons(scenarioItems)}
           </section>
+          {activeCategoryKey === 'angle-scenarios' ? renderCases() : null}
 
           <section id="angle-systems" className="section-card">
             <h4>按系统对象分类</h4>
             {renderExperienceButtons(systemItems)}
           </section>
+          {activeCategoryKey === 'angle-systems' ? renderCases() : null}
 
           <section id="angle-tech" className="section-card">
             <h4>按技术方向分类</h4>
             {renderExperienceButtons(techItems)}
           </section>
+          {activeCategoryKey === 'angle-tech' ? renderCases() : null}
         </>
       ) : null}
 
       {experienceMode === 'external' ? (
-        <section className="section-card">
-          <h4>外部经验</h4>
-          <div className="home-actions">
-            <label className="primary-button primary-button--secondary file-button">
-              加载外部规划经验文件
-              <input type="file" accept="application/json,.json" hidden onChange={onImportMethodology} />
-            </label>
-            <button type="button" className="primary-button" onClick={onExportTemplate}>
-              案例模板下载
-            </button>
-          </div>
-        </section>
+        <>
+          <section className="section-card">
+            <h4>经验导入</h4>
+            <div className="home-actions">
+              <label className="primary-button primary-button--secondary file-button">
+                导入外部经验
+                <input type="file" accept="application/json,.json" hidden onChange={onImportMethodology} />
+              </label>
+              <button type="button" className="primary-button" onClick={onExportTemplate}>
+                案例模板下载
+              </button>
+            </div>
+          </section>
+
+          <section className="section-card">
+            <h4>经验导出</h4>
+            <div className="home-actions">
+              {methodology ? (
+                <button type="button" className="primary-button primary-button--secondary" onClick={onExportMethodology}>
+                  导出当前经验
+                </button>
+              ) : (
+                <span className="field-hint">请先加载一个经验，再进行导出。</span>
+              )}
+            </div>
+          </section>
+        </>
       ) : null}
 
-      {methodology ? (
-        <section className="section-card">
-          <h4>经验导出</h4>
-          <div className="home-actions">
-            <button type="button" className="primary-button primary-button--secondary" onClick={onExportMethodology}>
-              导出当前经验 JSON
-            </button>
-          </div>
-        </section>
-      ) : null}
-
-      {methodology ? (
-        <section className="section-card">
-          <h4>案例</h4>
-          <div className="record-list">
-            {methodology.cases?.map((item) => (
-              <div key={item.key} className="record-card">
-                <strong>{item.title}</strong>
-                <p>{item.description}</p>
-                <div className="record-actions">
-                  <button type="button" className="primary-button" onClick={() => onLoadCase(item)}>
-                    加载案例
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      ) : null}
     </section>
   );
 }

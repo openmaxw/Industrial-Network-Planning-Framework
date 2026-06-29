@@ -115,6 +115,7 @@ button { font: inherit; }
 .primary-button--secondary { background: #fff; color: var(--brand); }
 .file-button { display: inline-flex; align-items: center; justify-content: center; }
 .record-list { display: grid; gap: 12px; }
+.case-grid { display: grid; gap: 12px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .record-card { border: 1px solid var(--line); border-radius: 12px; padding: 14px; background: #fbfcff; }
 .record-card p { margin: 8px 0 0; color: var(--muted); }
 .empty-tip { margin: 0; color: var(--muted); }
@@ -188,4 +189,5 @@ thead th { background: #f8fbff; color: #36507a; white-space: nowrap; }
   .system-bar { flex-direction: column; align-items: flex-start; }
   .system-angle-nav { justify-content: flex-start; }
   .workspace-layout { grid-template-columns: 1fr; }
+  .case-grid { grid-template-columns: 1fr; }
 }

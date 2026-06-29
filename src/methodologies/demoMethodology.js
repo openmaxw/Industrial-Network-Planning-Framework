@@ -18,10 +18,10 @@ export const demoMethodology = {
       key: 'how-to-ask',
       title: '资料采集',
       children: [
-        { key: 'project-goal', title: '01. 项目目标' },
-        { key: 'scope-definition', title: '02. 范围界定' },
-        { key: 'business-description', title: '03. 业务流程' },
-        { key: 'asset-allocation', title: '04. 设备归属' },
+        { key: 'project-goal', title: '项目目标' },
+        { key: 'scope-definition', title: '范围界定' },
+        { key: 'business-description', title: '业务流程' },
+        { key: 'asset-allocation', title: '设备归属' },
         {
           key: 'security-requirements',
           title: '05. 安全需求',
@@ -34,8 +34,8 @@ export const demoMethodology = {
             { key: 'key-asset-analysis', title: '关键对象' },
           ],
         },
-        { key: 'environment-conditions', title: '06. 环境条件' },
-        { key: 'implementation-constraints', title: '07. 实施约束' },
+        { key: 'environment-conditions', title: '环境条件' },
+        { key: 'implementation-constraints', title: '实施约束' },
       ],
     },
     {
@@ -51,20 +51,20 @@ export const demoMethodology = {
       key: 'how-to-derive',
       title: '设计推演',
       children: [
-        { key: 'design-principles', title: '08. 设计原则' },
+        { key: 'design-principles', title: '设计原则' },
         {
           key: 'security-design',
-          title: '09. 架构划分',
+          title: '架构划分',
           children: [
             { key: 'zone-planning', title: '区域划分' },
             { key: 'conduit-design', title: '通道设计' },
             { key: 'interconnect-design', title: '边界互联' },
           ],
         },
-        { key: 'tech-selection', title: '10. 技术选择' },
+        { key: 'tech-selection', title: '技术选择' },
         {
           key: 'network-design',
-          title: '11. 网络设计',
+          title: '网络设计',
           children: [
             { key: 'network-topology', title: '网络拓扑' },
             { key: 'layer-design', title: '分层设计' },
@@ -79,7 +79,7 @@ export const demoMethodology = {
         },
         {
           key: 'engineering-design',
-          title: '12. 工程设计',
+          title: '工程设计',
           children: [
             { key: 'access-design', title: '对象接入' },
             { key: 'selection-design', title: '设备选型' },
@@ -93,10 +93,24 @@ export const demoMethodology = {
       key: 'how-to-land',
       title: '结果落地',
       children: [
-        { key: 'delivery-list', title: '13. 应用概要' },
-        { key: 'design-result', title: '14. 设计概要' },
-        { key: 'topology-result', title: '15. 网络拓扑' },
-        { key: 'ip-plan-result', title: '16. IP 规划' },
+        {
+          key: 'for-customer',
+          title: '面向客户',
+          children: [
+            { key: 'delivery-list', title: '现场概述' },
+            { key: 'design-result', title: '设计说明' },
+            { key: 'topology-result', title: '网络拓扑' },
+            { key: 'ip-plan-result', title: 'IP 规划' },
+          ],
+        },
+        {
+          key: 'for-internal',
+          title: '面向内部',
+          children: [
+            { key: 'planning-review', title: '规划复盘' },
+            { key: 'case-summary', title: '案例提炼' },
+          ],
+        },
       ],
     },
   ],
@@ -525,7 +539,7 @@ export const demoMethodology = {
       fields: ['secKey.name', 'secKey.type', 'secKey.reason', 'secKey.focus', 'secKey.priority', 'secKey.note'],
     },
     'design-result': {
-      title: '设计概要',
+      title: '设计说明',
       type: 'output',
       layout: 'summary-output',
       description: '输出一份根据前序输入整理得到的正式设计概要。',
@@ -539,7 +553,7 @@ export const demoMethodology = {
       ],
     },
     'delivery-list': {
-      title: '应用概要',
+      title: '现场概述',
       type: 'output',
       layout: 'summary-output',
       description: '输出一份根据前序内容整理得到的正式应用概要。',
@@ -579,6 +593,20 @@ export const demoMethodology = {
         { key: 'ip-principles', kind: 'text-summary', title: '5. 规划原则' },
         { key: 'ip-extra', kind: 'text-summary', title: '6. 额外要求' },
       ],
+    },
+    'planning-review': {
+      title: '规划复盘',
+      type: 'output',
+      layout: 'summary-output',
+      description: '用于沉淀本项目中采用的方法、关键判断和设计取舍。',
+      sections: [{ key: 'planning-review-brief', kind: 'text-summary', title: '规划复盘' }],
+    },
+    'case-summary': {
+      title: '案例提炼',
+      type: 'output',
+      layout: 'summary-output',
+      description: '用于提炼客户情况、场景特征和设计共性，服务内部沉淀。',
+      sections: [{ key: 'case-summary-brief', kind: 'text-summary', title: '案例提炼' }],
     },
   },
   fields: {
@@ -2591,6 +2619,26 @@ export const demoMethodology = {
           { text: '如果固定地址对象、动态地址策略或维护地址未完全明确，请分栏列出并说明依据。' },
           { text: '如果现网继承规则与推荐规划冲突，请显式列出“继承方案”和“推荐方案”两套表达。' },
           { text: '输出结果应优先保证实施可用、交付可读、扩容可追溯。' },
+        ],
+      },
+    },
+    'planning-review': {
+      'planning-review-brief': {
+        lines: [
+          {
+            type: 'template',
+            parts: [{ kind: 'text', value: '该页用于沉淀本项目中采用的方法、关键判断、设计取舍与后续可复用经验。' }],
+          },
+        ],
+      },
+    },
+    'case-summary': {
+      'case-summary-brief': {
+        lines: [
+          {
+            type: 'template',
+            parts: [{ kind: 'text', value: '该页用于提炼客户情况、场景特征、设计做法与后续可共享的案例价值。' }],
+          },
         ],
       },
     },
