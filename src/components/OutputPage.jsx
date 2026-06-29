@@ -34,6 +34,31 @@ export function OutputPage({ page, outputConfig, fieldMap, formData, recordColle
       })
       .filter(Boolean)
       .join(' / ');
+  const buildMultiRecordFieldJoinText = (line) =>
+    (line.recordPages ?? [])
+      .flatMap((recordPage) =>
+        ((recordCollections[recordPage] ?? []).map((record) => {
+          const segments = (line.fields ?? [])
+            .map((fieldKey) => {
+              const value = record[fieldKey];
+              if (!value) {
+                return null;
+              }
+              const prefix = line.labels === false ? '' : `${fieldMap[fieldKey]?.label ?? fieldKey}：`;
+              return `${prefix}${value}`;
+            })
+            .filter(Boolean);
+
+          if (segments.length === 0) {
+            return null;
+          }
+
+          const pageLabel = line.showPageLabel ? `${recordPage} / ` : '';
+          return `${pageLabel}${segments.join(' / ')}`;
+        }))
+      )
+      .filter(Boolean)
+      .join('；');
   const resolveLineText = (line) => {
     if (line.type === 'record-join') {
       return `${line.label}：${buildRecordJoinText(line) || '待补充'}`;
@@ -41,6 +66,10 @@ export function OutputPage({ page, outputConfig, fieldMap, formData, recordColle
 
     if (line.type === 'field-join') {
       return `${line.label}：${buildFieldJoinText(line) || '待补充'}`;
+    }
+
+    if (line.type === 'multi-record-field-join') {
+      return `${line.label}：${buildMultiRecordFieldJoinText(line) || '待补充'}`;
     }
 
     if (line.type === 'record-count') {

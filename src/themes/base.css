@@ -145,14 +145,18 @@ thead th { background: #f8fbff; color: #36507a; white-space: nowrap; }
   color: var(--text);
   border-radius: 12px;
   padding: 14px 16px;
-  text-align: center;
+  text-align: left;
   cursor: pointer;
   font-weight: 700;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 6px;
+  min-height: 88px;
 }
+.experience-chip strong { font-size: 15px; }
+.experience-chip__desc { color: var(--muted); font-size: 12px; line-height: 1.5; font-weight: 400; }
 .experience-chip:hover {
   border-color: #bfd0ff;
   background: var(--brand-soft);

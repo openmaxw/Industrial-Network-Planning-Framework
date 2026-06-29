@@ -42,6 +42,11 @@ export function App() {
         title: '结果落地',
         children: groupsByTitle['结果落地'] ?? [],
       },
+      {
+        key: 'how-to-iterate',
+        title: '经验迭代',
+        children: groupsByTitle['经验迭代'] ?? [],
+      },
     ];
   }, [currentMethodology]);
   const activePage = useMemo(

@@ -2,14 +2,16 @@ import React from 'react';
 
 export function HomePage({ methodology, methodologyCatalog, activeAngle, experienceMode, activeExperienceKey, activeCategoryKey, onSelectMethodology, onLoadCase, onExportMethodology, onExportTemplate, onImportMethodology }) {
   const internalMethodologies = methodologyCatalog.filter((item) => ['isa95', 'iec62443', 'isa95-iec62443'].includes(item.key));
+  const scenarioMethodologies = methodologyCatalog.filter((item) => ['scenario-ess'].includes(item.key));
+  const systemMethodologies = methodologyCatalog.filter((item) => ['system-mes'].includes(item.key));
 
   const standardItems = internalMethodologies.map((item) => ({ ...item, available: true, categoryKey: 'angle-standards' }));
   const scenarioItems = [
-    { key: 'scenario-ess', title: '储能项目', available: false, categoryKey: 'angle-scenarios' },
+    ...scenarioMethodologies.map((item) => ({ ...item, available: true, categoryKey: 'angle-scenarios' })),
     { key: 'scenario-auto', title: '汽车产线项目', available: false, categoryKey: 'angle-scenarios' },
   ];
   const systemItems = [
-    { key: 'system-mes', title: 'MES', available: false, categoryKey: 'angle-systems' },
+    ...systemMethodologies.map((item) => ({ ...item, available: true, categoryKey: 'angle-systems' })),
     { key: 'system-fmcs', title: 'FMCS', available: false, categoryKey: 'angle-systems' },
   ];
   const techItems = [
@@ -17,6 +19,7 @@ export function HomePage({ methodology, methodologyCatalog, activeAngle, experie
     { key: 'tech-5g', title: '5G', available: false, categoryKey: 'angle-tech' },
     { key: 'tech-apl', title: 'APL', available: false, categoryKey: 'angle-tech' },
   ];
+  const availableCount = methodologyCatalog.filter((item) => item.status === '可用').length;
 
   const renderExperienceButtons = (items) => (
     <div className="experience-button-grid">
@@ -39,12 +42,34 @@ export function HomePage({ methodology, methodologyCatalog, activeAngle, experie
           }}
           disabled={item.available === false}
         >
-          {item.title}
+          <strong>{item.title}</strong>
+          {item.description ? <span className="experience-chip__desc">{item.description}</span> : null}
           {item.available === false ? <span className="experience-chip__tag">待建设</span> : null}
         </button>
       ))}
     </div>
   );
+
+  const renderExperienceMeta = () => {
+    const activeItem = methodologyCatalog.find((item) => item.key === activeExperienceKey);
+
+    if (!activeItem || experienceMode !== 'internal') {
+      return null;
+    }
+
+    return (
+      <section className="section-card">
+        <h4>当前经验</h4>
+        <div className="record-card">
+          <p>名称：{activeItem.title}</p>
+          <p>说明：{activeItem.description}</p>
+          <p>适用对象：{(activeItem.audience ?? []).join('、') || '待补充'}</p>
+          <p>标签：{(activeItem.tags ?? []).join('、') || '待补充'}</p>
+          <p>状态：{activeItem.status ?? '待补充'}</p>
+        </div>
+      </section>
+    );
+  };
 
   const renderCases = () => {
     if (!methodology?.cases?.length) {
@@ -92,6 +117,10 @@ export function HomePage({ methodology, methodologyCatalog, activeAngle, experie
               <span className="output-item__label">适用对象</span>
               <strong>FAE、方案工程师、架构设计人员</strong>
             </div>
+            <div className="output-item">
+              <span className="output-item__label">当前经验数</span>
+              <strong>{availableCount} 套可用经验</strong>
+            </div>
           </div>
         </section>
       </section>
@@ -125,6 +154,15 @@ export function HomePage({ methodology, methodologyCatalog, activeAngle, experie
             {renderExperienceButtons(techItems)}
           </section>
           {activeCategoryKey === 'angle-tech' ? renderCases() : null}
+
+          {!activeExperienceKey ? (
+            <section className="section-card">
+              <h4>当前状态</h4>
+              <p className="field-hint">请选择一套经验，查看其案例、标签和详细说明。</p>
+            </section>
+          ) : null}
+
+          {renderExperienceMeta()}
         </>
       ) : null}
 
