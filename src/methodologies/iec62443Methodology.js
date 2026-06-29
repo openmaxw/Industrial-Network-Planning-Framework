@@ -1,16 +1,16 @@
 export const iec62443Methodology = {
   meta: {
     key: 'iec62443',
-    title: 'IEC62443 方法论框架',
+    title: 'IEC62443 经验框架',
     subtitle: '工业控制系统安全设计与防护建模',
     version: '0.1.0',
-    description: '用于验证以安全区域、通道、威胁和风险为核心的 IEC62443 方法论骨架。',
+    description: '用于验证以安全区域、通道、威胁和风险为核心的 IEC62443 经验骨架。',
   },
   systemPages: {
     home: {
       title: '首页',
       type: 'home',
-      description: '用于展示系统简介、方法论信息、案例入口和导入导出能力。',
+      description: '用于展示系统简介、经验信息、案例入口和导入导出能力。',
     },
   },
   navigation: [
@@ -33,7 +33,7 @@ export const iec62443Methodology = {
     },
     {
       key: 'security-output',
-      title: '成果输出',
+      title: '结果落地',
       children: [{ key: 'iec62443-summary', title: '安全摘要' }],
     },
   ],

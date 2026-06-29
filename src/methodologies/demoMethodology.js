@@ -2,21 +2,21 @@ export const demoMethodology = {
   meta: {
     key: 'industrial-network-demo',
     title: '老王讲规划',
-    subtitle: '一个工业网络规划经验表达框架',
+    subtitle: '一个面向工业网络规划的经验迭代、规则沉淀与结果生成框架',
     version: '0.1.0',
-    description: '用于验证菜单、标准页、记录页和字段依赖的示例方法论。',
+    description: '用于验证菜单、标准页、记录页和字段依赖的示例经验体。',
   },
   systemPages: {
     home: {
       title: '首页',
       type: 'home',
-      description: '用于展示系统简介、方法论信息、案例入口和导入导出能力。',
+      description: '用于展示系统简介、经验信息、案例入口和导入导出能力。',
     },
   },
   navigation: [
     {
       key: 'how-to-ask',
-      title: '怎么问（输入）',
+      title: '资料采集',
       children: [
         { key: 'project-goal', title: '01. 项目目标' },
         { key: 'scope-definition', title: '02. 范围界定' },
@@ -40,12 +40,16 @@ export const demoMethodology = {
     },
     {
       key: 'how-to-judge',
-      title: '怎么判（规则）',
-      children: [{ key: 'planning-rules', title: '规划规则' }],
+      title: '判断依据',
+      children: [
+        { key: 'topology-rules', title: '拓扑规则' },
+        { key: 'layer-rules', title: '分层规则' },
+        { key: 'scenario-rules', title: '场景规则' },
+      ],
     },
     {
       key: 'how-to-derive',
-      title: '怎么推（推演）',
+      title: '设计推演',
       children: [
         { key: 'design-principles', title: '08. 设计原则' },
         {
@@ -87,7 +91,7 @@ export const demoMethodology = {
     },
     {
       key: 'how-to-land',
-      title: '怎么落（输出）',
+      title: '结果落地',
       children: [
         { key: 'delivery-list', title: '13. 应用概要' },
         { key: 'design-result', title: '14. 设计概要' },
@@ -401,17 +405,41 @@ export const demoMethodology = {
       summaryColumns: ['perf.object', 'perf.type', 'perf.load', 'perf.bandwidth', 'perf.result'],
       fields: ['perf.object', 'perf.type', 'perf.load', 'perf.bandwidth', 'perf.path', 'perf.risk', 'perf.result'],
     },
-    'planning-rules': {
-      title: '规划规则',
+    'topology-rules': {
+      title: '拓扑规则',
       type: 'record-collection',
       layout: 'table-form',
-      description: '用于沉淀规划过程中可复用的规则、触发条件与推荐动作。',
+      description: '用于沉淀星型、环型、树型、混合型等拓扑选择相关的可复用规则。',
       sections: [
-        { key: 'record-list', kind: 'record-list', title: '规划规则记录表' },
+        { key: 'record-list', kind: 'record-list', title: '拓扑规则记录表' },
         { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
-      summaryColumns: ['planningRule.name', 'planningRule.domain', 'planningRule.category', 'planningRule.scene'],
-      fields: ['planningRule.name', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.scene', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.impact', 'planningRule.example', 'planningRule.note'],
+      summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'],
+      fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.impact', 'planningRule.example', 'planningRule.note'],
+    },
+    'layer-rules': {
+      title: '分层规则',
+      type: 'record-collection',
+      layout: 'table-form',
+      description: '用于沉淀核心、汇聚、接入等分层设计相关的可复用规则。',
+      sections: [
+        { key: 'record-list', kind: 'record-list', title: '分层规则记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
+      ],
+      summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'],
+      fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.impact', 'planningRule.example', 'planningRule.note'],
+    },
+    'scenario-rules': {
+      title: '场景规则',
+      type: 'record-collection',
+      layout: 'table-form',
+      description: '用于沉淀在特定项目场景下如何组合拓扑、分层和设计策略的可复用规则。',
+      sections: [
+        { key: 'record-list', kind: 'record-list', title: '场景规则记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
+      ],
+      summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'],
+      fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.impact', 'planningRule.example', 'planningRule.note'],
     },
     'security-scenario': {
       title: '安全场景',

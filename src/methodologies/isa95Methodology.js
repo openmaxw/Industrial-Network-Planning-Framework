@@ -1,16 +1,16 @@
 export const isa95Methodology = {
   meta: {
     key: 'isa95',
-    title: 'ISA95 方法论框架',
+    title: 'ISA95 经验框架',
     subtitle: '工业企业层级与业务协同建模',
     version: '0.1.0',
-    description: '用于验证以业务、层级、对象关系为核心的 ISA95 方法论骨架。',
+    description: '用于验证以业务、层级、对象关系为核心的 ISA95 经验骨架。',
   },
   systemPages: {
     home: {
       title: '首页',
       type: 'home',
-      description: '用于展示系统简介、方法论信息、案例入口和导入导出能力。',
+      description: '用于展示系统简介、经验信息、案例入口和导入导出能力。',
     },
   },
   navigation: [
@@ -32,7 +32,7 @@ export const isa95Methodology = {
     },
     {
       key: 'results',
-      title: '成果输出',
+      title: '结果落地',
       children: [{ key: 'isa95-summary', title: '建模摘要' }],
     },
   ],

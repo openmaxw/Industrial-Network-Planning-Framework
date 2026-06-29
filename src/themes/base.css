@@ -64,7 +64,8 @@ button { font: inherit; }
   padding: 12px 14px;
   cursor: pointer;
 }
-.menu-group-button { font-weight: 700; display: flex; align-items: center; justify-content: space-between; }
+.menu-group-button { font-weight: 700; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.menu-group-button__meta { font-size: 12px; color: #90a0b3; font-weight: 500; }
 .menu-items { display: grid; gap: 8px; padding-left: 12px; }
 .menu-item-block { display: grid; gap: 8px; }
 .menu-item.is-active,

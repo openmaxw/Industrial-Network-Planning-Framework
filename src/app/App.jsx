@@ -23,23 +23,23 @@ export function App() {
     return [
       {
         key: 'how-to-ask',
-        title: '怎么问（输入）',
-        children: groupsByTitle['怎么问（输入）'] ?? [],
+        title: '资料采集',
+        children: groupsByTitle['资料采集'] ?? [],
       },
       {
         key: 'how-to-judge',
-        title: '怎么判（规则）',
-        children: groupsByTitle['怎么判（规则）'] ?? [],
+        title: '判断依据',
+        children: groupsByTitle['判断依据'] ?? [],
       },
       {
         key: 'how-to-derive',
-        title: '怎么推（推演）',
-        children: groupsByTitle['怎么推（推演）'] ?? [],
+        title: '设计推演',
+        children: groupsByTitle['设计推演'] ?? [],
       },
       {
         key: 'how-to-land',
-        title: '怎么落（输出）',
-        children: groupsByTitle['怎么落（输出）'] ?? [],
+        title: '结果落地',
+        children: groupsByTitle['结果落地'] ?? [],
       },
     ];
   }, [currentMethodology]);
@@ -130,13 +130,13 @@ export function App() {
       const validationErrors = validateMethodologyConfig(parsed);
 
       if (validationErrors.length > 0) {
-        window.alert(`方法论配置校验失败：\n- ${validationErrors.join('\n- ')}`);
+        window.alert(`经验配置校验失败：\n- ${validationErrors.join('\n- ')}`);
         return;
       }
 
       selectMethodology(parsed);
     } catch (error) {
-      window.alert('方法论配置加载失败，请检查 JSON 格式。');
+      window.alert('经验配置加载失败，请检查 JSON 格式。');
     } finally {
       event.target.value = '';
     }
@@ -254,7 +254,17 @@ export function App() {
           onSelectRecord={(index) => setSelectedRecord(activePageKey, index)}
           onRecordFieldChange={(fieldKey, value) => updateSelectedRecord(activePageKey, fieldKey, value)}
           onDraftChange={(fieldKey, value) => setDraftValue(activePageKey, fieldKey, value)}
-          onAddRecord={() => addRecord(activePageKey, activePage.fields ?? [])}
+          onAddRecord={() => {
+            if (['topology-rules', 'layer-rules', 'scenario-rules'].includes(activePageKey)) {
+              const selectedRecord = (recordCollections[activePageKey] ?? [])[selectedRecordIndexMap[activePageKey] ?? 0] ?? {};
+              if (!String(selectedRecord['planningRule.scene'] ?? '').trim()) {
+                window.alert('请先填写“适用场景”，再新增记录。');
+                return;
+              }
+            }
+
+            addRecord(activePageKey, activePage.fields ?? []);
+          }}
         />
       );
     }
@@ -294,7 +304,7 @@ export function App() {
             }}
           >
             <h1>老王讲规划</h1>
-            <p>一个工业网络规划经验表达框架</p>
+            <p>一个面向工业网络规划的经验迭代、规则沉淀与结果生成框架</p>
           </button>
         </div>
         <div className="system-bar__meta">
@@ -309,7 +319,7 @@ export function App() {
                 setActiveHomeExperienceKey('');
               }}
             >
-              加载内部规划经验
+              经验加载
             </button>
             <button
               type="button"
@@ -321,7 +331,7 @@ export function App() {
                 setActiveHomeExperienceKey('');
               }}
             >
-              加载外部规划经验
+              经验导入
             </button>
           </div>
         </div>
@@ -343,10 +353,10 @@ export function App() {
           </div>
           <nav className="menu-tree">
             {menuGroups.map((group) => (
-              <section key={group.title} className="menu-group">
-                <button type="button" className="menu-group-button" onClick={() => toggleMenuNode(group.key)}>
-                  {group.title}
-                </button>
+                <section key={group.title} className="menu-group">
+                  <button type="button" className="menu-group-button" onClick={() => toggleMenuNode(group.key)}>
+                    {group.title}
+                  </button>
                 {expandedGroups[group.key] !== false ? (
                   <div className="menu-items">
                     {group.children?.length ? group.children.map((item) => renderMenuNode(item)) : <p className="empty-tip">暂无已加载经验</p>}
@@ -363,7 +373,7 @@ export function App() {
       {currentMethodology ? (
         <footer className="app-footer">
           <p>
-            当前方法论：{currentMethodology.meta.key}
+            当前经验：{currentMethodology.meta.key}
             {activeFieldEntries.length ? ` · 当前页字段数：${activeFieldEntries.length}` : ''}
           </p>
         </footer>

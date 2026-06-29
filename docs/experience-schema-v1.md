@@ -1,13 +1,13 @@
-# Methodology Schema V1（草案）
+# Experience Schema V1（草案）
 
 ## 目标
-本文件用于定义新框架中 `methodology` 的最小稳定结构。
+本文件用于定义新框架中 `experience` 的最小稳定结构。
 它描述的是“系统内容如何被定义”，而不是“界面如何实现”。
 
 ---
 
 ## 1. 顶层结构
-一个 `methodology` 建议包含以下顶层字段：
+一个 `experience` 建议包含以下顶层字段：
 
 ```json
 {
@@ -20,7 +20,7 @@
 ```
 
 说明：
-- `meta`：方法论元信息
+- `meta`：经验元信息
 - `navigation`：左侧导航树
 - `pages`：页面定义
 - `fields`：字段定义
@@ -29,7 +29,7 @@
 ---
 
 ## 2. meta
-用于定义方法论本身的基本信息。
+用于定义经验体本身的基本信息。
 
 示例：
 ```json
@@ -57,7 +57,7 @@
 ```json
 {
   "key": "raw-information",
-  "title": "原始信息",
+  "title": "资料采集",
   "children": []
 }
 ```
@@ -73,7 +73,7 @@
 [
   {
     "key": "raw-information",
-    "title": "原始信息",
+    "title": "资料采集",
     "children": [
       { "key": "project-basic", "title": "项目基础" },
       { "key": "business-description", "title": "业务描述" }
@@ -226,7 +226,7 @@
 
 ## 8. 当前落地建议
 当前阶段建议：
-- 先允许 `methodology` 使用 `.js`
+- 先允许 `experience` 使用 `.js`
 - 当 schema 稳定后，再收敛为 `.json`
 - 所有灵活内容优先进 `methodology`
 - 所有通用逻辑优先进 `engine`
@@ -235,5 +235,5 @@
 ---
 
 ## 9. 当前结论
-这个项目未来最重要的可配置核心，就是 `methodology`。
-框架本身不应该因为不同方法论而大改，应该通过替换不同 `methodology` 来切换系统内容。
+这个项目未来最重要的可配置核心，就是 `experience`。
+框架本身不应该因为不同经验体而大改，应该通过替换不同 `experience` 来切换系统内容。
