@@ -102,16 +102,16 @@ export function HomePage({ methodology, methodologyCatalog, activeAngle, experie
         <section className="section-card intro-card">
           <h3>平台简介</h3>
           <p>
-            本平台用于沉淀、组织与协作工业网络规划相关的经验配置，使不同 FAE、不同项目类型、不同系统对象与不同技术方向下的经验能够被结构化保存、复用与讨论。
+            本平台是一个面向工业网络规划的经验表达与经验迭代框架。它将项目中的资料采集、判断依据、设计推演、结果落地和经验迭代组织成一个显式闭环，使规划过程不仅能够形成结果，也能够持续沉淀新的经验并反哺后续项目。
           </p>
           <div className="intro-grid">
             <div className="output-item">
-              <span className="output-item__label">平台作用</span>
-              <strong>沉淀经验配置，统一表达经验</strong>
+              <span className="output-item__label">闭环设计</span>
+              <strong>规则 → 推演 → 输出 → 迭代的显式闭环</strong>
             </div>
             <div className="output-item">
-              <span className="output-item__label">平台价值</span>
-              <strong>支持复用、比较、协作与持续优化</strong>
+              <span className="output-item__label">平台定位</span>
+              <strong>工业网络规划经验表达、复用、协作与迭代平台</strong>
             </div>
             <div className="output-item">
               <span className="output-item__label">适用对象</span>
@@ -120,6 +120,41 @@ export function HomePage({ methodology, methodologyCatalog, activeAngle, experie
             <div className="output-item">
               <span className="output-item__label">当前经验数</span>
               <strong>{availableCount} 套可用经验</strong>
+            </div>
+          </div>
+        </section>
+
+        <section className="section-card">
+          <h4>功能定位</h4>
+          <div className="record-card">
+            <p>1. 用统一结构承载不同方法、不同场景、不同系统对象和不同技术方向下的规划经验。</p>
+            <p>2. 让判断依据、设计推演和结果输出之间形成可解释、可复盘、可复用的关系。</p>
+            <p>3. 让项目中的特殊判断和新增经验能够回流到经验库，形成持续迭代机制。</p>
+          </div>
+        </section>
+
+        <section className="section-card">
+          <h4>一级菜单说明</h4>
+          <div className="record-list">
+            <div className="record-card">
+              <strong>资料采集</strong>
+              <p>用于收集项目原始信息、约束条件、对象构成和现场边界，是后续判断和推演的输入基础。</p>
+            </div>
+            <div className="record-card">
+              <strong>判断依据</strong>
+              <p>用于沉淀可复用的规则主题、触发条件和推荐动作，为设计判断提供稳定依据。</p>
+            </div>
+            <div className="record-card">
+              <strong>设计推演</strong>
+              <p>用于基于输入和规则形成具体设计结论，并显式记录引用了哪些规则主题。</p>
+            </div>
+            <div className="record-card">
+              <strong>结果落地</strong>
+              <p>用于将设计结论整理为面向客户与面向内部的输出结果，支撑交付、复盘和案例沉淀。</p>
+            </div>
+            <div className="record-card">
+              <strong>经验迭代</strong>
+              <p>用于汇总特殊判断、经验候选和回写建议，将本项目中新长出的经验反哺回系统。</p>
             </div>
           </div>
         </section>

@@ -11,7 +11,7 @@ import { usePlanningStore } from '../store/usePlanningStore.js';
 export function App() {
   const { state, actions } = usePlanningStore();
   const { currentMethodology, activePageKey, expandedGroups, formData, recordCollections, recordDrafts, selectedRecordIndexMap } = state;
-  const { selectMethodology, setActivePageKey, toggleExpanded, setFieldValue, setDraftValue, setSelectedRecord, updateSelectedRecord, addRecord, loadCase } = actions;
+  const { selectMethodology, setActivePageKey, resetToHomeView, toggleExpanded, setFieldValue, setDraftValue, setSelectedRecord, updateSelectedRecord, addRecord, loadCase } = actions;
   const [activeHomeAngle, setActiveHomeAngle] = useState('intro');
   const [homeExperienceMode, setHomeExperienceMode] = useState('internal');
   const [activeHomeExperienceKey, setActiveHomeExperienceKey] = useState('');
@@ -307,7 +307,7 @@ export function App() {
             type="button"
             className="platform-title-button"
             onClick={() => {
-              setActivePageKey('home');
+              resetToHomeView();
               setActiveHomeAngle('intro');
             }}
           >
@@ -354,7 +354,7 @@ export function App() {
               type="button"
               className={activePageKey === 'home' ? 'menu-item is-active' : 'menu-item'}
               onClick={() => {
-                setActivePageKey('home');
+                resetToHomeView();
                 setActiveHomeAngle('intro');
               }}
             >

@@ -24,7 +24,7 @@ export const demoMethodology = {
         { key: 'asset-allocation', title: '设备归属' },
         {
           key: 'security-requirements',
-          title: '05. 安全需求',
+          title: '安全需求',
           children: [
             { key: 'security-scenario', title: '安全场景' },
             { key: 'consequence-analysis', title: '后果分析' },
@@ -44,6 +44,18 @@ export const demoMethodology = {
       children: [
         { key: 'topology-rules', title: '拓扑规则' },
         { key: 'layer-rules', title: '分层规则' },
+        { key: 'zone-rules', title: '区域规则' },
+        { key: 'conduit-rules', title: '通道规则' },
+        { key: 'boundary-rules', title: '边界互联规则' },
+        { key: 'technology-rules', title: '技术选择规则' },
+        { key: 'address-rules', title: '地址规划规则' },
+        { key: 'performance-rules', title: '性能规则' },
+        { key: 'stability-rules', title: '稳定性规则' },
+        { key: 'redundancy-rules', title: '冗余规则' },
+        { key: 'access-rules', title: '接入规则' },
+        { key: 'selection-rules', title: '选型规则' },
+        { key: 'deployment-rules', title: '部署规则' },
+        { key: 'security-rules', title: '安全规则' },
         { key: 'scenario-rules', title: '场景规则' },
       ],
     },
@@ -222,7 +234,7 @@ export const demoMethodology = {
         { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['zone.name', 'zone.type', 'zone.object', 'zone.main', 'zone.level'],
-      fields: ['zone.name', 'zone.type', 'zone.object', 'zone.main', 'zone.support', 'zone.legacy', 'zone.level', 'zone.boundaryRole', 'zone.scope', 'zone.note', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion'],
+      fields: ['zone.name', 'zone.type', 'zone.object', 'zone.main', 'zone.support', 'zone.legacy', 'zone.level', 'zone.boundaryRole', 'zone.scope', 'zone.note', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion', 'derive.ruleThemes'],
     },
     'design-principles': {
       title: '设计原则',
@@ -234,7 +246,7 @@ export const demoMethodology = {
         { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['principle.category', 'principle.main', 'principle.scope', 'principle.basis'],
-      fields: ['principle.category', 'principle.main', 'principle.scope', 'principle.basis', 'principle.desc', 'principle.note', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion'],
+      fields: ['principle.category', 'principle.main', 'principle.scope', 'principle.basis', 'principle.desc', 'principle.note', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion', 'derive.ruleThemes'],
     },
     'network-topology': {
       title: '网络拓扑',
@@ -246,7 +258,7 @@ export const demoMethodology = {
         { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['topology.object', 'topology.type', 'topology.backbone', 'topology.access'],
-      fields: ['topology.object', 'topology.type', 'topology.backbone', 'topology.access', 'topology.scope', 'topology.basis', 'topology.tech', 'topology.note', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion'],
+      fields: ['topology.object', 'topology.type', 'topology.backbone', 'topology.access', 'topology.scope', 'topology.basis', 'topology.tech', 'topology.note', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion', 'derive.ruleThemes'],
     },
     'layer-design': {
       title: '分层设计',
@@ -258,7 +270,7 @@ export const demoMethodology = {
         { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['layer.object', 'layer.mode', 'layer.structure', 'layer.policy'],
-      fields: ['layer.object', 'layer.mode', 'layer.structure', 'layer.policy', 'layer.scope', 'layer.note', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion'],
+      fields: ['layer.object', 'layer.mode', 'layer.structure', 'layer.policy', 'layer.scope', 'layer.note', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion', 'derive.ruleThemes'],
     },
     'segmentation-plan': {
       title: '地址分段',
@@ -366,7 +378,7 @@ export const demoMethodology = {
         { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['conduit.source', 'conduit.target', 'conduit.scene', 'conduit.purpose', 'conduit.criticality'],
-      fields: ['conduit.source', 'conduit.target', 'conduit.scene', 'conduit.purpose', 'conduit.direction', 'conduit.medium', 'conduit.control', 'conduit.delay', 'conduit.criticality', 'conduit.note', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion'],
+      fields: ['conduit.source', 'conduit.target', 'conduit.scene', 'conduit.purpose', 'conduit.direction', 'conduit.medium', 'conduit.control', 'conduit.delay', 'conduit.criticality', 'conduit.note', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion', 'derive.ruleThemes'],
     },
     'interconnect-design': {
       title: '边界互联',
@@ -390,7 +402,7 @@ export const demoMethodology = {
         { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['tech.name', 'tech.category', 'tech.technology', 'tech.scopeTarget', 'tech.confirmStatus'],
-      fields: ['tech.name', 'tech.category', 'tech.technology', 'tech.scopeType', 'tech.scopeTarget', 'tech.scopeNote', 'tech.goal', 'tech.reason', 'tech.alternative', 'tech.alternativeReason', 'tech.constraint', 'tech.confirmStatus', 'tech.note', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion'],
+      fields: ['tech.name', 'tech.category', 'tech.technology', 'tech.scopeType', 'tech.scopeTarget', 'tech.scopeNote', 'tech.goal', 'tech.reason', 'tech.alternative', 'tech.alternativeReason', 'tech.constraint', 'tech.confirmStatus', 'tech.note', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion', 'derive.ruleThemes'],
     },
     'security-limit': {
       title: '安全约束',
@@ -438,7 +450,7 @@ export const demoMethodology = {
         { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'],
-      fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.impact', 'planningRule.example', 'planningRule.note'],
+      fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.scope', 'planningRule.alternative', 'planningRule.example', 'planningRule.note'],
     },
     'layer-rules': {
       title: '分层规则',
@@ -450,9 +462,45 @@ export const demoMethodology = {
         { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'],
-      fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.impact', 'planningRule.example', 'planningRule.note'],
+      fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.scope', 'planningRule.alternative', 'planningRule.example', 'planningRule.note'],
     },
-    'scenario-rules': {
+    'zone-rules': {
+      title: '区域规则', type: 'record-collection', layout: 'table-form', description: '用于沉淀区域划分与区域职责定义相关的规则。', sections: [{ key: 'record-list', kind: 'record-list', title: '区域规则记录表' }, { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' }], summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'], fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.scope', 'planningRule.alternative', 'planningRule.example', 'planningRule.note'],
+    },
+    'conduit-rules': {
+      title: '通道规则', type: 'record-collection', layout: 'table-form', description: '用于沉淀区域间通道组织、控制和保护相关的规则。', sections: [{ key: 'record-list', kind: 'record-list', title: '通道规则记录表' }, { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' }], summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'], fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.scope', 'planningRule.alternative', 'planningRule.example', 'planningRule.note'],
+    },
+    'boundary-rules': {
+      title: '边界互联规则', type: 'record-collection', layout: 'table-form', description: '用于沉淀边界互联结构与边界控制相关的规则。', sections: [{ key: 'record-list', kind: 'record-list', title: '边界互联规则记录表' }, { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' }], summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'], fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.scope', 'planningRule.alternative', 'planningRule.example', 'planningRule.note'],
+    },
+    'technology-rules': {
+      title: '技术选择规则', type: 'record-collection', layout: 'table-form', description: '用于沉淀不同技术方向、能力与约束之间的选择规则。', sections: [{ key: 'record-list', kind: 'record-list', title: '技术选择规则记录表' }, { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' }], summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'], fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.scope', 'planningRule.alternative', 'planningRule.example', 'planningRule.note'],
+    },
+    'address-rules': {
+      title: '地址规划规则', type: 'record-collection', layout: 'table-form', description: '用于沉淀地址分段、网关、预留与扩展相关的规则。', sections: [{ key: 'record-list', kind: 'record-list', title: '地址规划规则记录表' }, { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' }], summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'], fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.scope', 'planningRule.alternative', 'planningRule.example', 'planningRule.note'],
+    },
+    'performance-rules': {
+      title: '性能规则', type: 'record-collection', layout: 'table-form', description: '用于沉淀实时性、带宽、性能保障相关的规则。', sections: [{ key: 'record-list', kind: 'record-list', title: '性能规则记录表' }, { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' }], summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'], fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.scope', 'planningRule.alternative', 'planningRule.example', 'planningRule.note'],
+    },
+    'stability-rules': {
+      title: '稳定性规则', type: 'record-collection', layout: 'table-form', description: '用于沉淀稳定性目标、控制措施与风险收敛相关的规则。', sections: [{ key: 'record-list', kind: 'record-list', title: '稳定性规则记录表' }, { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' }], summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'], fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.scope', 'planningRule.alternative', 'planningRule.example', 'planningRule.note'],
+    },
+    'redundancy-rules': {
+      title: '冗余规则', type: 'record-collection', layout: 'table-form', description: '用于沉淀链路、设备、网络层冗余相关的规则。', sections: [{ key: 'record-list', kind: 'record-list', title: '冗余规则记录表' }, { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' }], summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'], fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.scope', 'planningRule.alternative', 'planningRule.example', 'planningRule.note'],
+    },
+    'access-rules': {
+      title: '接入规则', type: 'record-collection', layout: 'table-form', description: '用于沉淀对象接入方式、接口边界与接入限制相关的规则。', sections: [{ key: 'record-list', kind: 'record-list', title: '接入规则记录表' }, { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' }], summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'], fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.scope', 'planningRule.alternative', 'planningRule.example', 'planningRule.note'],
+    },
+    'selection-rules': {
+      title: '选型规则', type: 'record-collection', layout: 'table-form', description: '用于沉淀设备能力、型号选择与约束匹配相关的规则。', sections: [{ key: 'record-list', kind: 'record-list', title: '选型规则记录表' }, { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' }], summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'], fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.scope', 'planningRule.alternative', 'planningRule.example', 'planningRule.note'],
+    },
+    'deployment-rules': {
+      title: '部署规则', type: 'record-collection', layout: 'table-form', description: '用于沉淀安装位置、布线条件、施工要求相关的规则。', sections: [{ key: 'record-list', kind: 'record-list', title: '部署规则记录表' }, { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' }], summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'], fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.scope', 'planningRule.alternative', 'planningRule.example', 'planningRule.note'],
+    },
+    'security-rules': {
+      title: '安全规则', type: 'record-collection', layout: 'table-form', description: '用于沉淀安全边界、防护控制与远程接入相关的规则。', sections: [{ key: 'record-list', kind: 'record-list', title: '安全规则记录表' }, { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' }], summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'], fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.scope', 'planningRule.alternative', 'planningRule.example', 'planningRule.note'],
+    },
+        'scenario-rules': {
       title: '场景规则',
       type: 'record-collection',
       layout: 'table-form',
@@ -462,7 +510,7 @@ export const demoMethodology = {
         { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['planningRule.name', 'planningRule.trigger', 'planningRule.recommend'],
-      fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.impact', 'planningRule.example', 'planningRule.note'],
+      fields: ['planningRule.name', 'planningRule.scene', 'planningRule.domain', 'planningRule.category', 'planningRule.trigger', 'planningRule.recommend', 'planningRule.avoid', 'planningRule.reason', 'planningRule.scope', 'planningRule.alternative', 'planningRule.example', 'planningRule.note'],
     },
     'security-scenario': {
       title: '安全场景',
@@ -628,6 +676,7 @@ export const demoMethodology = {
         bullets: [
           { type: 'record-join', label: '特殊判断来源', recordPage: 'special-judgements', fields: ['iteration.name', 'iteration.sourcePage'], separator: '；' },
           { type: 'record-join', label: '建议回写位置', recordPage: 'experience-candidates', fields: ['candidate.name', 'candidate.target', 'candidate.status'], separator: '；' },
+          { type: 'multi-record-field-join', label: '推演页引用规则主题', recordPages: ['design-principles', 'zone-planning', 'conduit-design', 'tech-selection', 'network-topology', 'layer-design'], fields: ['derive.ruleThemes'], labels: false },
           { type: 'multi-record-field-join', label: '推演页回流标记', recordPages: ['design-principles', 'zone-planning', 'conduit-design', 'tech-selection', 'network-topology', 'layer-design'], fields: ['derive.iterationFlag', 'derive.candidateSuggestion'], labels: false },
           { type: 'multi-record-field-join', label: '推演页特殊说明', recordPages: ['design-principles', 'zone-planning', 'conduit-design', 'tech-selection', 'network-topology', 'layer-design'], fields: ['derive.iterationNote'], labels: false },
           { type: 'template', parts: [{ kind: 'text', value: '建议将来源于设计推演且已稳定复用的结论回写到判断依据；将面向项目总结的结论回写到案例提炼；将适用边界与标签补充到经验元数据。' }] },
@@ -1310,14 +1359,15 @@ export const demoMethodology = {
     'perf.risk': { label: '性能风险', type: 'select', defaultValue: '低', options: ['高', '中', '低'] },
     'perf.result': { label: '评估结论', type: 'textarea', defaultValue: '' },
     'planningRule.name': { label: '规则名称', type: 'text', defaultValue: '区域优先划分' },
-    'planningRule.domain': { label: '所属大类', type: 'text', defaultValue: '网络设计' },
-    'planningRule.category': { label: '规则分类', type: 'text', defaultValue: '拓扑设计' },
+    'planningRule.domain': { label: '规则主题', type: 'text', defaultValue: '网络设计' },
+    'planningRule.category': { label: '细分类别', type: 'text', defaultValue: '拓扑设计' },
     'planningRule.trigger': { label: '触发条件', type: 'textarea', defaultValue: '' },
     'planningRule.scene': { label: '适用场景', type: 'text', defaultValue: '' },
     'planningRule.recommend': { label: '推荐动作', type: 'textarea', defaultValue: '' },
     'planningRule.avoid': { label: '应避免', type: 'textarea', defaultValue: '' },
     'planningRule.reason': { label: '设计理由', type: 'textarea', defaultValue: '' },
-    'planningRule.impact': { label: '影响范围', type: 'text', defaultValue: '' },
+    'planningRule.scope': { label: '适用边界', type: 'textarea', defaultValue: '' },
+    'planningRule.alternative': { label: '替代方案', type: 'textarea', defaultValue: '' },
     'planningRule.example': { label: '示例', type: 'textarea', defaultValue: '' },
     'planningRule.note': { label: '备注', type: 'textarea', defaultValue: '' },
     'scene.name': {
