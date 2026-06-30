@@ -25,7 +25,7 @@ export const methodologyCatalog = [
   },
   {
     key: 'isa95-iec62443',
-    title: 'ISA95 + IEC62443',
+    title: 'ISA95 + IEC62443（本系统标杆）',
     description: '偏重业务结构与安全规划结合的综合经验体。',
     tags: ['标准理论角度', '综合规划', '标杆经验'],
     audience: ['FAE', '方案工程师', '架构设计人员'],

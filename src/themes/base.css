@@ -102,6 +102,10 @@ button { font: inherit; }
   background: #fbfdff;
   color: var(--text);
 }
+.field-card__control::placeholder {
+  color: #98a6b8;
+  font-style: italic;
+}
 .field-card__control--textarea { min-height: 96px; resize: vertical; }
 .record-actions { display: flex; }
 .primary-button {

@@ -131,6 +131,7 @@ function renderEditorControl(fieldKey, field, record, onRecordFieldChange, resol
       <textarea
         className="field-card__control field-card__control--textarea"
         value={record[fieldKey] ?? ''}
+        placeholder={field.placeholder ?? ''}
         onChange={(event) => onRecordFieldChange(fieldKey, event.target.value)}
       />
     );
@@ -157,6 +158,7 @@ function renderEditorControl(fieldKey, field, record, onRecordFieldChange, resol
       className="field-card__control"
       type="text"
       value={record[fieldKey] ?? ''}
+      placeholder={field.placeholder ?? ''}
       onChange={(event) => onRecordFieldChange(fieldKey, event.target.value)}
     />
   );

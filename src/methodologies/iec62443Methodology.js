@@ -203,7 +203,7 @@ export const iec62443Methodology = {
     'security.levelTarget': { label: '目标安全等级', type: 'select', defaultValue: 'SL2', options: ['SL1', 'SL2', 'SL3'] },
     'security.goal': { label: '安全目标', type: 'text', defaultValue: '收敛远程接入面并明确边界防护' },
     'zone.name': { label: '区域名称', type: 'text', defaultValue: '' },
-    'zone.type': { label: '区域类型', type: 'text', defaultValue: '' },
+    'zone.type': { label: '区域类型', type: 'select', defaultValue: '控制区', options: ['控制区', '监控区', '隔离区', '运维区', '管理区', '第三方接入区'] },
     'zone.level': { label: '区域等级', type: 'select', defaultValue: 'SL2', options: ['SL1', 'SL2', 'SL3'] },
     'zone.object': { label: '关键对象', type: 'text', defaultValue: '' },
     'conduit.name': { label: '通道名称', type: 'text', defaultValue: '' },

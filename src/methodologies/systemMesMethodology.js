@@ -87,7 +87,7 @@ export const systemMesMethodology = {
   fields: {
     'mes.scope': { label: '业务范围', type: 'text', defaultValue: '生产执行与数据采集' },
     'mes.goal': { label: '建设目标', type: 'text', defaultValue: '打通计划、执行与追溯链路' },
-    'mes.owner': { label: '负责部门', type: 'text', defaultValue: '制造信息化部门' },
+    'mes.owner': { label: '负责部门', type: 'select', defaultValue: '制造信息化部门', options: ['制造信息化部门', '生产管理部门', '自动化部门', 'IT部门', '工厂运营部门'] },
     'mes.depSystem': { label: '依赖系统', type: 'text', defaultValue: '' },
     'mes.depType': { label: '依赖类型', type: 'select', defaultValue: '上游', options: ['上游', '下游', '双向'] },
     'mes.depDirection': { label: '数据方向', type: 'text', defaultValue: '' },

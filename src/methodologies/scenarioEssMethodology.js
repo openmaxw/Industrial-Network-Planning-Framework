@@ -121,7 +121,7 @@ export const scenarioEssMethodology = {
     'ess.mode': { label: '建设模式', type: 'select', defaultValue: '新建', options: ['新建', '改造', '扩容'] },
     'ess.assetName': { label: '对象名称', type: 'text', defaultValue: '' },
     'ess.assetType': { label: '对象类型', type: 'select', defaultValue: 'PCS', options: ['PCS', 'BMS', 'EMS', '站控主机', '安防系统', '视频系统'] },
-    'ess.assetZone': { label: '所在区域', type: 'text', defaultValue: '' },
+    'ess.assetZone': { label: '所在区域', type: 'select', defaultValue: '', options: ['站控区', '控制区', '集控区', '远程运维区', '视频安防区'] },
     'planningRule.name': { label: '规则名称', type: 'text', defaultValue: '' },
     'planningRule.scene': { label: '适用场景', type: 'text', defaultValue: '' },
     'planningRule.condition': { label: '触发条件', type: 'textarea', defaultValue: '' },

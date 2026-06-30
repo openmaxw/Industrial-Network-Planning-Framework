@@ -58,6 +58,7 @@ export function StandardPage({ page, fieldMap, formData, recordCollections, onFi
                 <textarea
                   className="field-card__control field-card__control--textarea"
                   value={formData[fieldKey] ?? ''}
+                  placeholder={field.placeholder ?? ''}
                   onChange={(event) => onFieldChange(fieldKey, event.target.value)}
                 />
               ) : field.type === 'select' ? (
@@ -77,6 +78,7 @@ export function StandardPage({ page, fieldMap, formData, recordCollections, onFi
                   className="field-card__control"
                   type="text"
                   value={formData[fieldKey] ?? ''}
+                  placeholder={field.placeholder ?? ''}
                   onChange={(event) => onFieldChange(fieldKey, event.target.value)}
                 />
               )}
