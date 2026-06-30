@@ -389,7 +389,7 @@ export function App() {
         </footer>
       ) : (
         <footer className="app-footer">
-          <p>LICENSE: Internal project scaffold for framework prototyping.</p>
+          <p>版权所有 © Max Wang。仅限学习与内部评估，未经书面许可禁止复制、修改、传播及商用。<a href={`${import.meta.env.BASE_URL}license.html`} target="_blank" rel="noreferrer">查看 LICENSE</a></p>
         </footer>
       )}
     </div>
