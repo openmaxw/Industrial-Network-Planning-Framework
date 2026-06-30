@@ -38,8 +38,11 @@ export const isa95Methodology = {
       key: 'how-to-land',
       title: '结果落地',
       children: [
-        { key: 'isa95-summary', title: '建模摘要' },
+        { key: 'isa95-summary', title: '现场概述' },
+        { key: 'isa95-design-result', title: '设计说明' },
+        { key: 'isa95-topology', title: '协同结构' },
         { key: 'isa95-review', title: '规划复盘' },
+        { key: 'isa95-case-summary', title: '案例提炼' },
       ],
     },
     {
@@ -242,6 +245,17 @@ export const isa95Methodology = {
         paragraphs: [
           { type: 'template', parts: [{ kind: 'text', value: '本项目先梳理企业层级，再梳理业务流程，最后将系统对象映射到相应层级与职责边界。' }] },
           { type: 'field-join', label: '协同设计', fields: ['isa95.designPrinciple', 'isa95.integrationPath', 'isa95.boundary', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion'] },
+        ],
+      },
+      'isa95-review-decisions': {
+        bullets: [
+          { type: 'record-join', label: '对象分配', recordPage: 'asset-allocation', fields: ['asset.name', 'asset.siteRef', 'asset.role'], separator: '；' },
+        ],
+      },
+      'isa95-review-reuse': {
+        bullets: [
+          { type: 'record-join', label: '经验候选', recordPage: 'experience-candidates', fields: ['candidate.name', 'candidate.target', 'candidate.status'], separator: '；' },
+          { type: 'template', parts: [{ kind: 'text', value: '本案例适合作为企业层级、业务协同与对象分配类 ISA95 项目的参考样本。' }] },
         ],
       },
     },

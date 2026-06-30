@@ -39,8 +39,11 @@ export const iec62443Methodology = {
       key: 'how-to-land',
       title: '结果落地',
       children: [
-        { key: 'iec62443-summary', title: '安全摘要' },
+        { key: 'iec62443-summary', title: '现场概述' },
+        { key: 'iec62443-design-result', title: '设计说明' },
+        { key: 'iec62443-boundary', title: '边界结构' },
         { key: 'iec62443-review', title: '规划复盘' },
+        { key: 'iec62443-case-summary', title: '案例提炼' },
       ],
     },
     {
@@ -165,10 +168,10 @@ export const iec62443Methodology = {
       title: '特殊判断',
       type: 'record-collection',
       layout: 'list-form',
-      description: '用于记录本项目中超出既有规则库的特殊判断。',
+      description: '用于记录本项目中未被现有区域、通道和防护规则完全覆盖的特殊判断。',
       sections: [
-        { key: 'record-list', kind: 'record-list', title: '特殊判断列表' },
-        { key: 'record-editor', kind: 'record-editor', title: '录入区' },
+        { key: 'record-list', kind: 'record-list', title: '特殊判断记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['iteration.name', 'iteration.sourcePage', 'iteration.action'],
       fields: ['iteration.name', 'iteration.sourcePage', 'iteration.reason', 'iteration.action', 'iteration.reuse'],
@@ -177,10 +180,10 @@ export const iec62443Methodology = {
       title: '经验候选',
       type: 'record-collection',
       layout: 'list-form',
-      description: '用于记录建议回写到经验库的候选项。',
+      description: '用于记录建议回写到安全规则、案例提炼或经验元数据的候选项。',
       sections: [
-        { key: 'record-list', kind: 'record-list', title: '经验候选列表' },
-        { key: 'record-editor', kind: 'record-editor', title: '录入区' },
+        { key: 'record-list', kind: 'record-list', title: '经验候选记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['candidate.name', 'candidate.target', 'candidate.status'],
       fields: ['candidate.name', 'candidate.target', 'candidate.condition', 'candidate.suggestion', 'candidate.status'],
@@ -243,10 +246,22 @@ export const iec62443Methodology = {
   },
   outputs: {
     'iec62443-summary': {
-      'scope-summary': ['security.target', 'security.boundary', 'security.levelTarget', 'security.goal'],
-      'zone-summary': { recordPage: 'zone-definition', fields: ['zone.name', 'zone.type', 'zone.level'] },
-      'conduit-summary': { recordPage: 'conduit-definition', fields: ['conduit.name', 'conduit.sourceZone', 'conduit.targetZone'] },
-      'risk-summary': { recordPage: 'risk-evaluation', fields: ['risk.level', 'risk.priority', 'risk.target'] },
+      'scope-summary': { lines: [{ type: 'field-join', label: '安全基础', fields: ['security.target', 'security.boundary', 'security.levelTarget', 'security.goal'] }] },
+      'zone-summary': { bullets: [{ type: 'record-join', label: '区域结构', recordPage: 'zone-definition', fields: ['zone.name', 'zone.type', 'zone.level', 'zone.object'], separator: '；' }] },
+      'conduit-summary': { bullets: [{ type: 'record-join', label: '关键通道', recordPage: 'conduit-definition', fields: ['conduit.name', 'conduit.sourceZone', 'conduit.targetZone', 'conduit.protection'], separator: '；' }] },
+      'risk-summary': { bullets: [{ type: 'record-join', label: '风险重点', recordPage: 'risk-evaluation', fields: ['risk.level', 'risk.priority', 'risk.target', 'risk.note'], separator: '；' }] },
+    },
+    'iec62443-design-result': {
+      'iec-design-positioning': { paragraphs: [{ type: 'template', parts: [{ kind: 'text', value: '本项目从 IEC62443 视角出发，先明确安全范围与边界，再组织区域、通道、威胁、风险与防护措施之间的逻辑关系。' }] }] },
+      'iec-design-zones': { bullets: [{ type: 'record-join', label: '区域结论', recordPage: 'zone-definition', fields: ['zone.name', 'zone.type', 'zone.level', 'zone.object'], separator: '；' }] },
+      'iec-design-conduits': { bullets: [{ type: 'record-join', label: '通道结论', recordPage: 'conduit-definition', fields: ['conduit.name', 'conduit.sourceZone', 'conduit.targetZone', 'conduit.protection'], separator: '；' }] },
+      'iec-design-measures': { paragraphs: [{ type: 'field-join', label: '防护措施', fields: ['security.designPrinciple', 'security.remoteControl', 'security.measure'] }] },
+    },
+    'iec62443-boundary': {
+      'iec-boundary-scope': { lines: [{ type: 'field-join', label: '分析范围', fields: ['security.target', 'security.boundary', 'security.levelTarget'] }] },
+      'iec-boundary-zone': { bullets: [{ type: 'record-join', label: '区域关系', recordPage: 'zone-definition', fields: ['zone.name', 'zone.type', 'zone.level'], separator: '；' }] },
+      'iec-boundary-conduit': { bullets: [{ type: 'record-join', label: '边界通道', recordPage: 'conduit-definition', fields: ['conduit.name', 'conduit.sourceZone', 'conduit.targetZone'], separator: '；' }] },
+      'iec-boundary-risk': { bullets: [{ type: 'record-join', label: '风险收敛', recordPage: 'risk-evaluation', fields: ['risk.target', 'risk.level', 'risk.priority'], separator: '；' }] },
     },
     'iec62443-review': {
       'iec-review-positioning': {
@@ -263,6 +278,18 @@ export const iec62443Methodology = {
         paragraphs: [
           { type: 'template', parts: [{ kind: 'text', value: '本项目先明确安全范围，再完成区域与通道定义，之后结合威胁与风险评估收敛防护设计。' }] },
           { type: 'field-join', label: '防护设计', fields: ['security.designPrinciple', 'security.remoteControl', 'security.measure', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion'] },
+        ],
+      },
+      'iec-review-decisions': {
+        bullets: [
+          { type: 'record-join', label: '区域取舍', recordPage: 'zone-definition', fields: ['zone.name', 'zone.type', 'zone.level'], separator: '；' },
+          { type: 'record-join', label: '通道取舍', recordPage: 'conduit-definition', fields: ['conduit.name', 'conduit.protection'], separator: '；' },
+        ],
+      },
+      'iec-review-reuse': {
+        bullets: [
+          { type: 'record-join', label: '经验候选', recordPage: 'experience-candidates', fields: ['candidate.name', 'candidate.target', 'candidate.status'], separator: '；' },
+          { type: 'template', parts: [{ kind: 'text', value: '本案例适合作为区域、通道与远程维护治理类 IEC62443 项目的参考样本。' }] },
         ],
       },
     },
@@ -291,35 +318,41 @@ export const iec62443Methodology = {
           },
         ],
         'special-judgements': [
-          { 'iteration.name': '项目特例判断', 'iteration.sourcePage': '设计推演', 'iteration.reason': '存在超出既有规则的现场约束', 'iteration.action': '采用项目特例方案并单独记录', 'iteration.reuse': '可在同类项目中复用，但需增加适用边界说明' },
+          { 'iteration.name': '内部维护路径需与外部远程维护路径分离', 'iteration.sourcePage': '防护设计', 'iteration.reason': '外部供应商维护与内部工程师维护的可信边界、审批方式和使用频度不同', 'iteration.action': '将 DMZ 远程维护链路与内部工程师受控维护链路分开设计，并分别审计', 'iteration.reuse': '适用于同时存在外部远程维护和内部工程师维护的控制系统项目' },
         ],
         'experience-candidates': [
-          { 'candidate.name': '新增经验候选', 'candidate.target': '判断依据', 'candidate.condition': '同类场景重复出现', 'candidate.suggestion': '整理为正式规则并补充触发条件', 'candidate.status': '待评审' },
+          { 'candidate.name': '远程维护与内部维护双路径治理规则', 'candidate.target': '判断依据', 'candidate.condition': '同类远程运维项目重复出现外部维护与内部维护并存场景', 'candidate.suggestion': '整理为正式安全规则，并补充区域职责、通道保护和审计要求', 'candidate.status': '建议纳入' },
         ],
         'zone-definition': [
-          { 'zone.name': 'DMZ', 'zone.type': '隔离区', 'zone.level': 'SL2', 'zone.object': '跳板机 / 代理服务' },
-          { 'zone.name': '控制区', 'zone.type': '关键控制区', 'zone.level': 'SL2', 'zone.object': 'PLC / HMI / SCADA' },
+          { 'zone.name': 'DMZ', 'zone.type': '隔离区', 'zone.level': 'SL2', 'zone.object': '跳板机 / 代理服务 / 远程接入代理' },
+          { 'zone.name': '控制区', 'zone.type': '控制区', 'zone.level': 'SL2', 'zone.object': 'PLC / HMI / SCADA' },
+          { 'zone.name': '运维区', 'zone.type': '运维区', 'zone.level': 'SL1', 'zone.object': '工程师站 / 维护终端 / 审计终端' },
         ],
         'conduit-definition': [
-          { 'conduit.name': '供应商远程维护通道', 'conduit.sourceZone': 'DMZ', 'conduit.targetZone': '控制区', 'conduit.protection': '审批、认证、审计' },
+          { 'conduit.name': '供应商远程维护通道', 'conduit.sourceZone': 'DMZ', 'conduit.targetZone': '控制区', 'conduit.protection': '审批、认证、审计、白名单' },
+          { 'conduit.name': '工程师受控维护通道', 'conduit.sourceZone': '运维区', 'conduit.targetZone': '控制区', 'conduit.protection': '时间窗控制、账号隔离、操作留痕' },
         ],
         'threat-analysis': [
           { 'threat.source': '第三方远程维护', 'threat.surface': 'VPN 与跳板机', 'threat.targetZone': '控制区', 'threat.impact': '越权访问与恶意配置' },
+          { 'threat.source': '内部维护误操作', 'threat.surface': '工程师站与维护终端', 'threat.targetZone': '控制区', 'threat.impact': '错误配置扩散或绕过边界策略' },
         ],
         'risk-evaluation': [
           { 'risk.level': '高', 'risk.priority': 'P1', 'risk.target': '远程维护入口', 'risk.note': '需强化访问审批、白名单与审计。' },
+          { 'risk.level': '中', 'risk.priority': 'P2', 'risk.target': '内部维护路径', 'risk.note': '需补强工程师终端和维护口的受控访问机制。' },
         ],
         'security-rules': [
           { 'planningRule.name': '远程访问统一收敛', 'planningRule.scene': '存在供应商远程维护', 'planningRule.condition': '控制系统需要外部人员远程维护', 'planningRule.action': '统一经 DMZ、堡垒机与审计链路访问控制区' },
+          { 'planningRule.name': '区域边界先于防护设备选型', 'planningRule.scene': '项目进入分区分域设计阶段', 'planningRule.condition': '需要决定区域职责和边界位置', 'planningRule.action': '先明确控制区、运维区、隔离区职责，再落实防护设备与访问策略' },
+          { 'planningRule.name': '维护路径必须显式受控', 'planningRule.scene': '存在工程师站或内部维护需求', 'planningRule.condition': '维护终端需要访问控制系统', 'planningRule.action': '单独建设受控维护路径，不与普通管理访问混用' },
         ],
         'security-design': [
           {
-            'security.designPrinciple': '按区域、通道和远程访问链路逐步收敛访问面。',
-            'security.remoteControl': '统一经 DMZ 与堡垒机接入远程维护。',
-            'security.measure': '执行白名单、双因素认证和日志审计。',
+            'security.designPrinciple': '按区域、通道、边界和访问关系逐步收敛安全暴露面。',
+            'security.remoteControl': '统一经 DMZ、堡垒机与受控维护链路接入控制区。',
+            'security.measure': '执行白名单、双因素认证、时间窗控制和日志审计。',
             'derive.iterationFlag': '是',
-            'derive.iterationNote': '远程维护类项目应优先明确维护入口与边界审计链路。',
-            'derive.candidateSuggestion': '补充远程运维安全治理经验模板。',
+            'derive.iterationNote': 'IEC62443 项目应优先明确区域职责、通道边界和维护路径收口位置。',
+            'derive.candidateSuggestion': '补充远程运维与受控维护双路径治理经验模板。',
           },
         ],
       },

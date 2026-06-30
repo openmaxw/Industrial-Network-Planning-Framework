@@ -1,9 +1,10 @@
 import React from 'react';
 
 export function HomePage({ methodology, methodologyCatalog, activeAngle, experienceMode, activeExperienceKey, activeCategoryKey, onSelectMethodology, onLoadCase, onExportMethodology, onExportTemplate, onImportMethodology }) {
-  const internalMethodologies = methodologyCatalog.filter((item) => ['isa95', 'iec62443', 'isa95-iec62443'].includes(item.key));
-  const scenarioMethodologies = methodologyCatalog.filter((item) => ['scenario-ess'].includes(item.key));
-  const systemMethodologies = methodologyCatalog.filter((item) => ['system-mes'].includes(item.key));
+  const hasTag = (item, tag) => (item.tags ?? []).includes(tag);
+  const internalMethodologies = methodologyCatalog.filter((item) => hasTag(item, '标准理论角度'));
+  const scenarioMethodologies = methodologyCatalog.filter((item) => hasTag(item, '应用场景角度'));
+  const systemMethodologies = methodologyCatalog.filter((item) => hasTag(item, '系统对象角度'));
 
   const standardItems = internalMethodologies.map((item) => ({ ...item, available: true, categoryKey: 'angle-standards' }));
   const scenarioItems = [
