@@ -1,7 +1,7 @@
 import React from 'react';
 
 export function OutputPage({ page, outputConfig, fieldMap, formData, recordCollections }) {
-  const formatValue = (value) => (value === undefined || value === null || value === '' ? '（空）' : value);
+  const formatValue = (value) => (value === undefined || value === null || value === '' ? '未提供' : value);
   const joinValues = (parts) => parts.filter(Boolean).join('，');
   const buildRecordJoinText = (line) => {
     const sourceRecords = recordCollections[line.recordPage] ?? [];
@@ -61,15 +61,15 @@ export function OutputPage({ page, outputConfig, fieldMap, formData, recordColle
       .join('；');
   const resolveLineText = (line) => {
     if (line.type === 'record-join') {
-      return `${line.label}：${buildRecordJoinText(line) || '待补充'}`;
+      return `${line.label}：${buildRecordJoinText(line) || '未提供'}`;
     }
 
     if (line.type === 'field-join') {
-      return `${line.label}：${buildFieldJoinText(line) || '待补充'}`;
+      return `${line.label}：${buildFieldJoinText(line) || '未提供'}`;
     }
 
     if (line.type === 'multi-record-field-join') {
-      return `${line.label}：${buildMultiRecordFieldJoinText(line) || '待补充'}`;
+      return `${line.label}：${buildMultiRecordFieldJoinText(line) || '未提供'}`;
     }
 
     if (line.type === 'record-count') {
@@ -100,7 +100,7 @@ export function OutputPage({ page, outputConfig, fieldMap, formData, recordColle
         })
         .map((segment) => (typeof segment === 'string' ? segment.trim() : segment))
         .filter((segment) => segment !== null && segment !== undefined && segment !== '');
-      return segments.join('') || '待补充';
+      return segments.join('') || '未提供';
     }
 
     return line.text ?? '';

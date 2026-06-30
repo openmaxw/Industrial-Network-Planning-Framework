@@ -8,17 +8,11 @@ export function HomePage({ methodology, methodologyCatalog, activeAngle, experie
   const standardItems = internalMethodologies.map((item) => ({ ...item, available: true, categoryKey: 'angle-standards' }));
   const scenarioItems = [
     ...scenarioMethodologies.map((item) => ({ ...item, available: true, categoryKey: 'angle-scenarios' })),
-    { key: 'scenario-auto', title: '汽车产线项目', available: false, categoryKey: 'angle-scenarios' },
   ];
   const systemItems = [
     ...systemMethodologies.map((item) => ({ ...item, available: true, categoryKey: 'angle-systems' })),
-    { key: 'system-fmcs', title: 'FMCS', available: false, categoryKey: 'angle-systems' },
   ];
-  const techItems = [
-    { key: 'tech-tsn', title: 'TSN', available: false, categoryKey: 'angle-tech' },
-    { key: 'tech-5g', title: '5G', available: false, categoryKey: 'angle-tech' },
-    { key: 'tech-apl', title: 'APL', available: false, categoryKey: 'angle-tech' },
-  ];
+  const techItems = [];
   const availableCount = methodologyCatalog.filter((item) => item.status === '可用').length;
 
   const renderExperienceButtons = (items) => (
@@ -63,9 +57,9 @@ export function HomePage({ methodology, methodologyCatalog, activeAngle, experie
         <div className="record-card">
           <p>名称：{activeItem.title}</p>
           <p>说明：{activeItem.description}</p>
-          <p>适用对象：{(activeItem.audience ?? []).join('、') || '待补充'}</p>
-          <p>标签：{(activeItem.tags ?? []).join('、') || '待补充'}</p>
-          <p>状态：{activeItem.status ?? '待补充'}</p>
+          <p>适用对象：{(activeItem.audience ?? []).join('、') || '未说明'}</p>
+          <p>标签：{(activeItem.tags ?? []).join('、') || '未说明'}</p>
+          <p>状态：{activeItem.status ?? '未说明'}</p>
         </div>
       </section>
     );
