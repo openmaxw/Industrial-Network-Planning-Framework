@@ -2036,202 +2036,95 @@ export const demoMethodology = {
           {
             type: 'template',
             parts: [
-              { kind: 'text', value: '前期已围绕项目范围、业务场景、关键对象、安全需求与实施约束完成基础信息收集，并在此基础上形成后续设计输入。' },
+              { kind: 'text', value: '本次设计已结合现场业务场景、关键对象、安全需求与实施约束，形成后续网络结构设计、边界治理设计与实施安排的基础输入。' },
             ],
           },
         ],
         bullets: [
-          { type: 'record-join', label: '范围界定', recordPage: 'scope-definition', labels: false, fields: ['overview.name', 'overview.space', 'overview.type'] },
-          { type: 'record-join', label: '业务场景', recordPage: 'business-description', labels: false, fields: ['scene.name', 'scene.source', 'scene.target', 'scene.priority'] },
-          { type: 'record-join', label: '关键对象', recordPage: 'asset-allocation', labels: false, fields: ['asset.name', 'asset.type'] },
-          { type: 'record-join', label: '安全与实施约束', recordPage: 'implementation-constraints', labels: false, fields: ['constraint.name', 'constraint.scope', 'constraint.existing'] },
+          { type: 'record-join', label: '建设范围', recordPage: 'scope-definition', labels: false, fields: ['overview.name', 'overview.space', 'overview.distribution'] },
+          { type: 'record-join', label: '关键业务场景', recordPage: 'business-description', labels: false, fields: ['scene.name', 'scene.source', 'scene.target', 'scene.purpose'] },
+          { type: 'record-join', label: '关键对象', recordPage: 'asset-allocation', labels: false, fields: ['asset.name', 'asset.type', 'asset.location'] },
           { type: 'record-join', label: '设计原则', recordPage: 'design-principles', labels: false, fields: ['principle.category', 'principle.main', 'principle.desc'] },
         ],
       },
       'design-architecture': {
-        lines: [
-          {
-            type: 'record-join',
-            label: '区域划分结果',
-            recordPage: 'zone-planning',
-            labels: false,
-            fields: ['zone.name', 'zone.type'],
-          },
-          {
-            type: 'record-join',
-            label: '区域划分依据',
-            recordPage: 'zone-planning',
-            labels: false,
-            fields: ['zone.name', 'zone.main', 'zone.support', 'zone.boundaryRole'],
-          },
-          {
-            type: 'record-join',
-            label: '关键通道定义',
-            recordPage: 'conduit-design',
-            labels: false,
-            fields: ['conduit.source', 'conduit.target', 'conduit.purpose', 'conduit.control', 'conduit.delay'],
-          },
-          {
-            type: 'record-join',
-            label: '区域互联方式',
-            recordPage: 'interconnect-design',
-            labels: false,
-            fields: ['interconnect.source', 'interconnect.target', 'interconnect.structure', 'interconnect.boundary', 'interconnect.control'],
-          },
-        ],
         paragraphs: [
           {
             type: 'template',
             parts: [
-              { kind: 'text', value: '本阶段的设计目的是先把业务对象、访问方向和边界责任收敛到清晰的区域与通道结构中，使后续网络设计与工程设计建立在明确、可审计、可持续扩展的结构基础上。' },
+              { kind: 'text', value: '本次方案在总体结构上采用先收敛边界、再稳定分层、最后细化接入的设计思路，使现场网络既满足当前改造诉求，也为后续扩展保留清晰结构。' },
             ],
           },
           {
             type: 'template',
             parts: [
-              { kind: 'text', value: '架构划分结论：跨区访问应统一收敛到明确边界，关键业务通过受控通道实现互联，边界设备与控制措施应在后续拓扑和工程设计中得到明确体现。' },
+              { kind: 'text', value: '在边界组织上，跨区访问统一通过明确边界节点进行收口；在网络结构上，核心、汇聚与接入职责清晰分离；在对象组织上，不同风险性质的对象通过区域和通道进行显式区分。' },
             ],
           },
+        ],
+        bullets: [
+          { type: 'record-join', label: '网络总体拓扑', recordPage: 'network-topology', labels: false, fields: ['topology.object', 'topology.type', 'topology.backbone', 'topology.access'] },
+          { type: 'record-join', label: '分层结构', recordPage: 'layer-design', labels: false, fields: ['layer.structure', 'layer.scope', 'layer.policy'] },
+          { type: 'record-join', label: '区域互联方式', recordPage: 'interconnect-design', labels: false, fields: ['interconnect.source', 'interconnect.target', 'interconnect.structure', 'interconnect.control'] },
+          { type: 'record-join', label: '关键通道', recordPage: 'conduit-design', labels: false, fields: ['conduit.source', 'conduit.target', 'conduit.purpose', 'conduit.control'] },
         ],
       },
       'design-network': {
-        lines: [
-          {
-            type: 'record-join',
-            label: '技术选择结果',
-            recordPage: 'tech-selection',
-            labels: false,
-            fields: ['tech.name', 'tech.scopeTarget', 'tech.technology', 'tech.goal', 'tech.constraint'],
-          },
-          {
-            type: 'record-join',
-            label: '网络总体拓扑',
-            recordPage: 'network-topology',
-            labels: false,
-            fields: ['topology.object', 'topology.type', 'topology.backbone', 'topology.access', 'topology.tech'],
-          },
-          {
-            type: 'record-join',
-            label: '网络总体结构',
-            recordPage: 'layer-design',
-            labels: false,
-            fields: ['layer.mode'],
-          },
-          {
-            type: 'record-join',
-            label: '分层与结构结果',
-            recordPage: 'layer-design',
-            labels: false,
-            fields: ['layer.structure', 'layer.scope', 'layer.policy', 'layer.note'],
-          },
-          {
-            type: 'record-join',
-            label: '性能设计判断',
-            recordPage: 'performance-design',
-            labels: false,
-            fields: ['performance.object', 'performance.service', 'performance.latency', 'performance.bandwidth', 'performance.risk', 'performance.measure'],
-          },
-          {
-            type: 'record-join',
-            label: '稳定性设计判断',
-            recordPage: 'stability-design',
-            labels: false,
-            fields: ['stability.object', 'stability.risk', 'stability.measure', 'stability.maintain', 'stability.target'],
-          },
-          {
-            type: 'record-join',
-            label: '冗余设计建议',
-            recordPage: 'redundancy-design',
-            labels: false,
-            fields: ['redundancy.object', 'redundancy.mode', 'redundancy.structure', 'redundancy.required', 'redundancy.switch'],
-          },
-          {
-            type: 'record-join',
-            label: '地址与分段策略',
-            recordPage: 'segmentation-plan',
-            labels: false,
-            fields: ['seg.object', 'seg.id', 'seg.purpose', 'seg.gateway'],
-          },
-        ],
         paragraphs: [
           {
             type: 'template',
             parts: [
-              { kind: 'text', value: '本阶段的设计重点，是把前序需求、安全边界与技术选择转化为网络结构层面的明确方案，包括总体拓扑、层级组织、性能目标、稳定性策略、冗余思路和地址分段原则。网络设计不直接回答具体设备如何安装，而是先回答网络应如何组织、边界应如何体现、扩展应如何预留。' },
+              { kind: 'text', value: '网络设计部分重点围绕关键业务链路、主干承载方式、边界设备组织与地址分段策略展开，确保方案既具备实施可行性，也具备后续运维与扩展能力。' },
             ],
           },
+        ],
+        bullets: [
+          { type: 'record-join', label: '技术选择', recordPage: 'tech-selection', labels: false, fields: ['tech.name', 'tech.scopeTarget', 'tech.technology', 'tech.goal'] },
+          { type: 'record-join', label: '关键链路', recordPage: 'link-design', labels: false, fields: ['link.source', 'link.target', 'link.role', 'link.redundant'] },
+          { type: 'record-join', label: '性能要求', recordPage: 'performance-design', labels: false, fields: ['performance.object', 'performance.delay', 'performance.measure'] },
+          { type: 'record-join', label: '冗余设计', recordPage: 'redundancy-design', labels: false, fields: ['redundancy.object', 'redundancy.mode', 'redundancy.switch'] },
+          { type: 'record-join', label: '地址规划要点', recordPage: 'segmentation-plan', labels: false, fields: ['seg.object', 'seg.range', 'seg.margin'] },
         ],
       },
       'design-engineering': {
-        lines: [
-          {
-            type: 'record-join',
-            label: '对象接入实现',
-            recordPage: 'access-design',
-            labels: false,
-            fields: ['access.object', 'access.type', 'access.limit', 'access.reason'],
-          },
-          {
-            type: 'record-join',
-            label: '关键设备落实',
-            recordPage: 'selection-design',
-            labels: false,
-            fields: ['selection.object', 'selection.result', 'selection.capability', 'selection.reason'],
-          },
-          {
-            type: 'record-join',
-            label: '部署与施工要求',
-            recordPage: 'deployment-design',
-            labels: false,
-            fields: ['deployment.object', 'deployment.location', 'deployment.install', 'deployment.cabling', 'deployment.requirement'],
-          },
-          {
-            type: 'record-join',
-            label: '对象级连接落实',
-            recordPage: 'link-design',
-            labels: false,
-            fields: ['link.source', 'link.target', 'link.role', 'link.type', 'link.medium', 'link.redundant'],
-          },
-        ],
         paragraphs: [
           {
             type: 'template',
             parts: [
-              { kind: 'text', value: '工程设计结论：本阶段不再定义网络总体拓扑和总体层级，而是把前序网络结构落到对象接入、设备选型、部署位置和对象级连接关系上，形成可施工、可交付、可运维的实施信息。' },
+              { kind: 'text', value: '考虑到现场改造需兼顾连续生产，本项目建议采用分阶段实施方式，优先完成高风险边界治理与汇聚结构收敛，再逐步推进接入侧切换与地址整理。' },
             ],
           },
         ],
+        bullets: [
+          { type: 'record-join', label: '部署要求', recordPage: 'deployment-design', labels: false, fields: ['deployment.object', 'deployment.location', 'deployment.requirement'] },
+          { type: 'record-join', label: '接入约束', recordPage: 'access-design', labels: false, fields: ['access.object', 'access.scope', 'access.limit'] },
+          { type: 'record-join', label: '稳定性保障', recordPage: 'stability-design', labels: false, fields: ['stability.object', 'stability.measure', 'stability.control'] },
+          { type: 'record-join', label: '实施限制', recordPage: 'security-limit', labels: false, fields: ['secLimit.name', 'secLimit.object', 'secLimit.note'] },
+        ],
       },
       'design-conclusion': {
-        lines: [
+        paragraphs: [
           {
-            type: 'record-join',
-            label: '设计结论',
-            recordPage: 'design-principles',
-            labels: false,
-            fields: ['principle.category', 'principle.main', 'principle.desc'],
+            type: 'template',
+            parts: [
+              { kind: 'text', value: '当前方案已经形成明确的结构方向与实施路径，但仍需结合业主最终确认的停线窗口、设备现状与远程维护管理要求，进一步落实详细实施排期和边界策略参数。' },
+            ],
           },
-          {
-            type: 'record-join',
-            label: '区域互联补充结论',
-            recordPage: 'interconnect-design',
-            labels: false,
-            fields: ['interconnect.source', 'interconnect.target', 'interconnect.structure'],
-          },
-          {
-            type: 'record-join',
-            label: '待确认事项',
-            recordPage: 'security-limit',
-            labels: false,
-            fields: ['secLimit.name', 'secLimit.object', 'secLimit.required', 'secLimit.note'],
-          },
+        ],
+        bullets: [
+          { type: 'template', parts: [{ kind: 'text', value: '需重点确认远程维护审批、跳板审计与边界策略上线方式。' }] },
+          { type: 'template', parts: [{ kind: 'text', value: '需结合现网设备能力确认分阶段切换时的兼容方案。' }] },
+          { type: 'template', parts: [{ kind: 'text', value: '需在实施前再次核对地址规划、关键链路冗余与边界设备位置。' }] },
         ],
       },
       'design-delivery': {
-        bullets: [
-          { text: '网络拓扑：体现区域边界、关键互联、冗余链路、维护入口和主要部署位置。' },
-          { text: 'IP 规划：体现 VLAN / 子网、网关、用途、容量、预留和扩展依据。' },
-          { text: '风险说明：若存在现网继承、停机窗口或第三方接口限制，应单列“实施前提与风险说明”章节。' },
+        paragraphs: [
+          {
+            type: 'template',
+            parts: [
+              { kind: 'text', value: '建议本阶段形成设计说明、网络拓扑、IP 规划、边界治理建议与实施安排说明，作为后续详细设计、实施配置与客户沟通的统一依据。' },
+            ],
+          },
         ],
       },
     },
@@ -2241,7 +2134,7 @@ export const demoMethodology = {
           {
             type: 'template',
             parts: [
-              { kind: 'text', value: '本项目为' },
+              { kind: 'text', value: '本项目名称为' },
               { kind: 'field', key: 'project.name' },
               { kind: 'text', value: '，服务对象为' },
               { kind: 'field', key: 'project.customer' },
@@ -2257,7 +2150,7 @@ export const demoMethodology = {
               { kind: 'field', key: 'project.scope' },
               { kind: 'text', value: '，目标为' },
               { kind: 'field', key: 'project.goal' },
-              { kind: 'text', value: '，主要交付内容包括' },
+              { kind: 'text', value: '，主要交付内容为' },
               { kind: 'field', key: 'project.delivery' },
               { kind: 'text', value: '。' },
             ],
@@ -2267,94 +2160,55 @@ export const demoMethodology = {
       'app-overview': {
         paragraphs: [
           {
-            type: 'record-join',
-            label: '业务场景',
-            recordPage: 'business-description',
-            labels: false,
-            fields: ['scene.name', 'scene.mode', 'scene.source', 'scene.target', 'scene.purpose'],
-          },
-          {
-            type: 'record-join',
-            label: '项目范围',
-            recordPage: 'scope-definition',
-            labels: false,
-            fields: ['overview.name', 'overview.space', 'overview.type', 'overview.expand'],
+            type: 'template',
+            parts: [
+              { kind: 'text', value: '现场目前存在控制对象、监控对象、工程维护对象与信息交互对象并存的情况，网络结构与访问边界需要进一步梳理。为保证后续建设与改造的稳定性，本次方案将优先围绕网络分层、区域划分、边界治理与接入收敛展开。' },
+            ],
           },
         ],
       },
       'app-assets': {
-        paragraphs: [
-          {
-            type: 'record-join',
-            label: '关键对象',
-            recordPage: 'asset-allocation',
-            labels: false,
-            fields: ['asset.name', 'asset.type', 'asset.level', 'asset.location'],
-          },
-          {
-            type: 'record-join',
-            label: '区域划分',
-            recordPage: 'zone-planning',
-            labels: false,
-            fields: ['zone.name', 'zone.type', 'zone.object', 'zone.main'],
-          },
+        bullets: [
+          { type: 'record-join', label: '业务场景', recordPage: 'business-description', labels: false, fields: ['scene.name', 'scene.source', 'scene.target', 'scene.purpose'] },
+          { type: 'record-join', label: '关键对象', recordPage: 'asset-allocation', labels: false, fields: ['asset.name', 'asset.type', 'asset.location', 'asset.criticality'] },
+          { type: 'record-join', label: '现场环境', recordPage: 'environment-conditions', labels: false, fields: ['env.topic', 'env.distance', 'env.install', 'env.note'] },
         ],
       },
       'app-security': {
-        paragraphs: [
-          {
-            type: 'record-join',
-            label: '关键安全需求',
-            recordPage: 'security-scenario',
-            labels: false,
-            fields: ['secScenario.name', 'secScenario.type', 'secScenario.scope', 'secScenario.remote', 'secScenario.external'],
-          },
-          {
-            type: 'record-join',
-            label: '实施约束',
-            recordPage: 'implementation-constraints',
-            labels: false,
-            fields: ['constraint.name', 'constraint.type', 'constraint.required', 'constraint.ops'],
-          },
+        bullets: [
+          { type: 'record-join', label: '安全场景', recordPage: 'security-scenario', labels: false, fields: ['secScenario.name', 'secScenario.type', 'secScenario.scope'] },
+          { type: 'record-join', label: '暴露面', recordPage: 'exposure-analysis', labels: false, fields: ['secExposure.name', 'secExposure.type', 'secExposure.source', 'secExposure.risk'] },
+          { type: 'record-join', label: '实施约束', recordPage: 'security-limit', labels: false, fields: ['secLimit.name', 'secLimit.object', 'secLimit.note'] },
         ],
       },
       'app-summary': {
-        lines: [
+        paragraphs: [
           {
-            type: 'record-join',
-            label: '重点对象与关注点',
-            recordPage: 'key-asset-analysis',
-            labels: false,
-            fields: ['secKey.name', 'secKey.focus', 'secKey.priority'],
-          },
-          {
-            type: 'record-join',
-            label: '基线差距与处理优先级',
-            recordPage: 'baseline-check',
-            labels: false,
-            fields: ['secBaseline.object', 'secBaseline.type', 'secBaseline.gap'],
-          },
-          {
-            type: 'field-join',
-            label: '综合判断',
-            labels: false,
-            fields: ['risk.priority', 'project.confirmStatus'],
+            type: 'template',
+            parts: [
+              { kind: 'text', value: '综合当前采集结果，本项目的重点关注在于：一是控制侧与维护侧边界需要显式化，二是 MES 与现场控制网络的交互路径需要收口，三是整体改造方式必须兼顾连续生产与分阶段实施。' },
+            ],
           },
         ],
       },
       'app-actions': {
-        bullets: [
-          { text: '明确网络总体拓扑、分层关系与区域边界，避免业务路径和结构路径脱节。' },
-          { text: '明确关键对象的接入方式、部署位置、边界控制与维护路径。' },
-          { text: '明确地址分段原则、容量依据、网关位置及扩容预留策略。' },
-          { text: '明确现网继承、实施窗口、第三方协同和上线切换要求。' },
+        paragraphs: [
+          {
+            type: 'template',
+            parts: [
+              { kind: 'text', value: '建议先完成总体结构与边界方案确认，再推进详细拓扑、地址规划和实施切换安排，以降低后续工程变更风险。' },
+            ],
+          },
         ],
       },
       'app-next-actions': {
-        bullets: [
-          { text: '完成技术选择与网络设计收敛，形成结构性方案结论。' },
-          { text: '完成工程设计落实，形成对象级接入、选型、部署和连接关系说明。' },
-          { text: '输出设计概要、网络拓扑和 IP 规划成果，并进行一致性校核。' },
+        paragraphs: [
+          {
+            type: 'template',
+            parts: [
+              { kind: 'text', value: '下一步可结合客户确认结果，进一步细化边界策略、切换步骤、设备选型与交付清单。' },
+            ],
+          },
         ],
       },
     },
@@ -2364,110 +2218,43 @@ export const demoMethodology = {
           {
             type: 'template',
             parts: [
-              { kind: 'text', value: '本节用于整理本项目网络拓扑应重点表达的结构要点，以支撑方案汇报、设计交底和内部对齐。' },
-            ],
-          },
-          {
-            type: 'template',
-            parts: [
-              { kind: 'text', value: '项目 ' },
-              { kind: 'field', key: 'project.name' },
-              { kind: 'text', value: ' 的建设范围为 ' },
-              { kind: 'field', key: 'project.scope' },
-              { kind: 'text', value: '，建设目标为 ' },
-              { kind: 'field', key: 'project.goal' },
-              { kind: 'text', value: '。拓扑表达应重点体现区域边界、总体结构、关键对象、关键链路、边界设备、冗余关系与维护入口。' },
+              { kind: 'text', value: '本节用于说明本项目推荐网络拓扑的组织思路、关键边界和主要对象连接关系，便于方案汇报、设计交底与后续实施。' },
             ],
           },
         ],
       },
       'topology-structure': {
+        paragraphs: [
+          {
+            type: 'template',
+            parts: [
+              { kind: 'text', value: '建议拓扑采用“核心 + 汇聚 + 接入”的总体结构。中心机房承担统一汇聚与边界互联功能，车间侧按产线设置汇聚或接入节点，关键控制对象通过本地接入网络稳定承载。' },
+            ],
+          },
+        ],
         bullets: [
-          {
-            type: 'record-join',
-            label: '网络总体拓扑',
-            recordPage: 'network-topology',
-            labels: false,
-            fields: ['topology.object', 'topology.type', 'topology.backbone', 'topology.access'],
-          },
-          {
-            type: 'record-join',
-            label: '网络分层',
-            recordPage: 'layer-design',
-            labels: false,
-            fields: ['layer.mode'],
-          },
-          {
-            type: 'record-join',
-            label: '层级结构',
-            recordPage: 'layer-design',
-            labels: false,
-            fields: ['layer.structure', 'layer.scope', 'layer.policy'],
-          },
-          {
-            type: 'record-join',
-            label: '结构约束',
-            recordPage: 'tech-selection',
-            labels: false,
-            fields: ['tech.scopeTarget', 'tech.technology', 'tech.constraint'],
-          },
+          { type: 'record-join', label: '总体拓扑', recordPage: 'network-topology', labels: false, fields: ['topology.object', 'topology.type', 'topology.backbone', 'topology.access'] },
+          { type: 'record-join', label: '分层组织', recordPage: 'layer-design', labels: false, fields: ['layer.structure', 'layer.scope', 'layer.policy'] },
         ],
       },
       'topology-boundary': {
+        paragraphs: [
+          {
+            type: 'template',
+            parts: [
+              { kind: 'text', value: '拓扑表达中应重点突出跨区访问的边界路径，尤其是 MES 互联、工程维护接入和远程维护接入等高风险路径，均应通过明确边界节点进行收口。' },
+            ],
+          },
+        ],
         bullets: [
-          {
-            type: 'record-join',
-            label: '区域划分',
-            recordPage: 'zone-planning',
-            labels: false,
-            fields: ['zone.name', 'zone.type'],
-          },
-          {
-            type: 'record-join',
-            label: '区域包含对象',
-            recordPage: 'zone-planning',
-            labels: false,
-            fields: ['zone.name', 'zone.object', 'zone.support'],
-          },
-          {
-            type: 'record-join',
-            label: '通道定义',
-            recordPage: 'conduit-design',
-            labels: false,
-            fields: ['conduit.source', 'conduit.target', 'conduit.purpose', 'conduit.scene'],
-          },
-          {
-            type: 'record-join',
-            label: '边界设备与边界实现',
-            recordPage: 'interconnect-design',
-            labels: false,
-            fields: ['interconnect.source', 'interconnect.target', 'interconnect.boundary', 'interconnect.structure', 'interconnect.control'],
-          },
+          { type: 'record-join', label: '边界互联', recordPage: 'interconnect-design', labels: false, fields: ['interconnect.source', 'interconnect.target', 'interconnect.structure', 'interconnect.boundary'] },
+          { type: 'record-join', label: '关键通道', recordPage: 'conduit-design', labels: false, fields: ['conduit.source', 'conduit.target', 'conduit.purpose', 'conduit.control'] },
         ],
       },
       'topology-assets': {
         bullets: [
-          {
-            type: 'record-join',
-            label: '关键对象',
-            recordPage: 'asset-allocation',
-            labels: false,
-            fields: ['asset.name', 'asset.type', 'asset.level', 'asset.location'],
-          },
-          {
-            type: 'record-join',
-            label: '关键设备与选型结果',
-            recordPage: 'selection-design',
-            labels: false,
-            fields: ['selection.object', 'selection.result', 'selection.capability'],
-          },
-          {
-            type: 'record-join',
-            label: '必须突出表现的安全关注点',
-            recordPage: 'key-asset-analysis',
-            labels: false,
-            fields: ['secKey.name', 'secKey.focus', 'secKey.priority'],
-          },
+          { type: 'record-join', label: '关键对象', recordPage: 'asset-allocation', labels: false, fields: ['asset.name', 'asset.type', 'asset.location', 'asset.level'] },
+          { type: 'record-join', label: '关键链路', recordPage: 'link-design', labels: false, fields: ['link.source', 'link.target', 'link.role', 'link.medium', 'link.redundant'] },
         ],
       },
       'topology-links': {
@@ -2475,24 +2262,8 @@ export const demoMethodology = {
           {
             type: 'template',
             parts: [
-              { kind: 'text', value: '绘图要求：必须明确表现层级、区域、边界、关键对象、关键链路、边界设备、维护入口与冗余关系；同类普通对象可按逻辑归组表示，但核心交换机、边界设备、服务器、控制器和关键链路应单独绘出。' },
+              { kind: 'text', value: '建议在正式拓扑图中同步标注区域边界、关键设备位置、主要互联关系、冗余链路和边界控制点，使拓扑图既能支持客户沟通，也能直接支撑内部交底。' },
             ],
-          },
-        ],
-        bullets: [
-          {
-            type: 'record-join',
-            label: '关键链路',
-            recordPage: 'link-design',
-            labels: false,
-            fields: ['link.source', 'link.target', 'link.scene', 'link.role', 'link.redundant'],
-          },
-          {
-            type: 'record-join',
-            label: '冗余与关键控制路径',
-            recordPage: 'link-design',
-            labels: false,
-            fields: ['link.source', 'link.target', 'link.role', 'link.redundant'],
           },
         ],
       },
@@ -2503,225 +2274,164 @@ export const demoMethodology = {
           {
             type: 'template',
             parts: [
-              { kind: 'text', value: '本节用于整理本项目 IP 地址规划应体现的重点内容，便于方案设计、实施配置与交付归档。' },
+              { kind: 'text', value: '本节用于整理本项目 IP 规划的核心原则、分段结果与实施关注点，支撑后续配置实施、方案交付与内部归档。' },
             ],
           },
         ],
         bullets: [
-          {
-            type: 'template',
-            parts: [{ kind: 'text', value: '项目名称为：' }, { kind: 'field', key: 'project.name' }, { kind: 'text', value: '。' }],
-          },
-          {
-            type: 'template',
-            parts: [{ kind: 'text', value: '本次规划覆盖：' }, { kind: 'field', key: 'project.scope' }, { kind: 'text', value: '。' }],
-          },
-          {
-            type: 'template',
-            parts: [{ kind: 'text', value: '建设目标为：' }, { kind: 'field', key: 'project.goal' }, { kind: 'text', value: '。' }],
-          },
-          {
-            type: 'record-join',
-            label: '场景特点',
-            recordPage: 'scope-definition',
-            labels: false,
-            fields: ['overview.scale', 'overview.note'],
-          },
+          { type: 'template', parts: [{ kind: 'text', value: '项目名称：' }, { kind: 'field', key: 'project.name' }] },
+          { type: 'template', parts: [{ kind: 'text', value: '规划范围：' }, { kind: 'field', key: 'project.scope' }] },
+          { type: 'template', parts: [{ kind: 'text', value: '建设目标：' }, { kind: 'field', key: 'project.goal' }] },
         ],
       },
       'ip-scope': {
+        paragraphs: [
+          {
+            type: 'template',
+            parts: [
+              { kind: 'text', value: '地址规划覆盖控制、监控、维护与边界互联等关键网络对象，目的是在满足当前建设需求的同时，为后续扩展和运维留出清晰边界。' },
+            ],
+          },
+        ],
         bullets: [
-          {
-            type: 'record-join',
-            label: '规划涉及范围',
-            recordPage: 'scope-definition',
-            labels: false,
-            fields: ['overview.name'],
-          },
-          {
-            type: 'record-join',
-            label: '区域范围',
-            recordPage: 'zone-planning',
-            labels: false,
-            fields: ['zone.name'],
-          },
-          {
-            type: 'record-join',
-            label: '关键对象范围',
-            recordPage: 'asset-allocation',
-            labels: false,
-            fields: ['asset.name'],
-          },
-          {
-            type: 'record-join',
-            label: '固定地址对象',
-            recordPage: 'segmentation-plan',
-            labels: false,
-            fields: ['seg.object', 'seg.fixed'],
-          },
-          {
-            type: 'record-join',
-            label: '动态地址策略',
-            recordPage: 'segmentation-plan',
-            labels: false,
-            fields: ['seg.object', 'seg.mode'],
-          },
-          {
-            type: 'record-join',
-            label: '维护与接口预留',
-            recordPage: 'access-design',
-            labels: false,
-            fields: ['access.object', 'access.limit'],
-          },
-          {
-            type: 'record-join',
-            label: '现网继承与接口边界',
-            recordPage: 'business-description',
-            labels: false,
-            fields: ['scene.name', 'scene.interface', 'scene.priority'],
-          },
+          { type: 'record-join', label: '规划范围', recordPage: 'scope-definition', labels: false, fields: ['overview.name', 'overview.space', 'overview.scale'] },
+          { type: 'record-join', label: '关键对象', recordPage: 'asset-allocation', labels: false, fields: ['asset.name', 'asset.type', 'asset.location'] },
+          { type: 'record-join', label: '地址分段', recordPage: 'segmentation-plan', labels: false, fields: ['seg.object', 'seg.purpose', 'seg.range', 'seg.margin'] },
         ],
       },
       'ip-basis': {
         bullets: [
-          {
-            type: 'record-join',
-            label: '分层结构',
-            recordPage: 'layer-design',
-            labels: false,
-            fields: ['layer.structure'],
-          },
-          {
-            type: 'record-join',
-            label: '区域划分结果',
-            recordPage: 'zone-planning',
-            labels: false,
-            fields: ['zone.name'],
-          },
-          {
-            type: 'record-join',
-            label: 'VLAN / 子网对应关系',
-            recordPage: 'segmentation-plan',
-            labels: false,
-            fields: ['seg.object', 'seg.id'],
-          },
-          {
-            type: 'record-join',
-            label: '分段原则',
-            recordPage: 'design-principles',
-            labels: false,
-            fields: ['principle.main'],
-          },
-          {
-            type: 'record-join',
-            label: '继承规则',
-            recordPage: 'implementation-constraints',
-            labels: false,
-            fields: ['constraint.existing'],
-          },
-          {
-            type: 'record-join',
-            label: '地址用途',
-            recordPage: 'segmentation-plan',
-            labels: false,
-            fields: ['seg.object', 'seg.purpose'],
-          },
-          {
-            type: 'record-join',
-            label: '承载数量',
-            recordPage: 'segmentation-plan',
-            labels: false,
-            fields: ['seg.object', 'seg.count'],
-          },
-          {
-            type: 'record-join',
-            label: '固定地址对象',
-            recordPage: 'segmentation-plan',
-            labels: false,
-            fields: ['seg.object', 'seg.fixed'],
-          },
-          {
-            type: 'record-join',
-            label: '网关规则',
-            recordPage: 'segmentation-plan',
-            labels: false,
-            fields: ['seg.object', 'seg.gatewayNode', 'seg.gateway'],
-          },
-          {
-            type: 'record-join',
-            label: '预留与扩展依据',
-            recordPage: 'segmentation-plan',
-            labels: false,
-            fields: ['seg.object', 'seg.reserve', 'seg.margin', 'seg.note'],
-          },
-          {
-            type: 'record-join',
-            label: '安全与运维约束',
-            recordPage: 'conduit-design',
-            labels: false,
-            fields: ['conduit.source', 'conduit.target', 'conduit.control'],
-          },
-          {
-            type: 'record-join',
-            label: '实施约束补充',
-            recordPage: 'implementation-constraints',
-            labels: false,
-            fields: ['constraint.name', 'constraint.scope', 'constraint.ops', 'constraint.acceptance'],
-          },
-          {
-            type: 'record-join',
-            label: 'NAT / 地址转换关系',
-            recordPage: 'tech-selection',
-            labels: false,
-            fields: ['tech.scopeTarget', 'tech.technology', 'tech.goal', 'tech.constraint'],
-          },
+          { type: 'record-join', label: '分层结构依据', recordPage: 'layer-design', labels: false, fields: ['layer.structure', 'layer.policy'] },
+          { type: 'record-join', label: '设计原则依据', recordPage: 'design-principles', labels: false, fields: ['principle.main', 'principle.basis'] },
+          { type: 'record-join', label: '地址用途', recordPage: 'segmentation-plan', labels: false, fields: ['seg.object', 'seg.purpose'] },
+          { type: 'record-join', label: '接入约束', recordPage: 'access-design', labels: false, fields: ['access.object', 'access.limit'] },
         ],
       },
       'ip-format': {
         bullets: [
-          { text: '建议按区域名称、网络层级依次整理地址规划结果。' },
-          { text: '建议明确 VLAN ID、子网 / 掩码、网关地址与网关位置。' },
-          { text: 'VLAN ID' },
-          { text: '建议列出地址范围、固定地址对象、动态地址范围与 DHCP 策略。' },
-          { text: '建议说明地址用途、预计数量、预留说明与扩展依据。' },
-          { text: '建议补充关联安全边界、访问控制要求、NAT / 地址转换关系及备注。' },
+          { text: '建议按区域、层级和用途组织地址结果。' },
+          { text: '建议明确子网范围、网关位置、固定地址对象和预留余量。' },
+          { text: '建议同步说明维护终端、边界节点和扩展对象的地址安排。' },
         ],
       },
       'ip-principles': {
         bullets: [
-          { text: '地址规划应体现区域隔离、网络层次和业务边界。' },
-          { text: '固定地址对象应便于管理、维护和故障定位。' },
-          { text: '关键控制对象、监控平台、维护终端、接口服务器应便于区分和审计。' },
-          { text: '地址段需考虑后续扩展余量，并避免与既有地址规则冲突。' },
-          { text: '若同一区域下还需要进一步拆分子系统或维护子网，应在表中额外列出子分段建议。' },
-          { text: '输出结果要便于实施配置、交付归档和后续扩容；如果现有信息不足，请显式指出仍待确认的关键字段。' },
+          { text: '地址规划应与区域边界、访问控制和运维识别方式保持一致。' },
+          { text: '关键控制对象、维护终端和边界设备应便于区分与审计。' },
+          { text: '每个地址段都应考虑扩容余量与后续实施便利性。' },
         ],
       },
       'ip-extra': {
-        bullets: [
-          { text: '如果某个区域尚未明确 VLAN / 子网 / 网关，请不要虚构，需标记为“待确认”。' },
-          { text: '如果固定地址对象、动态地址策略或维护地址未完全明确，请分栏列出并说明依据。' },
-          { text: '如果现网继承规则与推荐规划冲突，请显式列出“继承方案”和“推荐方案”两套表达。' },
-          { text: '输出结果应优先保证实施可用、交付可读、扩容可追溯。' },
-        ],
-      },
-    },
-    'planning-review': {
-      'planning-review-brief': {
-        lines: [
+        paragraphs: [
           {
             type: 'template',
-            parts: [{ kind: 'text', value: '本页用于复盘本项目中采用的方法、关键判断、设计取舍与后续可复用经验。' }],
+            parts: [
+              { kind: 'text', value: '若后续仍存在现网继承限制或设备地址保留要求，建议在详细实施阶段进一步列出继承方案与推荐方案，避免现场调整时产生歧义。' },
+            ],
           },
         ],
       },
     },
-    'case-summary': {
-      'case-summary-brief': {
-        lines: [
+    'planning-review': {
+      'planning-review-positioning': {
+        paragraphs: [
           {
             type: 'template',
-            parts: [{ kind: 'text', value: '该页用于提炼客户情况、场景特征、设计做法与后续可共享的案例价值。' }],
+            parts: [
+              { kind: 'text', value: '本项目属于' },
+              { kind: 'field', key: 'project.industry' },
+              { kind: 'text', value: '场景下的网络改造与优化项目，核心特征是现场对象多、边界路径复杂，且实施过程中需要兼顾连续生产。' },
+            ],
+          },
+        ],
+      },
+      'planning-review-basis': {
+        bullets: [
+          { type: 'record-join', label: '关键原则', recordPage: 'design-principles', labels: false, fields: ['principle.category', 'principle.main', 'principle.basis'] },
+          { type: 'record-join', label: '关键规则引用', recordPage: 'tech-selection', labels: false, fields: ['tech.name', 'tech.goal', 'tech.constraint'] },
+          { type: 'record-join', label: '关键风险来源', recordPage: 'exposure-analysis', labels: false, fields: ['secExposure.name', 'secExposure.source', 'secExposure.risk'] },
+        ],
+      },
+      'planning-review-derivation': {
+        paragraphs: [
+          {
+            type: 'template',
+            parts: [
+              { kind: 'text', value: '本次推演的核心结论是：优先完成远程维护、MES 交互与工程维护路径的边界收口，在此基础上形成核心、汇聚、接入清晰分离的总体结构，再逐步推进地址分段、接入收敛和实施切换。' },
+            ],
+          },
+        ],
+        bullets: [
+          { type: 'record-join', label: '结构结论', recordPage: 'layer-design', labels: false, fields: ['layer.structure', 'layer.scope', 'layer.policy'] },
+          { type: 'record-join', label: '边界结论', recordPage: 'interconnect-design', labels: false, fields: ['interconnect.structure', 'interconnect.boundary', 'interconnect.control'] },
+          { type: 'record-join', label: '地址结论', recordPage: 'segmentation-plan', labels: false, fields: ['seg.object', 'seg.range', 'seg.margin'] },
+        ],
+      },
+      'planning-review-decisions': {
+        bullets: [
+          { type: 'record-join', label: '关键取舍', recordPage: 'special-judgements', labels: false, fields: ['iteration.name', 'iteration.trigger', 'iteration.action'] },
+          { type: 'record-join', label: '实施取舍', recordPage: 'deployment-design', labels: false, fields: ['deployment.object', 'deployment.requirement'] },
+        ],
+      },
+      'planning-review-risks': {
+        bullets: [
+          { type: 'record-join', label: '主要风险', recordPage: 'consequence-analysis', labels: false, fields: ['secConsequence.name', 'secConsequence.type', 'secConsequence.impact'] },
+          { type: 'record-join', label: '待确认事项', recordPage: 'security-limit', labels: false, fields: ['secLimit.name', 'secLimit.note'] },
+        ],
+      },
+      'planning-review-reuse': {
+        bullets: [
+          { type: 'record-join', label: '经验候选', recordPage: 'experience-candidates', labels: false, fields: ['candidate.name', 'candidate.scene', 'candidate.reason'] },
+          { type: 'template', parts: [{ kind: 'text', value: '本案例适合沉淀为“离散制造多产线改造”类项目的边界治理与结构收敛参考样本。' }] },
+        ],
+      },
+    },
+    'case-summary': {
+      'case-summary-profile': {
+        paragraphs: [
+          {
+            type: 'template',
+            parts: [
+              { kind: 'text', value: '本案例面向' },
+              { kind: 'field', key: 'project.industry' },
+              { kind: 'text', value: '行业客户，典型特征是多类工业对象并存、跨区交互路径较多、现网历史包袱较重，且客户对改造实施连续性要求较高。' },
+            ],
+          },
+        ],
+      },
+      'case-summary-scene': {
+        bullets: [
+          { type: 'record-join', label: '业务场景', recordPage: 'business-description', labels: false, fields: ['scene.name', 'scene.purpose', 'scene.continuity'] },
+          { type: 'record-join', label: '关键对象', recordPage: 'asset-allocation', labels: false, fields: ['asset.name', 'asset.type', 'asset.criticality'] },
+          { type: 'record-join', label: '环境约束', recordPage: 'environment-conditions', labels: false, fields: ['env.topic', 'env.distance', 'env.note'] },
+        ],
+      },
+      'case-summary-challenges': {
+        bullets: [
+          { type: 'record-join', label: '核心风险', recordPage: 'exposure-analysis', labels: false, fields: ['secExposure.name', 'secExposure.type', 'secExposure.source', 'secExposure.risk'] },
+          { type: 'record-join', label: '后果影响', recordPage: 'consequence-analysis', labels: false, fields: ['secConsequence.name', 'secConsequence.type', 'secConsequence.impact'] },
+        ],
+      },
+      'case-summary-solution': {
+        bullets: [
+          { type: 'record-join', label: '设计原则', recordPage: 'design-principles', labels: false, fields: ['principle.main', 'principle.desc'] },
+          { type: 'record-join', label: '结构做法', recordPage: 'layer-design', labels: false, fields: ['layer.structure', 'layer.policy'] },
+          { type: 'record-join', label: '边界做法', recordPage: 'interconnect-design', labels: false, fields: ['interconnect.structure', 'interconnect.control'] },
+        ],
+      },
+      'case-summary-rules': {
+        bullets: [
+          { type: 'record-join', label: '可复用判断', recordPage: 'special-judgements', labels: false, fields: ['iteration.name', 'iteration.reuse'] },
+          { type: 'record-join', label: '经验候选', recordPage: 'experience-candidates', labels: false, fields: ['candidate.name', 'candidate.target', 'candidate.status'] },
+        ],
+      },
+      'case-summary-delivery': {
+        paragraphs: [
+          {
+            type: 'template',
+            parts: [
+              { kind: 'text', value: '本案例适合作为离散制造网络改造项目的参考样本，用于支撑客户沟通、方案培训、内部复盘和后续规则沉淀。' },
+            ],
           },
         ],
       },
@@ -2731,37 +2441,37 @@ export const demoMethodology = {
     {
       key: 'isa95-iec62443-case-1',
       title: '案例一：离散制造产线改造',
-      description: '聚焦产线边界梳理与控制区隔离策略。',
+      description: '聚焦多产线改造中的分层、分区、边界治理与实施落地。',
       formData: {
         'project.name': '离散制造产线改造项目',
-        'project.customer': '某装备制造客户',
+        'project.customer': '某离散制造企业',
         'project.industry': '离散制造',
-        'project.scope': '单车间',
-        'project.goal': '改造',
-        'project.delivery': '网络规划方案、地址规划、拓扑图与实施建议。',
-        'project.owner': '张工',
-        'project.confirmStatus': '业主已确认',
-        'input.site': '苏州工厂',
-        'input.assets': 'PLC\nHMI\n工程师站\n工业交换机',
-        'input.constraints': '不停产切换、窗口期短',
-        'threat.source': '远程接入与供应链维护',
-        'threat.surface': 'VPN、工程师站、边界交换设备',
-        'threat.asset': '核心控制器',
+        'project.scope': '单厂区',
+        'project.goal': '升级扩展',
+        'project.delivery': '分层分区方案、边界治理方案、IP 规划与实施建议。',
+        'project.owner': '李工',
+        'project.confirmStatus': '方案评审中',
+        'input.site': '华东制造基地',
+        'input.assets': 'PLC\n机器人\n视觉检测终端\nMES 接口设备\n工程师站\n工业交换机',
+        'input.constraints': '尽量不停线改造、窗口期有限、现网历史包袱较重',
+        'threat.source': '远程维护、工程师站越权接入与跨区访问失控',
+        'threat.surface': '远程接入边界、工程维护终端、MES 交互边界',
+        'threat.asset': 'PLC、机器人控制单元与关键产线网络',
         'risk.level': '高',
-        'risk.impact': '可能导致关键产线停机',
+        'risk.impact': '可能造成关键产线停机、跨区访问失控与远程维护风险放大',
         'risk.priority': 'P1',
       },
       recordCollections: {
         'project-goal': [
           {
             'project.name': '离散制造产线改造项目',
-            'project.customer': '某装备制造客户',
+            'project.customer': '某离散制造企业',
             'project.industry': '离散制造',
-            'project.scope': '单车间',
-            'project.goal': '改造',
-            'project.delivery': '网络规划方案、地址规划、拓扑图与实施建议。',
-            'project.owner': '张工',
-            'project.confirmStatus': '业主已确认',
+            'project.scope': '单厂区',
+            'project.goal': '升级扩展',
+            'project.delivery': '分层分区方案、边界治理方案、IP 规划与实施建议。',
+            'project.owner': '李工',
+            'project.confirmStatus': '方案评审中',
           },
         ],
         'business-description': [
