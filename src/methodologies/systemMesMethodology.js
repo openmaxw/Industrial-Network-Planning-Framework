@@ -16,19 +16,30 @@ export const systemMesMethodology = {
     { key: 'how-to-land', title: '结果落地', children: [{ key: 'mes-summary', title: '规划摘要' }] },
   ],
   pages: {
-    'mes-scope': { title: 'MES 范围', type: 'standard-record', layout: 'single-form', description: '用于定义 MES 的业务边界。', fields: ['mes.scope', 'mes.goal', 'mes.owner'] },
+    'mes-scope': {
+      title: 'MES 范围', type: 'record-collection', layout: 'table-form', description: '用于定义 MES 的业务边界。',
+      sections: [{ key: 'record-list', kind: 'record-list', title: 'MES 范围记录表' }, { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' }],
+      summaryColumns: ['mes.scope', 'mes.goal', 'mes.owner'],
+      fields: ['mes.scope', 'mes.goal', 'mes.owner'],
+    },
     'mes-dependencies': {
-      title: '系统依赖', type: 'record-collection', layout: 'list-form', description: '用于定义 MES 依赖的上下游系统。',
-      sections: [{ key: 'record-list', kind: 'record-list', title: '依赖列表' }, { key: 'record-editor', kind: 'record-editor', title: '录入区' }],
+      title: '系统依赖', type: 'record-collection', layout: 'table-form', description: '用于定义 MES 依赖的上下游系统。',
+      sections: [{ key: 'record-list', kind: 'record-list', title: '依赖关系列表' }, { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' }],
+      summaryColumns: ['mes.depSystem', 'mes.depType', 'mes.depDirection'],
       fields: ['mes.depSystem', 'mes.depType', 'mes.depDirection'],
     },
     'mes-rules': {
-      title: '接口规则', type: 'record-collection', layout: 'list-form', description: '用于沉淀 MES 常见接口与部署规则。',
-      sections: [{ key: 'record-list', kind: 'record-list', title: '规则列表' }, { key: 'record-editor', kind: 'record-editor', title: '录入区' }],
-      summaryColumns: ['planningRule.name', 'planningRule.scene', 'planningRule.action'],
-      fields: ['planningRule.name', 'planningRule.scene', 'planningRule.condition', 'planningRule.action'],
+      title: '接口规则', type: 'record-collection', layout: 'table-form', description: '用于沉淀 MES 常见接口与部署规则。',
+      sections: [{ key: 'record-list', kind: 'record-list', title: 'MES 规则记录表' }, { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' }],
+      summaryColumns: ['planningRule.condition', 'planningRule.action', 'planningRule.scene'],
+      fields: ['planningRule.condition', 'planningRule.action', 'planningRule.scene', 'planningRule.name'],
     },
-    'mes-design': { title: '部署组织', type: 'standard-record', layout: 'single-form', description: '用于说明 MES 部署与网络依赖。', fields: ['mes.deploy', 'mes.interface', 'mes.security', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion'] },
+    'mes-design': {
+      title: '部署组织', type: 'record-collection', layout: 'table-form', description: '用于说明 MES 部署与网络依赖。',
+      sections: [{ key: 'record-list', kind: 'record-list', title: '部署组织记录表' }, { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' }],
+      summaryColumns: ['mes.deploy', 'mes.interface', 'mes.security'],
+      fields: ['mes.deploy', 'mes.interface', 'mes.security', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion'],
+    },
     'mes-summary': {
       title: '规划摘要', type: 'output', layout: 'summary-output', description: '汇总 MES 经验配置的关键内容。',
       sections: [
@@ -40,7 +51,7 @@ export const systemMesMethodology = {
     'special-judgements': {
       title: '特殊判断',
       type: 'record-collection',
-      layout: 'list-form',
+      layout: 'table-form',
       description: '用于记录本项目中超出既有规则库的特殊判断。',
       sections: [
         { key: 'record-list', kind: 'record-list', title: '特殊判断列表' },
@@ -52,7 +63,7 @@ export const systemMesMethodology = {
     'experience-candidates': {
       title: '经验候选',
       type: 'record-collection',
-      layout: 'list-form',
+      layout: 'table-form',
       description: '用于记录建议回写到经验库的候选项。',
       sections: [
         { key: 'record-list', kind: 'record-list', title: '经验候选列表' },
@@ -107,6 +118,9 @@ export const systemMesMethodology = {
         'mes.security': 'MES 到控制网访问需经明确边界。',
       },
       recordCollections: {
+        'mes-scope': [
+          { 'mes.scope': '生产执行、追溯、报工与工艺下发', 'mes.goal': '实现计划到执行闭环', 'mes.owner': '制造信息化部' },
+        ],
         'special-judgements': [
           { 'iteration.name': '项目特例判断', 'iteration.sourcePage': '设计推演', 'iteration.reason': '存在超出既有规则的现场约束', 'iteration.action': '采用项目特例方案并单独记录', 'iteration.reuse': '可在同类项目中复用，但需增加适用边界说明' },
         ],
@@ -119,6 +133,16 @@ export const systemMesMethodology = {
         ],
         'mes-rules': [
           { 'planningRule.name': '接口统一收敛', 'planningRule.scene': '系统依赖较多', 'planningRule.condition': 'MES 需对接多个上游下游系统', 'planningRule.action': '统一通过接口服务层组织访问与认证' },
+        ],
+        'mes-design': [
+          {
+            'mes.deploy': 'MES 应用、接口与数据库分层部署。',
+            'mes.interface': '统一经应用服务层对接 ERP、WMS 与设备采集系统。',
+            'mes.security': 'MES 到控制网访问需经明确边界。',
+            'derive.iterationFlag': '是',
+            'derive.iterationNote': 'MES 项目应优先厘清系统依赖与接口收口关系。',
+            'derive.candidateSuggestion': '补充 MES 场景接口治理经验。',
+          },
         ],
       },
     },

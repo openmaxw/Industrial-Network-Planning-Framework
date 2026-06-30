@@ -22,39 +22,50 @@ export const scenarioEssMethodology = {
   pages: {
     'ess-profile': {
       title: '项目概况',
-      type: 'standard-record',
-      layout: 'single-form',
+      type: 'record-collection',
+      layout: 'table-form',
       description: '用于定义储能项目的规模、边界与建设目标。',
+      sections: [
+        { key: 'record-list', kind: 'record-list', title: '项目概况记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
+      ],
+      summaryColumns: ['ess.site', 'ess.scale', 'ess.mode'],
       fields: ['ess.site', 'ess.scale', 'ess.mode'],
     },
     'ess-assets': {
       title: '关键对象',
       type: 'record-collection',
-      layout: 'list-form',
+      layout: 'table-form',
       description: '用于定义储能系统中的关键对象与区域归属。',
       sections: [
-        { key: 'record-list', kind: 'record-list', title: '已采集对象' },
-        { key: 'record-editor', kind: 'record-editor', title: '录入区' },
+        { key: 'record-list', kind: 'record-list', title: '关键对象记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
+      summaryColumns: ['ess.assetName', 'ess.assetType', 'ess.assetZone'],
       fields: ['ess.assetName', 'ess.assetType', 'ess.assetZone'],
     },
     'ess-rules': {
       title: '场景规则',
       type: 'record-collection',
-      layout: 'list-form',
+      layout: 'table-form',
       description: '用于沉淀储能项目中的典型规划规则。',
       sections: [
-        { key: 'record-list', kind: 'record-list', title: '规则列表' },
-        { key: 'record-editor', kind: 'record-editor', title: '录入区' },
+        { key: 'record-list', kind: 'record-list', title: '场景规则记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
-      summaryColumns: ['planningRule.name', 'planningRule.scene', 'planningRule.action'],
-      fields: ['planningRule.name', 'planningRule.scene', 'planningRule.condition', 'planningRule.action'],
+      summaryColumns: ['planningRule.condition', 'planningRule.action', 'planningRule.scene'],
+      fields: ['planningRule.condition', 'planningRule.action', 'planningRule.scene', 'planningRule.name'],
     },
     'ess-design': {
       title: '网络组织',
-      type: 'standard-record',
-      layout: 'single-form',
+      type: 'record-collection',
+      layout: 'table-form',
       description: '用于整理储能项目的网络组织与边界做法。',
+      sections: [
+        { key: 'record-list', kind: 'record-list', title: '网络组织记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
+      ],
+      summaryColumns: ['ess.topology', 'ess.remote', 'ess.boundary'],
       fields: ['ess.topology', 'ess.remote', 'ess.boundary', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion'],
     },
     'ess-summary': {
@@ -71,7 +82,7 @@ export const scenarioEssMethodology = {
     'special-judgements': {
       title: '特殊判断',
       type: 'record-collection',
-      layout: 'list-form',
+      layout: 'table-form',
       description: '用于记录本项目中超出既有规则库的特殊判断。',
       sections: [
         { key: 'record-list', kind: 'record-list', title: '特殊判断列表' },
@@ -83,7 +94,7 @@ export const scenarioEssMethodology = {
     'experience-candidates': {
       title: '经验候选',
       type: 'record-collection',
-      layout: 'list-form',
+      layout: 'table-form',
       description: '用于记录建议回写到经验库的候选项。',
       sections: [
         { key: 'record-list', kind: 'record-list', title: '经验候选列表' },
@@ -138,6 +149,9 @@ export const scenarioEssMethodology = {
         'ess.boundary': 'EMS、视频、安防与控制系统边界明确。',
       },
       recordCollections: {
+        'ess-profile': [
+          { 'ess.site': '华东某储能电站', 'ess.scale': '200MW/400MWh', 'ess.mode': '新建' },
+        ],
         'special-judgements': [
           { 'iteration.name': '项目特例判断', 'iteration.sourcePage': '设计推演', 'iteration.reason': '存在超出既有规则的现场约束', 'iteration.action': '采用项目特例方案并单独记录', 'iteration.reuse': '可在同类项目中复用，但需增加适用边界说明' },
         ],
@@ -150,6 +164,16 @@ export const scenarioEssMethodology = {
         ],
         'ess-rules': [
           { 'planningRule.name': '远程入口统一收敛', 'planningRule.scene': '存在远程运维', 'planningRule.condition': '第三方需远程维护站内系统', 'planningRule.action': '统一通过 DMZ 或运维区收敛接入' },
+        ],
+        'ess-design': [
+          {
+            'ess.topology': '站控层与远程运维层分区部署，关键控制对象独立接入。',
+            'ess.remote': '远程接入统一经 DMZ 与运维平台。',
+            'ess.boundary': 'EMS、视频、安防与控制系统边界明确。',
+            'derive.iterationFlag': '是',
+            'derive.iterationNote': '储能项目应优先明确站控层与远程运维边界。',
+            'derive.candidateSuggestion': '补充储能项目边界治理经验。',
+          },
         ],
       },
     },

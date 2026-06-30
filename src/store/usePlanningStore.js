@@ -1,6 +1,16 @@
 import { useMemo, useState } from 'react';
 import { buildEmptyDraft, buildInitialFormData, buildRecordFromDefaults, buildRecordFromDraft } from '../engine/methodologyHelpers.js';
 
+function getFirstNavigablePageKey(methodology) {
+  const groups = methodology?.navigation ?? [];
+  for (const group of groups) {
+    if (group.children?.length) {
+      return group.children[0].key;
+    }
+  }
+  return 'home';
+}
+
 function createInitialCollections() {
   return {
     'project-goal': [
@@ -1499,10 +1509,10 @@ export function usePlanningStore(initialMethodology = null) {
         }));
 
         setSelectedRecordIndexMap(createInitialSelections());
-        setActivePageKey('project-goal');
+        setActivePageKey(getFirstNavigablePageKey(currentMethodology));
       },
     }),
-    [recordDrafts, selectedRecordIndexMap],
+    [currentMethodology, recordDrafts, selectedRecordIndexMap],
   );
 
   return {

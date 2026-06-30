@@ -55,19 +55,24 @@ export const isa95Methodology = {
   pages: {
     'enterprise-basic': {
       title: '企业信息',
-      type: 'standard-record',
-      layout: 'single-form',
+      type: 'record-collection',
+      layout: 'table-form',
       description: '用于定义企业、工厂与组织层级背景。',
+      sections: [
+        { key: 'record-list', kind: 'record-list', title: '企业信息记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
+      ],
+      summaryColumns: ['enterprise.name', 'enterprise.scope', 'enterprise.level', 'enterprise.goal'],
       fields: ['enterprise.name', 'enterprise.scope', 'enterprise.level', 'enterprise.goal'],
     },
     'site-structure': {
       title: '站点结构',
       type: 'record-collection',
-      layout: 'list-form',
+      layout: 'table-form',
       description: '用于定义企业、区域、产线等层级结构。',
       sections: [
-        { key: 'record-list', kind: 'record-list', title: '已采集结构' },
-        { key: 'record-editor', kind: 'record-editor', title: '录入区' },
+        { key: 'record-list', kind: 'record-list', title: '站点结构记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['site.nodeName', 'site.nodeType', 'site.parentNode'],
       fields: ['site.nodeName', 'site.nodeType', 'site.parentNode', 'site.responsibility'],
@@ -75,11 +80,11 @@ export const isa95Methodology = {
     'business-process': {
       title: '业务流程',
       type: 'record-collection',
-      layout: 'list-form',
+      layout: 'table-form',
       description: '用于描述业务活动、生产流程与协同关系。',
       sections: [
-        { key: 'record-list', kind: 'record-list', title: '已采集流程' },
-        { key: 'record-editor', kind: 'record-editor', title: '录入区' },
+        { key: 'record-list', kind: 'record-list', title: '业务流程记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['process.name', 'process.owner', 'process.zoneRef'],
       fields: ['process.name', 'process.owner', 'process.zoneRef', 'process.input', 'process.output'],
@@ -87,11 +92,11 @@ export const isa95Methodology = {
     'asset-allocation': {
       title: '对象分配',
       type: 'record-collection',
-      layout: 'list-form',
+      layout: 'table-form',
       description: '用于描述对象与层级节点的对应关系。',
       sections: [
-        { key: 'record-list', kind: 'record-list', title: '已采集对象' },
-        { key: 'record-editor', kind: 'record-editor', title: '录入区' },
+        { key: 'record-list', kind: 'record-list', title: '对象分配记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['asset.name', 'asset.siteRef', 'asset.role'],
       fields: ['asset.name', 'asset.siteRef', 'asset.role', 'asset.interface'],
@@ -99,20 +104,25 @@ export const isa95Methodology = {
     'isa95-rules': {
       title: '建模规则',
       type: 'record-collection',
-      layout: 'list-form',
+      layout: 'table-form',
       description: '用于沉淀 ISA95 场景下的层级、对象与流程建模规则。',
       sections: [
-        { key: 'record-list', kind: 'record-list', title: '规则列表' },
-        { key: 'record-editor', kind: 'record-editor', title: '录入区' },
+        { key: 'record-list', kind: 'record-list', title: '建模规则记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
-      summaryColumns: ['planningRule.name', 'planningRule.scene', 'planningRule.action'],
-      fields: ['planningRule.name', 'planningRule.scene', 'planningRule.condition', 'planningRule.action'],
+      summaryColumns: ['planningRule.condition', 'planningRule.action', 'planningRule.scene'],
+      fields: ['planningRule.condition', 'planningRule.action', 'planningRule.scene', 'planningRule.name'],
     },
     'isa95-design': {
       title: '协同设计',
-      type: 'standard-record',
-      layout: 'single-form',
+      type: 'record-collection',
+      layout: 'table-form',
       description: '用于整理 ISA95 视角下的系统协同与部署组织。',
+      sections: [
+        { key: 'record-list', kind: 'record-list', title: '协同设计记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
+      ],
+      summaryColumns: ['isa95.designPrinciple', 'isa95.integrationPath', 'isa95.boundary'],
       fields: ['isa95.designPrinciple', 'isa95.integrationPath', 'isa95.boundary', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion'],
     },
     'isa95-summary': {
@@ -251,6 +261,9 @@ export const isa95Methodology = {
         'isa95.boundary': '业务信息流与控制信息流边界清晰。',
       },
       recordCollections: {
+        'enterprise-basic': [
+          { 'enterprise.name': '某制造集团', 'enterprise.scope': '总部-工厂-产线', 'enterprise.level': 'L3-L4', 'enterprise.goal': '建立集团到工厂的业务协同模型' },
+        ],
         'special-judgements': [
           { 'iteration.name': '项目特例判断', 'iteration.sourcePage': '设计推演', 'iteration.reason': '存在超出既有规则的现场约束', 'iteration.action': '采用项目特例方案并单独记录', 'iteration.reuse': '可在同类项目中复用，但需增加适用边界说明' },
         ],
@@ -269,6 +282,16 @@ export const isa95Methodology = {
         ],
         'isa95-rules': [
           { 'planningRule.name': '先层级后对象', 'planningRule.scene': '大型制造集团', 'planningRule.condition': '系统对象较多且跨工厂协同', 'planningRule.action': '先明确层级结构，再映射对象关系与接口职责' },
+        ],
+        'isa95-design': [
+          {
+            'isa95.designPrinciple': '按企业职责、层级边界与接口方向逐层展开。',
+            'isa95.integrationPath': 'ERP → MES → WMS / 产线系统',
+            'isa95.boundary': '业务信息流与控制信息流边界清晰。',
+            'derive.iterationFlag': '是',
+            'derive.iterationNote': '集团多工厂场景下需先统一层级口径，再组织接口边界。',
+            'derive.candidateSuggestion': '补充集团多工厂 ISA95 建模经验。',
+          },
         ],
       },
     },

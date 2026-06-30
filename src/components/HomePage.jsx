@@ -11,8 +11,15 @@ export function HomePage({ methodology, methodologyCatalog, activeAngle, experie
   ];
   const systemItems = [
     ...systemMethodologies.map((item) => ({ ...item, available: true, categoryKey: 'angle-systems' })),
+    { key: 'system-fmcs', title: 'FMCS', description: '面向设施监控系统对象的经验入口。', available: false, status: '建设中', categoryKey: 'angle-systems' },
+    { key: 'system-dcs', title: 'DCS', description: '面向分布式控制系统对象的经验入口。', available: false, status: '建设中', categoryKey: 'angle-systems' },
   ];
-  const techItems = [];
+  const techItems = [
+    { key: 'tech-tsn', title: 'TSN', description: '面向时间敏感网络方向的经验入口。', available: false, status: '建设中', categoryKey: 'angle-tech' },
+    { key: 'tech-prp-hsr', title: 'PRP/HSR', description: '面向冗余网络方向的经验入口。', available: false, status: '建设中', categoryKey: 'angle-tech' },
+    { key: 'tech-wifi', title: 'WIFI', description: '面向工业无线网络方向的经验入口。', available: false, status: '建设中', categoryKey: 'angle-tech' },
+    { key: 'tech-5g', title: '5G', description: '面向工业 5G 网络方向的经验入口。', available: false, status: '建设中', categoryKey: 'angle-tech' },
+  ];
   const availableCount = methodologyCatalog.filter((item) => item.status === '可用').length;
 
   const renderExperienceButtons = (items) => (

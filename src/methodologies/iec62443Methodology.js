@@ -56,19 +56,24 @@ export const iec62443Methodology = {
   pages: {
     'security-scope': {
       title: '范围定义',
-      type: 'standard-record',
-      layout: 'single-form',
+      type: 'record-collection',
+      layout: 'table-form',
       description: '用于定义安全分析对象与边界。',
+      sections: [
+        { key: 'record-list', kind: 'record-list', title: '范围定义记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
+      ],
+      summaryColumns: ['security.target', 'security.boundary', 'security.levelTarget', 'security.goal'],
       fields: ['security.target', 'security.boundary', 'security.levelTarget', 'security.goal'],
     },
     'zone-definition': {
       title: '区域划分',
       type: 'record-collection',
-      layout: 'list-form',
+      layout: 'table-form',
       description: '用于定义安全区域及其属性。',
       sections: [
-        { key: 'record-list', kind: 'record-list', title: '已定义区域' },
-        { key: 'record-editor', kind: 'record-editor', title: '录入区' },
+        { key: 'record-list', kind: 'record-list', title: '区域划分记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['zone.name', 'zone.type', 'zone.level'],
       fields: ['zone.name', 'zone.type', 'zone.level', 'zone.object'],
@@ -76,11 +81,11 @@ export const iec62443Methodology = {
     'conduit-definition': {
       title: '通道定义',
       type: 'record-collection',
-      layout: 'list-form',
+      layout: 'table-form',
       description: '用于描述区域间通道与访问路径。',
       sections: [
-        { key: 'record-list', kind: 'record-list', title: '已定义通道' },
-        { key: 'record-editor', kind: 'record-editor', title: '录入区' },
+        { key: 'record-list', kind: 'record-list', title: '通道定义记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['conduit.name', 'conduit.sourceZone', 'conduit.targetZone'],
       fields: ['conduit.name', 'conduit.sourceZone', 'conduit.targetZone', 'conduit.protection'],
@@ -88,11 +93,11 @@ export const iec62443Methodology = {
     'threat-analysis': {
       title: '威胁分析',
       type: 'record-collection',
-      layout: 'list-form',
+      layout: 'table-form',
       description: '用于分析威胁来源与攻击面。',
       sections: [
-        { key: 'record-list', kind: 'record-list', title: '已识别威胁' },
-        { key: 'record-editor', kind: 'record-editor', title: '录入区' },
+        { key: 'record-list', kind: 'record-list', title: '威胁分析记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['threat.source', 'threat.surface', 'threat.targetZone'],
       fields: ['threat.source', 'threat.surface', 'threat.targetZone', 'threat.impact'],
@@ -100,11 +105,11 @@ export const iec62443Methodology = {
     'risk-evaluation': {
       title: '风险评估',
       type: 'record-collection',
-      layout: 'list-form',
+      layout: 'table-form',
       description: '用于评估风险等级与优先级。',
       sections: [
-        { key: 'record-list', kind: 'record-list', title: '已评估风险' },
-        { key: 'record-editor', kind: 'record-editor', title: '录入区' },
+        { key: 'record-list', kind: 'record-list', title: '风险评估记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
       summaryColumns: ['risk.level', 'risk.priority', 'risk.target'],
       fields: ['risk.level', 'risk.priority', 'risk.target', 'risk.note'],
@@ -112,20 +117,25 @@ export const iec62443Methodology = {
     'security-rules': {
       title: '安全规则',
       type: 'record-collection',
-      layout: 'list-form',
+      layout: 'table-form',
       description: '用于沉淀 IEC62443 场景下的分区分域与防护规则。',
       sections: [
-        { key: 'record-list', kind: 'record-list', title: '规则列表' },
-        { key: 'record-editor', kind: 'record-editor', title: '录入区' },
+        { key: 'record-list', kind: 'record-list', title: '安全规则记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
       ],
-      summaryColumns: ['planningRule.name', 'planningRule.scene', 'planningRule.action'],
-      fields: ['planningRule.name', 'planningRule.scene', 'planningRule.condition', 'planningRule.action'],
+      summaryColumns: ['planningRule.condition', 'planningRule.action', 'planningRule.scene'],
+      fields: ['planningRule.condition', 'planningRule.action', 'planningRule.scene', 'planningRule.name'],
     },
     'security-design': {
       title: '防护设计',
-      type: 'standard-record',
-      layout: 'single-form',
+      type: 'record-collection',
+      layout: 'table-form',
       description: '用于整理安全防护的设计原则、边界与措施。',
+      sections: [
+        { key: 'record-list', kind: 'record-list', title: '防护设计记录表' },
+        { key: 'record-editor', kind: 'record-editor', title: '当前记录编辑区' },
+      ],
+      summaryColumns: ['security.designPrinciple', 'security.remoteControl', 'security.measure'],
       fields: ['security.designPrinciple', 'security.remoteControl', 'security.measure', 'derive.iterationFlag', 'derive.iterationNote', 'derive.candidateSuggestion'],
     },
     'iec62443-summary': {
@@ -272,6 +282,14 @@ export const iec62443Methodology = {
         'security.measure': '执行白名单、双因素认证和日志审计。',
       },
       recordCollections: {
+        'security-scope': [
+          {
+            'security.target': '控制系统远程维护体系',
+            'security.boundary': '维护入口至控制区',
+            'security.levelTarget': 'SL2',
+            'security.goal': '降低远程接入带来的安全暴露面',
+          },
+        ],
         'special-judgements': [
           { 'iteration.name': '项目特例判断', 'iteration.sourcePage': '设计推演', 'iteration.reason': '存在超出既有规则的现场约束', 'iteration.action': '采用项目特例方案并单独记录', 'iteration.reuse': '可在同类项目中复用，但需增加适用边界说明' },
         ],
@@ -293,6 +311,16 @@ export const iec62443Methodology = {
         ],
         'security-rules': [
           { 'planningRule.name': '远程访问统一收敛', 'planningRule.scene': '存在供应商远程维护', 'planningRule.condition': '控制系统需要外部人员远程维护', 'planningRule.action': '统一经 DMZ、堡垒机与审计链路访问控制区' },
+        ],
+        'security-design': [
+          {
+            'security.designPrinciple': '按区域、通道和远程访问链路逐步收敛访问面。',
+            'security.remoteControl': '统一经 DMZ 与堡垒机接入远程维护。',
+            'security.measure': '执行白名单、双因素认证和日志审计。',
+            'derive.iterationFlag': '是',
+            'derive.iterationNote': '远程维护类项目应优先明确维护入口与边界审计链路。',
+            'derive.candidateSuggestion': '补充远程运维安全治理经验模板。',
+          },
         ],
       },
     },
