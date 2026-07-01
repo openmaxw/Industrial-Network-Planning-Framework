@@ -340,12 +340,7 @@ export const iec62443Methodology = {
           { 'risk.level': '高', 'risk.priority': 'P1', 'risk.target': '远程维护入口', 'risk.note': '需强化访问审批、白名单与审计。' },
           { 'risk.level': '中', 'risk.priority': 'P2', 'risk.target': '内部维护路径', 'risk.note': '需补强工程师终端和维护口的受控访问机制。' },
         ],
-        'security-rules': [
-          { 'planningRule.name': '远程访问统一收敛', 'planningRule.scene': '存在供应商远程维护', 'planningRule.condition': '控制系统需要外部人员远程维护', 'planningRule.action': '统一经 DMZ、堡垒机与审计链路访问控制区' },
-          { 'planningRule.name': '区域边界先于防护设备选型', 'planningRule.scene': '项目进入分区分域设计阶段', 'planningRule.condition': '需要决定区域职责和边界位置', 'planningRule.action': '先明确控制区、运维区、隔离区职责，再落实防护设备与访问策略' },
-          { 'planningRule.name': '维护路径必须显式受控', 'planningRule.scene': '存在工程师站或内部维护需求', 'planningRule.condition': '维护终端需要访问控制系统', 'planningRule.action': '单独建设受控维护路径，不与普通管理访问混用' },
-        ],
-        'security-design': [
+'security-design': [
           {
             'security.designPrinciple': '按区域、通道、边界和访问关系逐步收敛安全暴露面。',
             'security.remoteControl': '统一经 DMZ、堡垒机与受控维护链路接入控制区。',
