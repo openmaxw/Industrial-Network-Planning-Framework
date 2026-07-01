@@ -1,0 +1,38 @@
+function createInitialSelections() {
+  return {
+    'project-goal': 0,
+    'scope-definition': 0,
+    'business-description': 0,
+    'asset-allocation': 0,
+    'environment-conditions': 0,
+    'implementation-constraints': 0,
+    'security-scenario': 0,
+    'exposure-analysis': 0,
+    'consequence-analysis': 0,
+    'baseline-check': 0,
+    'key-asset-analysis': 0,
+    'design-principles': 0,
+    'network-topology': 0,
+    'layer-design': 0,
+    'segmentation-plan': 0,
+    'performance-design': 0,
+    'stability-design': 0,
+    'redundancy-design': 0,
+    'access-design': 0,
+    'selection-design': 0,
+    'deployment-design': 0,
+    'link-design': 0,
+    'conduit-design': 0,
+    'interconnect-design': 0,
+    'tech-selection': 0,
+    'security-limit': 0,
+    'tech-selection': 0,
+    'delay-analysis': 0,
+    'perf-evaluation': 0,
+    'topology-rules': 0,
+    'layer-rules': 0,
+    'scenario-rules': 0,
+  };
+}
+
+export { createInitialSelections };
